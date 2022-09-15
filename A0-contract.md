@@ -35,9 +35,9 @@ We each promise to make our best effort to ensure that the team works together a
 
 Team Member #1:
 
-Name: 
+Name: Amanda Misek
 
-Student Number:
+Student Number: 20203120
 
 
 Team Member #2:
@@ -56,6 +56,6 @@ Student Number: 20183968
 
 Team Member #4:
 
-Name: 
+Name: Bilal Imran
 
-Student Number:
+Student Number: 20232676
