@@ -49,9 +49,9 @@ Student Number:
 
 Team Member #3:
 
-Name:
+Name: Keenan Taylor
 
-Student Number:
+Student Number: 20183968
 
 
 Team Member #4:
