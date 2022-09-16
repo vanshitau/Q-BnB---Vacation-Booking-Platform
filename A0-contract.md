@@ -42,9 +42,9 @@ Student Number: 20203120
 
 Team Member #2:
 
-Name:
+Name: Vanshita Uthra
 
-Student Number:
+Student Number: 20225327
 
 
 Team Member #3:
