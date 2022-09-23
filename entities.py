@@ -27,5 +27,54 @@ class Reviews:
         return self.comment
 
     # setter method for comments
-    def set_comments(self, comment):
-        self.comment = comment
+
+# user entity
+class User:
+
+    # initializing components of user entity
+    def __init__(self, id = 0, username = "", email = "", password = "", account_bal = 0):
+        self.id = id
+        self.username = username
+        self.email = email
+        self.password = password
+        self.account_bal = account_bal
+
+    # getter method for user id
+    def get_id(self):
+        return self.id
+      
+    # setter method for user id
+    def set_id(self, myId):
+        self.id = myId
+
+    # getter method for username
+    def get_username(self):
+        return self.username
+    
+    # setter method for username
+    def set_username(self, username):
+        self.username = username
+
+    # getter method for email
+    def get_email(self):
+        return self.email
+
+    # setter method for email
+    def set_email(self, email):
+        self.email = email
+
+    # getter method for password
+    def get_password(self):
+        return self.password
+
+    # setter method for password
+    def set_password(self, password):
+        self.password = password
+
+    # getter method for account balance
+    def get_account_balance(self):
+        return self.account_bal
+
+    # setter method for account balance
+    def set_account_balance(self, balance):
+        self.account_bal = balance
