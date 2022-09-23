@@ -52,29 +52,29 @@ class User:
         return self.username
     
     # setter method for username
-    def set_username(self, x):
-        self.username = x
+    def set_username(self, username):
+        self.username = username
 
     # getter method for email
     def get_email(self):
         return self.email
 
     # setter method for email
-    def set_email(self, x):
-        self.email = x
+    def set_email(self, email):
+        self.email = email
 
     # getter method for password
     def get_password(self):
         return self.password
 
     # setter method for password
-    def set_password(self, x):
-        self.password = x
+    def set_password(self, password):
+        self.password = password
 
     # getter method for account balance
     def get_account_balance(self):
         return self.account_bal
 
     # setter method for account balance
-    def set_account_balance(self, x):
-        self.account_bal = x
+    def set_account_balance(self, balance):
+        self.account_bal = balance
