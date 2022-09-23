@@ -1,9 +1,18 @@
 # reviews entity
 class Reviews:
     # initializing components of reviews entity
-    def __init__(self, rating = 0, comment = ""):
+    def __init__(self, name = "", rating = 0, comment = ""):
          self.rating = rating
          self.comment = comment
+         self.name = name
+
+    # getter method for name
+    def get_name(self):
+        return self.name
+
+    # setter method for name
+    def set_name(self, name):
+        self.name = name
       
     # getter method for ratings
     def get_ratings(self):
