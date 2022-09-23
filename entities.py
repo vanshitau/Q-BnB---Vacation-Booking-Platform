@@ -29,7 +29,7 @@ class Reviews:
     # setter method for comments
     def set_comments(self, x):
         self.comment = x
-
+#listings entity
 class Listing:
     def __init__(self, price = 0, rating = 0, location="", size = 0, description = ""): 
          self._price = price
