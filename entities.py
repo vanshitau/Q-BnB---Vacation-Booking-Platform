@@ -20,7 +20,7 @@ class Reviews:
     # setter method for comments
     def set_comments(self, x):
         self.comment = x
-
+# bookings entity
 class Bookings:
     # initializing components of reviews entity
     def __init__(self, verification = "", date = 0, duration = ""):
