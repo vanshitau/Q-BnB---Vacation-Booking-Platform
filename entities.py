@@ -10,13 +10,13 @@ class Reviews:
         return self.rating
       
     # setter method for ratings
-    def set_ratings(self, x):
-        self.rating = x
+    def set_ratings(self, rating):
+        self.rating = rating
 
     # getter method for comments
     def get_comments(self):
         return self.comment
 
     # setter method for comments
-    def set_comments(self, x):
-        self.comment = x
+    def set_comments(self, comment):
+        self.comment = comment
