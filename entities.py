@@ -32,12 +32,15 @@ class Reviews:
 
 #listings entity
 class Listing:
-    def __init__(self, price = 0, rating = 0, location="", size = 0, description = ""): 
+    #listing (id, title, description, price, last_modified_date, owner_id)
+    def __init__(self, id = 0, title = "", description = "", price = 0, last_modified_date = "", owner_id = 0): 
          self._price = price
-         self._rating = rating
-         self._location = location
-         self._size = size
+         self._title = title
+         self._id = id
          self._description = description
+         self._last_modified_date = last_modified_date
+         self._owner_id = owner_id
+
       
     # getter methods
 
@@ -46,38 +49,30 @@ class Listing:
         return self._price
     
     #getter method for the rating
-    def get_rating(self):
-        return self._rating
+    def get_title(self):
+        return self._title
 
     #getter method for the location
-    def get_location(self):
-        return self._location
+    def get_id(self):
+        return self._id
 
     #getter method for the size
-    def get_size(self):
-        return self._size
+    def get_modified_date(self):
+        return self._last_modified_date
         
     #getter method for the description
     def get_description(self):
         return self._description
+    
+    #getter method for the owner's id
+    def get_owner_id(self):
+        return self._owner_id
       
     #setter methods
 
     #setter method for the price
     def set_price(self,price):
         self._price = price
-
-    #setter method for the rating   
-    def set_rating(self,rating):
-        self._rating = rating
-
-    #setter method for the location     
-    def set_location(self,location):
-        self._location = location
-
-    #setter method for the size     
-    def set_size(self,size):
-        self._size = size
 
     #setter method for the description      
     def set_description(self,description):
@@ -127,12 +122,14 @@ class Bookings:
 # user entity
 class User:
     # initializing components of user entity
-    def __init__(self, id = 0, username = "", email = "", password = "", account_bal = 0):
+    def __init__(self, id = 0, username = "", email = "", password = "", account_bal = 0, billing_address = "", postal = ""):
         self.id = id
         self.username = username
         self.email = email
         self.password = password
         self.account_bal = account_bal
+        self.billing_address = billing_address
+        self.postal = postal
 
     # getter method for user id
     def get_id(self):
@@ -173,3 +170,19 @@ class User:
     # setter method for account balance
     def set_account_balance(self, balance):
         self.account_bal = balance
+
+    # getter method for billing address
+    def get_address(self):
+        return self.billing_address
+      
+    # setter method for billing address
+    def set_billing_address(self, billing_address):
+        self.id = billing_address
+
+    # getter method for postal code
+    def get_postal(self):
+        return self.postal
+      
+    # setter method for postal code
+    def set_postal(self, postal):
+        self.postal = postal
