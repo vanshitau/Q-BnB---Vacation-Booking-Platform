@@ -77,6 +77,25 @@ class Listing:
     #setter method for the description      
     def set_description(self,description):
         self._description = description
+
+     #setter method for the listing id      
+    def set_id(self,id):
+        self._id = id
+    
+    #setter method for the owner id      
+    def set_id(self,owner_id):
+        self._owner_id = owner_id
+    
+    #setter method for the listing id id      
+    def set_title(self,id):
+        self._id = id
+
+    #setter method for the last modified date     
+    def set_modified_date(self,mod_date):
+        self._last_modified_date = mod_date
+
+
+
         
 # bookings entity
 class Bookings:
