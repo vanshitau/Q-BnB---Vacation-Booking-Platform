@@ -87,8 +87,8 @@ class Listing:
         self._owner_id = owner_id
     
     #setter method for the listing id id      
-    def set_title(self,id):
-        self._id = id
+    def set_title(self,title):
+        self._title = title
 
     #setter method for the last modified date     
     def set_modified_date(self,mod_date):
