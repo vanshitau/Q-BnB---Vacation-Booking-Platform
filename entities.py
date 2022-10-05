@@ -32,12 +32,14 @@ class Reviews:
 class User:
 
     # initializing components of user entity
-    def __init__(self, id = 0, username = "", email = "", password = "", account_bal = 0):
+    def __init__(self, id = 0, username = "", email = "", password = "", account_bal = 0, billing_address = "", postal = ""):
         self.id = id
         self.username = username
         self.email = email
         self.password = password
         self.account_bal = account_bal
+        self.billing_address = billing_address
+        self.postal = postal
 
     # getter method for user id
     def get_id(self):
@@ -78,3 +80,19 @@ class User:
     # setter method for account balance
     def set_account_balance(self, balance):
         self.account_bal = balance
+
+    # getter method for billing address
+    def get_address(self):
+        return self.billing_address
+      
+    # setter method for billing address
+    def set_billing_address(self, billing_address):
+        self.id = billing_address
+
+    # getter method for postal code
+    def get_postal(self):
+        return self.postal
+      
+    # setter method for postal code
+    def set_postal(self, postal):
+        self.postal = postal
