@@ -70,7 +70,7 @@ def login(email, password):
 #R1-2- A user is uniquely identified by his/her user id
 
 #R1-4
-def password_helper(self, password):
+def password_helper(password):
         count_l = 0 #lower case
         count_u = 0 #upper case
         count_s = 0 #special character
@@ -88,30 +88,37 @@ def password_helper(self, password):
                 if count_u > 0:  #more than one uppercase character
                     if count_l >0: #more than one lowercase character
                         if count_s>0: #more than one special character
-                            self.password = password
+                            return password
 
 #R1-5 and 
-def username_helper(self, username):
+def username_helper(username):
         last_ch = username(len)-1
         if (username != ""): #username is not empty
             if(username.isalnum()): #username is alphanumeric
                 if(username[0] != " " and username[last_ch] != " "): #the first and last characters are not a space
-                    if(username(len) > 2 and username(len) < 20):
+                    if(len(username) > 2 and len(username) < 20):
                         return username
 
 #R3-1: 
 #R3-2
-def postal_code_helper(self, postal_code):
+def postal_code_helper(postal_code):
         count_s = 0
-        for ch in postal_code:
-            if (ch.punctuation):
+        num_count = 0
+        char_count = 0
+
+        for ch in range(len(postal_code)):
+            if (postal_code[ch].punctuation):
                 count_s+=1
+
+            # checking if number
+            if ch % 2 == 0:
+                num_count += 1
+            # checking if letter
+            else:
+                char_count += 1
 
         if(postal_code != ""):
             if (postal_code.isalnum()):
                 if(count_s == 0):
-                    self.postal_code = postal_code
-
-def billing_address_helper(self, billing_address):
-    billing_address = ""
-    
+                    if (num_count == 3 and char_count == 3):
+                        return postal_code
