@@ -65,3 +65,48 @@ def login(email, password):
     if len(valids) != 1:
         return None
     return valids[0]
+
+#need an email function
+#R1-2- A user is uniquely identified by his/her user id
+
+#R1-4
+def password_helper(self, password):
+        count_l = 0 #lower case
+        count_u = 0 #upper case
+        count_s = 0 #special character
+        for ch in range(len(password)):
+            if (ch.isUpper): #uppercase characters
+                count_u+=1
+            elif (ch.isLower): #lowecase characters
+                count_l+=1
+            elif (ch.punctuation): #special character
+                count_s+=1
+        
+        #check the validity of the password
+        if (password != ""): #password is not empty
+            if (len(password) >= 6):  #the password has 6 or more characters
+                if count_u > 0:  #more than one uppercase character
+                    if count_l >0: #more than one lowercase character
+                        if count_s>0: #more than one special character
+                            self.password = password
+    
+#R1-5 and 
+def username_helper(self, username):
+        last_ch = username(len)-1
+        if (username != ""): #username is not empty
+            if(username.isalnum()): #username is alphanumeric
+                if(username[0] != " " and username[last_ch] != " "): #the first and last characters are not a space
+                    self.username = username
+
+#R3-1: 
+#R3-2
+def postal_code_helper(self, postal_code):
+        count_s = 0
+        for ch in postal_code:
+            if (ch.punctuation):
+                count_s+=1
+
+        if(postal_code != ""):
+            if (postal_code.isalnum()):
+                if(count_s == 0):
+                    self.postal_code = postal_code
