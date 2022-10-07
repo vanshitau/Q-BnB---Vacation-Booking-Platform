@@ -66,11 +66,45 @@ def login(email, password):
         return None
     return valids[0]
 
-#need an email function
-#R1-2- A user is uniquely identified by his/her user id
 
+#R1-2- A user is uniquely identified by his/her user id
+#R1-3
+def email_helper(email):
+    count_a = 0
+    for ch in range(len(email)):
+        if email[ch] == "@":
+            count_a +=1
+    
+    
+    if count_a == 1:
+        #find the index of @
+        index_a = email.index("@")
+
+    #before_a = [left]
+    before_a = email[0:index_a]
+
+    #after_a = [right]
+    after_a= email[index_a:]
+    
+    count_d = 0
+    #len of left and len of right--> see if it meets the requirements
+    if len(before_a) == 64 and len(after_a) == 255:
+        #check if after_a has a dot
+        for a in range(len(after_a)):
+            if(after_a[a] == "." and after_a[a-1] != "."):
+                count_d +=1
+
+        if count_d == 0:
+            for b in before_a:
+                if(a.isalpha() or a.isdigit or (a == "-" or "." or "_")):
+                    return email
+
+
+    #if right side has a dot and it is not the last ch
+    #letters, digits, -, . , _
+   
 #R1-4
-def password_helper(self, password):
+def password_helper(password):
         count_l = 0 #lower case
         count_u = 0 #upper case
         count_s = 0 #special character
@@ -99,6 +133,8 @@ def username_helper(self, username):
                     self.username = username
 
 #R3-1: 
+
+
 #R3-2
 def postal_code_helper(self, postal_code):
         count_s = 0
