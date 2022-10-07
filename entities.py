@@ -83,7 +83,7 @@ class Listing:
         self._id = id
     
     #setter method for the owner id      
-    def set_id(self,owner_id):
+    def set_owner_id(self,owner_id):
         self._owner_id = owner_id
     
     #setter method for the title      
