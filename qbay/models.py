@@ -89,7 +89,7 @@ def password_helper(self, password):
                     if count_l >0: #more than one lowercase character
                         if count_s>0: #more than one special character
                             self.password = password
-    
+
 #R1-5 and 
 def username_helper(self, username):
         last_ch = username(len)-1
@@ -110,3 +110,6 @@ def postal_code_helper(self, postal_code):
             if (postal_code.isalnum()):
                 if(count_s == 0):
                     self.postal_code = postal_code
+
+
+#comment
