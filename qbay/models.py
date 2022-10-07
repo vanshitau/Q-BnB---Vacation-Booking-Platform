@@ -96,7 +96,8 @@ def username_helper(self, username):
         if (username != ""): #username is not empty
             if(username.isalnum()): #username is alphanumeric
                 if(username[0] != " " and username[last_ch] != " "): #the first and last characters are not a space
-                    self.username = username
+                    if(username(len) > 2 and username(len) < 20):
+                        return username
 
 #R3-1: 
 #R3-2
@@ -111,5 +112,6 @@ def postal_code_helper(self, postal_code):
                 if(count_s == 0):
                     self.postal_code = postal_code
 
-
-#comment
+def billing_address_helper(self, billing_address):
+    billing_address = ""
+    
