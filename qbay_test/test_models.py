@@ -5,10 +5,10 @@ def test_r1_7_user_register():
     '''
     Testing R1-7: If the email has been used, the operation failed.
     '''
-
-    assert register('u0', 'test0@test.com', '123456') is True
-    assert register('u0', 'test1@test.com', '123456') is True
-    assert register('u1', 'test0@test.com', '123456') is False
+    # id, name, email, password, billing_address, postal_code, account_bal
+    assert register('0', 'u0', 'test0@test.com', '123456', 'bill ave', 'L8K 2G2', '0') is True
+    assert register('1', 'u0', 'test1@test.com', '123456', 'tommy st', 'J8Y 3R3', '100') is True
+    assert register('2', 'u1', 'test0@test.com', '123456', 'sally st', 'M0P 2S5', '0') is True
 
 
 def test_r2_1_login():
