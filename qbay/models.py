@@ -52,8 +52,8 @@ def register(id, name, email, password, billing_address, postal_code, account_ba
         return False
 
     account_bal = 100
-    postal_code = ""
-    billing_address = ""
+    postal_code = ''
+    billing_address = ''
 
     # create a new user
     user = User(id=id, username=name, email=email, password=password, billing_address=billing_address, postal_code=postal_code, account_bal=account_bal)
@@ -61,21 +61,6 @@ def register(id, name, email, password, billing_address, postal_code, account_ba
     # add it to the current database session
     db.session.add(user)
     db.session.commit()
-
-    if User.query.filter_by(id=id):
-        new_account_bal = User.query.filter_by(account_bal=account_bal).all()
-        if new_account_bal == 100:
-            return True
-        
-        new_postal_code = User.query.filter_by(postal_code=postal_code).all()
-        if new_postal_code == '':
-            return True
-        
-        new_billing_address = User.query.filter_by(billing_address=billing_address).all()
-        if new_billing_address == '':
-            return True
-        else: 
-            return False
 
     return True
 
@@ -137,16 +122,28 @@ def update_helper(name, email, billing_address, postal_code):
     return True
 
 
-#R1-5
 def username_helper(username):
+    '''
+    R1-5:
+    User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
+    Parameters:
+        username (string): user username
+    '''
     last_ch = len(username)-1
     if (username != ""): #username is not empty
-        if(username.isalnum()): #username is alphanumeric
-            if(username[0] != " " and username[last_ch] != " "): #the first and last characters are not a space
-                if(len(username) > 2 and len(username) < 20):
-                    return True
+        if (len(username) > 2 and len(username) < 20):
+            for ch in range(len(username)):
+                if (username[0] != "" and username[last_ch] != ""): #the first character and last character cannot be a space 
+                    if (username[ch].isalnum()): #the username is alphanumeric
+                        return True
+                    else:
+                        return False
                 else:
-                    False
+                    return False
+        else:
+            return False
+    else:
+        return False
 
 def password_helper(password):
         count_l = 0 #lower case
@@ -171,8 +168,7 @@ def password_helper(password):
             else:
                 return False
 
-#R3-1: 
-#R3-2
+
 def postal_code_helper(postal_code):
     '''
     R3-2

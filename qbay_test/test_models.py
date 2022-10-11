@@ -24,23 +24,14 @@ def test_r2_1_login():
     assert user is None
 
 
-def test_r1_5_username_helper():
-   assert username_helper('jasondawn123') is True
-   assert username_helper('bobrawn1') is True
-   assert username_helper('john henry') is True
-   assert username_helper(' huh-123') is False
-
-
 def test_r1_6_username_helper():
     '''
     Testing R1-6: User name has to be longer than 2 characters and 
     less than 20 characters.
     '''
-    user = username_helper('user123')
-    assert user is not None
-
-    user = username_helper('testinglongerusername')
-    assert user is None
+    assert username_helper('user123') is True
+    assert username_helper('testinglongerusername') is False
+    assert username_helper('Ab') is False
 
 
 # def test_r1_8_register():
@@ -72,14 +63,14 @@ def test_r3_3_postal_code_helper():
   assert postal_code_helper('') is False
   assert postal_code_helper('T_45C3!') is False
 
+# NOT DONE
 # def test_r3_1_update():
 #   '''
 #   Testing P3-1: A user is only able to update his/her user name, user email, 
 #   billing address, and postal code
 #   '''
-#   #name
-#   assert('','') is True
-  
+  #name
+  # assert('user1','','') is True
   
   #email
   #address
