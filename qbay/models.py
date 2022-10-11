@@ -51,12 +51,32 @@ def register(id, name, email, password, billing_address, postal_code, account_ba
     if len(existed) > 0:
         return False
 
+    account_bal = 100
+    postal_code = ""
+    billing_address = ""
+
     # create a new user
     user = User(id=id, username=name, email=email, password=password, billing_address=billing_address, postal_code=postal_code, account_bal=account_bal)
+
     # add it to the current database session
     db.session.add(user)
     db.session.commit()
-    
+
+    if User.query.filter_by(id=id):
+        new_account_bal = User.query.filter_by(account_bal=account_bal).all()
+        if new_account_bal == 100:
+            return True
+        
+        new_postal_code = User.query.filter_by(postal_code=postal_code).all()
+        if new_postal_code == '':
+            return True
+        
+        new_billing_address = User.query.filter_by(billing_address=billing_address).all()
+        if new_billing_address == '':
+            return True
+        else: 
+            return False
+
     return True
 
 
@@ -127,6 +147,29 @@ def username_helper(username):
                     return True
                 else:
                     False
+
+def password_helper(password):
+        count_l = 0 #lower case
+        count_u = 0 #upper caseS
+        count_s = 0 #special character
+        #if (len(password) >=6):
+        for ch in password:
+            if (ch.isupper()): #uppercase characters
+                count_u+=1
+            if (ch.islower()): #lowecase characters
+                count_l+=1
+            if ch in string.punctuation: #special character
+                count_s+=1
+        
+        #check the validity of the password
+        if (password != ""): #password is not empty
+            if (len(password) >= 6):  #the password has 6 or more characters
+                if (count_u >=1 and count_l >=1 and count_s >= 1):  #more than one uppercase character
+                    return True
+                else:
+                    return False
+            else:
+                return False
 
 #R3-1: 
 #R3-2

@@ -1,35 +1,12 @@
-from qbay.models import register, login, username_helper, postal_code_helper, update
+from qbay.models import register, login, username_helper, postal_code_helper
 
 def test_r1_7_user_register():
   '''
   Testing R1-7: If the email has been used, the operation failed.
   '''
-  assert register('u0', 'test0@test.com', '123456') is True
-  assert register('u0', 'test1@test.com', '123456') is True
-  assert register('u1', 'test0@test.com', '123456') is False
-
-
-def test_r1_8_user_register():
-  '''
-  Testing R1-8: Shipping address is empty at the time of registration.
-  '''
-  assert register('1', 'u0', 'test1@test.com', '123456', '', '', '100') is True
-  assert register('1', 'u0', 'test1@test.com', '123456', '', '', '100') is True
-
-
-def test_r1_9_user_register():
-  '''
-  Testing R1-9: Postal code is empty at the time of registration.
-  '''
-  assert register('1', 'u0', 'test1@test.com', '123456', '', '', '100') is True
-
-
-def test_r1_10_user_register():
-  '''
-  Testing R1-10: Balance should be initialized as 100 at the time of registration. 
-  (free $100 dollar signup bonus).
-  '''
-  assert register('1', 'u0', 'test1@test.com', '123456', '', '', '100') is True
+  assert register('1', 'u0', 'test0@test.com', '123456', '', '', '100') is True
+  assert register('1', 'u0', 'test1@test.com', '123456', '', 'L5J2V2', '100') is False
+  assert register('1', 'u1', 'test0@test.com', '123456', 'johnst', '', '100') is False
 
 
 def test_r2_1_login():
@@ -66,21 +43,21 @@ def test_r1_6_username_helper():
     assert user is None
 
 
-def test_r1_8_register():
-  '''
-  Testing R1-7: Shipping address is empty at the time of registration.
-  '''
-  assert register('0', 'u2', 'test0@test.com', '123456', '', 'L8K2G2', '0') is True
-  assert register('0', 'u2', 'test0@test.com', '123456', 'bill ave', 'L0E8U8', '0') is False
+# def test_r1_8_register():
+#   '''
+#   Testing R1-7: Shipping address is empty at the time of registration.
+#   '''
+#   assert register('0', 'u2', 'test0@test.com', '123456', '', 'L8K2G2', '0') is True
+#   assert register('0', 'u2', 'test0@test.com', '123456', 'bill ave', 'L0E8U8', '0') is False
 
 
-def test_r1_10_register():
-  '''
-  Testing R1-10: Balance should be initialized as 100 at the time of registration. 
-  (free $100 dollar signup bonus).
-  '''
-  assert register('0', 'u3', 'test0@test.com', '123456', '', 'L8K2G2', '100') is True
-  assert register('0', 'u3', 'test0@test.com', '123456', '', 'L8K2G2', '0') is False
+# def test_r1_10_register():
+#   '''
+#   Testing R1-10: Balance should be initialized as 100 at the time of registration. 
+#   (free $100 dollar signup bonus).
+#   '''
+#   assert register('0', 'u3', 'test0@test.com', '123456', '', 'L8K2G2', '100') is True
+#   assert register('0', 'u3', 'test0@test.com', '123456', '', 'L8K2G2', '0') is False
 
 
 def test_r3_3_postal_code_helper():
