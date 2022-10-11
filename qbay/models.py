@@ -101,10 +101,6 @@ def update_helper(name, email, billing_address, postal_code):
         billing_address (string): user billing_address
         postal_code (string): user postal_code
     '''
-    new_name = name
-    new_email = email
-    new_billing_address = billing_address
-    new_postal_code = postal_code
 
     # accessing user data
     q = db.session.query(User)
@@ -112,10 +108,10 @@ def update_helper(name, email, billing_address, postal_code):
     q = q.filter(User.id==1)
     # updating old user data
     record = q()
-    record.name = new_name
-    record.email = new_email
-    record.billing_address = new_billing_address
-    record.postal_code = new_postal_code
+    record.name = name
+    record.email = email
+    record.billing_address = billing_address
+    record.postal_code = postal_code
     # saving updates to database
     db.session.commit()
 
@@ -142,7 +138,7 @@ def password_helper(password):
 
 #R1-5 and 
 def username_helper(username):
-    last_ch = username(len)-1
+    last_ch = len(username)-1
     if (username != ""): #username is not empty
         if(username.isalnum()): #username is alphanumeric
             if(username[0] != " " and username[last_ch] != " "): #the first and last characters are not a space
