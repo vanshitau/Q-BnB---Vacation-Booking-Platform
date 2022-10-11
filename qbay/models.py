@@ -49,6 +49,7 @@ def register(name, email, password):
     # actually save the user object
     db.session.commit()
 
+    
     return True
 
 
@@ -122,15 +123,15 @@ def password_helper(password):
                 if count_u > 0:  #more than one uppercase character
                     if count_l >0: #more than one lowercase character
                         if count_s>0: #more than one special character
-                            self.password = password
+                            return password
     
 #R1-5 and 
 def username_helper(self, username):
-        last_ch = username(len)-1
+        last_ch = len(username)-1
         if (username != ""): #username is not empty
             if(username.isalnum()): #username is alphanumeric
                 if(username[0] != " " and username[last_ch] != " "): #the first and last characters are not a space
-                    self.username = username
+                    return username
 
 #R3-1: 
 
@@ -145,4 +146,4 @@ def postal_code_helper(self, postal_code):
         if(postal_code != ""):
             if (postal_code.isalnum()):
                 if(count_s == 0):
-                    self.postal_code = postal_code
+                    return postal_code
