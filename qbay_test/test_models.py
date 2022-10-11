@@ -1,4 +1,4 @@
-from qbay.models import register, login, email_helper, password_helper, username_helper
+from qbay.models import register, login, email_helper, password_helper, username_helper, postal_code_helper
 
 
 def test_r1_7_user_register():
@@ -26,23 +26,23 @@ def test_r2_1_login():
     user = login('test0@test.com', 1234567)
     assert user is None
 
-def test_r1_1_resgister():
+def test_r1_1_register():
   '''
   Testing R1-1: Email cannot be empty. password cannot be empty.
   '''
 
-  assert register('', 'jill_mitchell@outlook.com','')
+  assert register('', 'jill_mitchell@outlook.com','') is True
 
 def test_r1_3_email_helper():
-  '''
-  Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
-  a human-friendly explanation). You can use external libraries/imports.
-  '''
+   '''
+   Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
+   a human-friendly explanation). You can use external libraries/imports.
+   '''
 
-  assert email_helper('sam_mitchell@outlook.com')
-  assert email_helper('bob_m12@gmail.com')
-  assert email_helper('kenny-wright24@yahoo.com')
-  assert email_helper('sam_mitchell@out.look.com') #should not work
+   assert email_helper('sam_mitchell@outlook.com') is True
+   assert email_helper('bob_m12@gmail.com') is True
+   assert email_helper('kenny-wright24@yahoo.com') is True
+   assert email_helper('sam_mitchell@out.look.com') is False #should not work
 
 def test_r1_4_password_helper():
   '''
@@ -50,20 +50,32 @@ def test_r1_4_password_helper():
   and at least one special character.
   '''
 
-  assert password_helper('Queensuni.2024')#
-  assert password_helper('Queen#_1926')
-  assert password_helper('brieR23') #should not work (does not have a special character)
-  assert password_helper('brehi') #should not work (length is less than 6 and no upper case letter)
+  assert password_helper("Queensuni.2024") is True
+  assert password_helper('Queen#_1926') is True
+  assert password_helper('brieR23') is False
+  assert password_helper('brehi') is False
 
 def test_r1_5_username_helper():
-  '''
-  Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
-  '''
+   '''
+   Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
+   '''
 
-  assert username_helper('jasondawn123')
-  assert username_helper('bobrawn1')
-  assert username_helper('john henry') 
-  assert username_helper(' huh-123') #should not work (space at the end and begining)
+   assert username_helper('jasondawn123') is False
+   assert username_helper('bob rawn') is True
+   assert username_helper('john henry') is True
+   assert username_helper(' huh-123') is False #should not work (space at the end and begining)
+
+
+def test_r3_2_postal_code_helper():
+   '''
+   Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
+   '''
+
+   assert postal_code_helper('K7L3D4') is True
+   assert postal_code_helper('L553NN') is False
+   assert postal_code_helper('ABC ') is False
+   assert postal_code_helper('') is False
+   assert postal_code_helper('T_45C3!') is False
   
 
 
