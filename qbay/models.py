@@ -60,7 +60,7 @@ def register(owner_id, name, email, password):
         return False
 
     # create a new user
-    user = User(owner_id=owner_id,username=name, email=email, password=password)
+    user = User(owner_id=owner_id, username=name, email=email, password=password)
     # add it to the current database session
     db.session.add(user)
     # actually save the user object
