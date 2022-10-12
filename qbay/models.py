@@ -107,7 +107,7 @@ def title_desc(id,title,description,last_modified_date, price,owner_id):
     #make sure the length of the description is more than the title length and is <2000 and >20
     if not(existed):
         if (len(title) > 0):
-            if (title[0] != " ") and (len(title) <= 80) and  title[-1] != " " and len(description) > 20 and len(description)< 2000 and (len(description) > len(title)) :
+            if (title[0] != " ") and title[:1].isalnum() and (len(title) <= 80) and  title[-1] != " " and len(description) > 20 and len(description)< 2000 and (len(description) > len(title)) :
                 return True
 
     # create a new user
@@ -151,7 +151,6 @@ def check_owner(email, owner_id):
         True if the email  meets the requirements and the user is in the db otherwise False
     '''
     
-
     #check the database to find the user's email
     user = User.query.filter_by(email=owner_id).first()
    # listing_email = user.email
