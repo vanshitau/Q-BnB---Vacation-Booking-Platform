@@ -31,7 +31,7 @@ def test_r1_1_register():
   Testing R1-1: Email cannot be empty. password cannot be empty.
   '''
 
-assert register('', 'jill_mitchell@outlook.com','') is True
+assert register('', 'jill_mitchell@outlook.com', '') is True
 
 def test_r1_2_user_id_helper():
    '''
