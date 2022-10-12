@@ -111,7 +111,7 @@ def title_desc(id,title,description,last_modified_date, price,owner_id):
                 return True
 
     # create a new user
-    listing = Listing(id=id, title=title, description=description,last_modified_date=last_modified_date, price=price,owner_id=owner_id)
+    listing = Listing(id=id, title=title, description=description, last_modified_date=last_modified_date, price=price, owner_id=owner_id)
     # add it to the current database session
     db.session.add(listing)
     # actually save the user object
