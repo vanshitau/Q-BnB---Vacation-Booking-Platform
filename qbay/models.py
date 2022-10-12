@@ -1,5 +1,6 @@
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
+# import library to work with the current date
 import datetime as dt
 import string
 import re
