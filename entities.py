@@ -52,7 +52,7 @@ class Listing:
     def get_title(self):
         return self._title
 
-    #getter method for the location
+    #getter method for the id
     def get_id(self):
         return self._id
 
