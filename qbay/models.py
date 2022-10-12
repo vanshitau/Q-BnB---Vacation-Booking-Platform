@@ -201,7 +201,7 @@ def postal_code_helper(postal_code):
             # checking if number
             if (ch == 1 or ch == 3 or ch == 5) and postal_code[ch].isdigit():
                 num_count += 1
-    # if no punctuation
+    # checking if any special characters
     if (count_s == 0):
         # if 3 letters and 3 numbers
         if (num_count == 3 and char_count == 3):
