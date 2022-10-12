@@ -48,7 +48,7 @@ class Listing:
     def get_price(self):
         return self._price
     
-    #getter method for the rating
+    #getter method for the title
     def get_title(self):
         return self._title
 
