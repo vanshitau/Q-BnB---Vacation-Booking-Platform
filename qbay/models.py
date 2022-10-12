@@ -148,7 +148,7 @@ def username_helper(username):
         username (string): user username
     '''
     #check for special characters
-    count_s= 0
+    count_s = 0
     for ch in username:
         if ch in string.punctuation:
             count_s += 1
