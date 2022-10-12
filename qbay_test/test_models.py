@@ -27,11 +27,11 @@ def test_r2_1_login():
     assert user is None
 
 def test_r1_1_register():
-  '''
+ '''
   Testing R1-1: Email cannot be empty. password cannot be empty.
   '''
 
-  assert register('', 'jill_mitchell@outlook.com','') is True
+assert register('', 'jill_mitchell@outlook.com','') is True
 
 def test_r1_3_email_helper():
    '''
@@ -41,8 +41,9 @@ def test_r1_3_email_helper():
 
    assert email_helper('sam_mitchell@outlook.com') is True
    assert email_helper('bob_m12@gmail.com') is True
+   assert email_helper('bob.ross@gmail.com') is True
    assert email_helper('kenny-wright24@yahoo.com') is True
-   assert email_helper('sam_mitchell@out.look.com') is False #should not work
+   assert email_helper('sam_mitchell@out.look.com') is False
 
 def test_r1_4_password_helper():
   '''
@@ -54,16 +55,19 @@ def test_r1_4_password_helper():
   assert password_helper('Queen#_1926') is True
   assert password_helper('brieR23') is False
   assert password_helper('brehi') is False
+  assert password_helper('') is False
+
 
 def test_r1_5_username_helper():
    '''
    Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
    '''
 
-   assert username_helper('jasondawn123') is False
+   assert username_helper('jasondawn123') is True
    assert username_helper('bob rawn') is True
    assert username_helper('john henry') is True
-   assert username_helper(' huh-123') is False #should not work (space at the end and begining)
+   assert username_helper(' huh-123') is False
+   assert username_helper('') is False
 
 
 def test_r3_2_postal_code_helper():
