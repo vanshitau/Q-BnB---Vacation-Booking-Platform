@@ -48,15 +48,15 @@ class Listing:
     def get_price(self):
         return self._price
     
-    #getter method for the title
+    #getter method for the rating
     def get_title(self):
         return self._title
 
-    #getter method for the id
+    #getter method for the location
     def get_id(self):
         return self._id
 
-    #getter method for the last modified date
+    #getter method for the size
     def get_modified_date(self):
         return self._last_modified_date
         
@@ -77,25 +77,6 @@ class Listing:
     #setter method for the description      
     def set_description(self,description):
         self._description = description
-
-     #setter method for the id      
-    def set_id(self,id):
-        self._id = id
-    
-    #setter method for the owner id      
-    def set_id(self,owner_id):
-        self._owner_id = owner_id
-    
-    #setter method for the title      
-    def set_title(self,title):
-        self._title = title
-
-    #setter method for the last modified date     
-    def set_modified_date(self,mod_date):
-        self._last_modified_date = mod_date
-
-
-
         
 # bookings entity
 class Bookings:
