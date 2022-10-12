@@ -119,7 +119,7 @@ def update_helper(name, email, billing_address, postal_code):
     # accessing user data
     q = db.session.query(User)
     # check if user id is correct
-    q = q.filter(User.id==1) # not correct checking of id
+    q = q.filter(User.id==1) # needed id generator
     # updating old user data
     record = q()
     record.name = name
