@@ -1,4 +1,4 @@
-from qbay.models import register, login, email_helper, password_helper, username_helper, postal_code_helper
+from qbay.models import register, login, email_helper, password_helper, user_id_helper, username_helper, postal_code_helper
 
 
 def test_r1_7_user_register():
@@ -32,6 +32,17 @@ def test_r1_1_register():
   '''
 
 assert register('', 'jill_mitchell@outlook.com','') is True
+
+def test_r1_2_user_id_helper():
+   '''
+   Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
+   a human-friendly explanation). You can use external libraries/imports.
+   '''
+
+   assert user_id_helper('user0') is True
+   assert user_id_helper('user1') is True
+   assert user_id_helper('user2') is True
+   
 
 def test_r1_3_email_helper():
    '''
@@ -72,7 +83,7 @@ def test_r1_5_username_helper():
 
 def test_r3_2_postal_code_helper():
    '''
-   Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
+   Testing R3-2: postal code should be non-empty, alphanumeric-only, and no special characters such as !.
    '''
 
    assert postal_code_helper('K7L3D4') is True

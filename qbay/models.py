@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 import string
 import re
+import random
 
 
 '''
@@ -28,6 +29,7 @@ class User(db.Model):
 
 # create all tables
 db.create_all()
+
 
 
 def register(name, email, password):
@@ -74,6 +76,15 @@ def login(email, password):
 
 
 #R1-2- A user is uniquely identified by his/her user id
+def user_id_helper(user):
+    #generate a random id for the user
+    for i in range(len(user)):
+        id = random.randint(1,1000)
+    
+    #check if the user id already exists
+    existed = id.query.filter_by(user=user).first()
+
+
 #R1-3
 def email_helper(email):
     '''
