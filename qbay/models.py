@@ -151,7 +151,7 @@ def username_helper(username):
     count_s= 0
     for ch in username:
         if ch in string.punctuation:
-            count_s+=1
+            count_s += 1
 
     last_ch = len(username)-1
     # checking if username is not empty
