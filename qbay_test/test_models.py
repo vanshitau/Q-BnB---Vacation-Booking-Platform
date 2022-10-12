@@ -1,4 +1,4 @@
-from qbay.models import register, login, username_helper, postal_code_helper, update, email_helper, password_helper, user_id_helper
+from qbay.models import register, login, update_listing, username_helper, postal_code_helper, update, email_helper, password_helper, user_id_helper
 
 def test_r1_7_user_register():
   '''
@@ -16,6 +16,67 @@ def test_r1_8_user_register():
   user = register('user1', 'test@test.com', 'Abcdef123!')
   assert user is not None
   assert user.billing_address is ''
+
+
+def test_r2_1_2_login():
+  '''
+  Testing R2-1: A user can log in using her/his email address 
+    and the password.
+  (will be tested after the previous test, so we already have u0, 
+    u1 in database)
+  Testing R2-1: The email and password that are supplied as input
+    must have the same requirements as the register function
+  '''
+
+  user = login('test0@test.com', 'Password!')
+  assert user is not None
+  assert user.username == 'u0'
+
+  user = login('test0@test.com', 'password!')
+  assert user is None
+
+
+def test_r5_1_4_update_listing():
+  '''
+  Testing R5-1: Updating the title, description, and price of a listing
+    depending on the listing id. The attributes that are not being changed 
+    are passed into the function as none.
+  Testing R5-4: The updated attributes follow the same requirements as when
+    the listing was created
+  '''
+  listing = update_listing(1, "My House", None, None)
+  assert listing is not None
+  assert listing.listing_id == 1
+  assert listing.title == "My House"
+  
+  listing = update_listing(1, None, "This is my house", None)
+  assert listing is not None
+  assert listing.listing_id == 1
+  assert listing.description == "This is my house"
+
+  listing = update_listing(1, None, None, 500)
+  assert listing is not None
+  assert listing.listing_id == 1
+  assert listing.price == 500
+
+
+def test_r5_2_price_change():
+  '''
+  Testing R5-2: The price can only ever be increased when it is updated, 
+    never decreased. 
+  '''
+  assert update_listing(1, None, None, 500) is True #price of listing is 500
+  assert update_listing(1, None, None, 50) is False #decreasing the price
+  assert update_listing(1, None, None, 5000) is True #increasing the price
+
+
+def test_r5_3_date_modified():
+  '''
+  Testing R5-3: When at least one attribute has been updated, the last 
+    modified date of the file needs to be updated
+  '''
+  assert update_listing(1, "My House", None, None) is True
+  assert update_listing(1, None, None, None) is True
 
 
 def test_r1_9_user_register():
@@ -123,7 +184,6 @@ def test_r1_3_email_helper():
   Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
   a human-friendly explanation). You can use external libraries/imports.
   '''
-
   assert email_helper('sam_mitchell@outlook.com') is True
   assert email_helper('bob_m12@gmail.com') is True
   assert email_helper('bob.ross@gmail.com') is True
@@ -135,7 +195,6 @@ def test_r1_4_password_helper():
   Testing R1-4: Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, 
   and at least one special character.
   '''
-
   assert password_helper("Queensuni.2024") is True
   assert password_helper('Queen#_1926') is True
   assert password_helper('brieR23') is False
@@ -147,7 +206,6 @@ def test_r1_5_username_helper():
   '''
   Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
   '''
-
   assert username_helper('jasondawn123') is True
   assert username_helper('bob rawn') is True
   assert username_helper('john henry') is True
@@ -159,7 +217,6 @@ def test_r3_2_postal_code_helper():
   '''
   Testing R3-2: postal code should be non-empty, alphanumeric-only, and no special characters such as !.
   '''
-
   assert postal_code_helper('K7L3D4') is True
   assert postal_code_helper('L553NN') is False
   assert postal_code_helper('ABC ') is False
