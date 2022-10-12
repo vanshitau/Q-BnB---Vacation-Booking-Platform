@@ -2,7 +2,11 @@ from curses.ascii import isalnum, isalpha
 from xxlimited import new
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
+
 import string
+import re
+import random
+
 
 '''
 This file defines data models and related business logics
@@ -44,6 +48,7 @@ class User(db.Model):
 db.create_all()
 
 
+
 def register(name, email, password):
     '''
     R1-7
@@ -59,6 +64,7 @@ def register(name, email, password):
       Returns:
         True if registration succeeded otherwise False
     '''
+
     # check if the email has been used:
     existed = User.query.filter_by(email=email).all()
     if len(existed) > 0:
@@ -70,6 +76,8 @@ def register(name, email, password):
     db.session.add(user)
     db.session.commit()
 
+    
+    
     return True
 
 
@@ -130,8 +138,82 @@ def update_helper(name, email, billing_address, postal_code):
     db.session.commit()
 
     return True
+                    
+#R1-2- A user is uniquely identified by his/her user id
+def user_id_helper(user):
+    #generate a random id for the user
+    for i in range(len(user)):
+        id = random.randint(1,1000)
+    
+    #check if the user id already exists
+    existed = id.query.filter_by(user=user).first()
 
 
+#R1-3
+def email_helper(email):
+    '''
+    R1-1:
+    Email cannot be empty. password cannot be empty.
+    R1-3
+    The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
+    a human-friendly explanation). You can use external libraries/imports.
+      Parameters:
+        email (string): user email
+    '''
+    regex = re.compile("^[a-zA-Z0-9-._]+@[a-zA-Z0-9]+\.[a-z]{1,3}$")
+    #the email meets the requirements
+    if (re.match(regex, email)): 
+        return True
+    else:
+        return False
+    
+    
+#R1-4
+def password_helper(password):
+    '''
+    R1-1:
+    Email cannot be empty. password cannot be empty.
+    R1-4:
+    Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, 
+    and at least one special character.
+      Parameters:
+        password (string): user password
+    '''
+    #lower case
+    count_l = 0 
+    #upper case
+    count_u = 0 
+    #special character
+    count_s = 0 
+        
+    for ch in password:
+        #uppercase characters
+        if (ch.isupper()): 
+            count_u+=1
+        #lowecase characters
+        if (ch.islower()): 
+            count_l+=1
+        #special character
+        if ch in string.punctuation: 
+            count_s+=1
+        
+    #check the validity of the password
+    #password is not empty
+    if (password != ""): 
+        #the password has 6 or more characters
+        if (len(password) >= 6):  
+            #more than one uppercase, lowercase and special characters
+            if (count_u >=1 and count_l >=1 and count_s >= 1):  
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+     
+    
+#R1-5 and 
 def username_helper(username):
     '''
     R1-5:
@@ -148,32 +230,27 @@ def username_helper(username):
         username (string): user username
     '''
     #check for special characters
-    count_s = 0
-    for ch in username:
-        if ch in string.punctuation:
-            count_s += 1
-
-    last_ch = len(username) - 1
-    # checking if username is not empty
-    if (username != ""):
-        # checking if length of username is within requirements
-        if len(username) > 2 and len(username) < 20:
-            for ch in range(len(username)):
-                # checking if the first character and last character is a space 
-                if (username[0] != "" and username[last_ch] != "" and count_s == 0):
-                    # checking if the username is alphanumeric
-                    if (username[ch].isalnum()): 
-                        return True
-                    else:
-                        return False
+    last_ch = len(username)-1
+    #username is not empty
+    if (username != ""): 
+        for ch in range(len(username)):
+            #the first character and last character cannot be a space 
+            if (username[0] != "" and username[last_ch] != ""): 
+                #the username is alphanumeric
+                if (username[ch].isalnum()): 
+                    return True
                 else:
                     return False
-        else:
-            return False
+            else:
+                return False
     else:
         return False
+    
+
+#R3-1: 
 
 
+#R3-2
 def postal_code_helper(postal_code):
     '''
     R3-2
@@ -183,13 +260,15 @@ def postal_code_helper(postal_code):
       Parameters:
         postal_code (string): user postal_code
     '''
-    # initializing counters
+    #special character
     count_s = 0
+    #digits
     num_count = 0
+    #alphabets
     char_count = 0
     
     for ch in range(len(postal_code)):
-        # checking if any punctuation
+        #count the number of special characters
         if postal_code in string.punctuation:
             count_s += 1
 

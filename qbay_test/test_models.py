@@ -1,4 +1,4 @@
-from qbay.models import register, login, username_helper, postal_code_helper, update
+from qbay.models import register, login, username_helper, postal_code_helper, update, email_helper, password_helper, user_id_helper
 
 def test_r1_7_user_register():
   '''
@@ -98,3 +98,74 @@ def test_r3_1_update():
   assert user.email is 'test0@test.com'
   assert user.billing_address is 'john st'
   assert user.postal_code is 'L5J2V2'
+
+
+def test_r1_1_register():
+  '''
+  Testing R1-1: Email cannot be empty. password cannot be empty.
+  '''
+  assert register('', 'jill_mitchell@outlook.com', '') is True
+
+
+def test_r1_2_user_id_helper():
+  '''
+  Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
+  a human-friendly explanation). You can use external libraries/imports.
+  '''
+
+  assert user_id_helper('user0') is True
+  assert user_id_helper('user1') is True
+  assert user_id_helper('user2') is True
+   
+
+def test_r1_3_email_helper():
+  '''
+  Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
+  a human-friendly explanation). You can use external libraries/imports.
+  '''
+
+  assert email_helper('sam_mitchell@outlook.com') is True
+  assert email_helper('bob_m12@gmail.com') is True
+  assert email_helper('bob.ross@gmail.com') is True
+  assert email_helper('kenny-wright24@yahoo.com') is True
+  assert email_helper('sam_mitchell@out.look.com') is False
+
+def test_r1_4_password_helper():
+  '''
+  Testing R1-4: Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, 
+  and at least one special character.
+  '''
+
+  assert password_helper("Queensuni.2024") is True
+  assert password_helper('Queen#_1926') is True
+  assert password_helper('brieR23') is False
+  assert password_helper('brehi') is False
+  assert password_helper('') is False
+
+
+def test_r1_5_username_helper():
+  '''
+  Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
+  '''
+
+  assert username_helper('jasondawn123') is True
+  assert username_helper('bob rawn') is True
+  assert username_helper('john henry') is True
+  assert username_helper(' huh-123') is False
+  assert username_helper('') is False
+
+
+def test_r3_2_postal_code_helper():
+  '''
+  Testing R3-2: postal code should be non-empty, alphanumeric-only, and no special characters such as !.
+  '''
+
+  assert postal_code_helper('K7L3D4') is True
+  assert postal_code_helper('L553NN') is False
+  assert postal_code_helper('ABC ') is False
+  assert postal_code_helper('') is False
+  assert postal_code_helper('T_45C3!') is False
+  
+
+
+  
