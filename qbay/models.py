@@ -153,7 +153,7 @@ def username_helper(username):
         if ch in string.punctuation:
             count_s += 1
 
-    last_ch = len(username)-1
+    last_ch = len(username) - 1
     # checking if username is not empty
     if (username != ""):
         # checking if length of username is within requirements
