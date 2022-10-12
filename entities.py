@@ -83,7 +83,7 @@ class Listing:
         self._id = id
     
     #setter method for the owner id      
-    def set_id(self,owner_id):
+    def set_owner_id(self,owner_id):
         self._owner_id = owner_id
     
     #setter method for the title      
@@ -100,7 +100,7 @@ class Listing:
 # bookings entity
 class Bookings:
     # initializing components of reviews entity
-    def __init__(self, verification = "", date = "", duration = ""):
+    def __init__(self, verification = "", date = "", duration = "", is_paid = ""):
          self.verification = verification
          self.date = date
          self.duration = duration
