@@ -44,7 +44,7 @@ class Listing(db.Model):
 db.create_all()
 
 
-def register(owner_id,name, email, password):
+def register(owner_id, name, email, password):
     '''
     Register a new user
       Parameters:
