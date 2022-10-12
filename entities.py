@@ -48,15 +48,15 @@ class Listing:
     def get_price(self):
         return self._price
     
-    #getter method for the rating
+    #getter method for the title
     def get_title(self):
         return self._title
 
-    #getter method for the location
+    #getter method for the id
     def get_id(self):
         return self._id
 
-    #getter method for the size
+    #getter method for the last modified date
     def get_modified_date(self):
         return self._last_modified_date
         
