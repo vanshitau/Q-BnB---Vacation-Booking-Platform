@@ -13,10 +13,21 @@ db = SQLAlchemy(app)
 
 
 class User(db.Model):
+    '''
+    R1-8
+        Shipping address is empty at the time of registration.
+    R1-9
+        Postal code is empty at the time of registration.
+    R1-10
+        Balance should be initialized as 100 at the time of registration. (free $100 dollar signup bonus).
+    '''
     id = db.Column(db.Integer, nullable=False)
-    billing_address = db.Column(db.String(150), nullable=False)
-    account_bal = db.Column(db.Integer, nullable=False)
-    postal_code = db.Column(db.String(20), nullable=False)
+    # added default value for billing_address = ""
+    billing_address = db.Column(db.String(150), default="",  nullable=False)
+    # added default value of account_bal = 100
+    account_bal = db.Column(db.Integer, default=100, nullable=False)
+    # added default value of postal_code = ""
+    postal_code = db.Column(db.String(20), default="", nullable=False)
     username = db.Column(
         db.String(80), nullable=False)
     email = db.Column(
@@ -33,8 +44,10 @@ class User(db.Model):
 db.create_all()
 
 
-def register(id, name, email, password, billing_address, postal_code, account_bal):
+def register(name, email, password):
     '''
+    R1-7
+        If the email has been used, the operation failed.
     Register a new user
       Parameters:
         name (string):     user name
@@ -51,13 +64,8 @@ def register(id, name, email, password, billing_address, postal_code, account_ba
     if len(existed) > 0:
         return False
 
-    account_bal = 100
-    postal_code = ''
-    billing_address = ''
-
     # create a new user
-    user = User(id=id, username=name, email=email, password=password, billing_address=billing_address, postal_code=postal_code, account_bal=account_bal)
-
+    user = User(username=name, email=email, password=password)
     # add it to the current database session
     db.session.add(user)
     db.session.commit()
@@ -91,9 +99,11 @@ def update(name, email, billing_address, postal_code):
         postal_code (string): user postal_code
     '''
     # checking if user data in database equals current user data in current session
-    if (db.filter_by(User.username==name, User.email==email, User.billing_address==billing_address, User.postal_code==postal_code).all()):
+    user = User.query.filter_by(User.username==name).all()
+    if (user):
         # if yes, then update old user data in database
         update_helper(name, email, billing_address, postal_code)
+    return False
     
 
 def update_helper(name, email, billing_address, postal_code):
@@ -109,7 +119,7 @@ def update_helper(name, email, billing_address, postal_code):
     # accessing user data
     q = db.session.query(User)
     # check if user id is correct
-    q = q.filter(User.id==1)
+    q = q.filter(User.id==1) # not correct checking of id
     # updating old user data
     record = q()
     record.name = name
@@ -125,16 +135,34 @@ def update_helper(name, email, billing_address, postal_code):
 def username_helper(username):
     '''
     R1-5:
-    User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
+        User name has to be non-empty, alphanumeric-only, and space allowed 
+        only if it is not as the prefix or suffix.
+    R1-6: 
+        User name has to be longer than 2 characters and less than 20 characters.
+    R3-1: 
+        A user is only able to update his/her user name, user email, billing address, and postal code.
+    R3-4: 
+        User name follows the requirements above.
+        (postal code should be non-empty, alphanumeric-only, and no special characters such as !)
     Parameters:
         username (string): user username
     '''
+    #check for special characters
+    count_s= 0
+    for ch in username:
+        if ch in string.punctuation:
+            count_s+=1
+
     last_ch = len(username)-1
-    if (username != ""): #username is not empty
-        if (len(username) > 2 and len(username) < 20):
+    # checking if username is not empty
+    if (username != ""):
+        # checking if length of username is within requirements
+        if len(username) > 2 and len(username) < 20:
             for ch in range(len(username)):
-                if (username[0] != "" and username[last_ch] != ""): #the first character and last character cannot be a space 
-                    if (username[ch].isalnum()): #the username is alphanumeric
+                # checking if the first character and last character is a space 
+                if (username[0] != "" and username[last_ch] != "" and count_s == 0):
+                    # checking if the username is alphanumeric
+                    if (username[ch].isalnum()): 
                         return True
                     else:
                         return False
@@ -144,29 +172,6 @@ def username_helper(username):
             return False
     else:
         return False
-
-def password_helper(password):
-        count_l = 0 #lower case
-        count_u = 0 #upper caseS
-        count_s = 0 #special character
-        #if (len(password) >=6):
-        for ch in password:
-            if (ch.isupper()): #uppercase characters
-                count_u+=1
-            if (ch.islower()): #lowecase characters
-                count_l+=1
-            if ch in string.punctuation: #special character
-                count_s+=1
-        
-        #check the validity of the password
-        if (password != ""): #password is not empty
-            if (len(password) >= 6):  #the password has 6 or more characters
-                if (count_u >=1 and count_l >=1 and count_s >= 1):  #more than one uppercase character
-                    return True
-                else:
-                    return False
-            else:
-                return False
 
 
 def postal_code_helper(postal_code):
@@ -178,11 +183,13 @@ def postal_code_helper(postal_code):
       Parameters:
         postal_code (string): user postal_code
     '''
+    # initializing counters
     count_s = 0
     num_count = 0
     char_count = 0
     
     for ch in range(len(postal_code)):
+        # checking if any punctuation
         if postal_code in string.punctuation:
             count_s += 1
 
@@ -194,7 +201,9 @@ def postal_code_helper(postal_code):
             # checking if number
             if (ch == 1 or ch == 3 or ch == 5) and postal_code[ch].isdigit():
                 num_count += 1
+    # if no punctuation
     if (count_s == 0):
+        # if 3 letters and 3 numbers
         if (num_count == 3 and char_count == 3):
             return True
         else:
