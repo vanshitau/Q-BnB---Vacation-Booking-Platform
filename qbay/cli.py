@@ -6,7 +6,7 @@ def login_page():
     password = input('Please input password:')
     return login(email, password)
 
-
+# register page function
 def regsiter_page():
     email = input('Please input email:')
     password = input('Please input password:')
