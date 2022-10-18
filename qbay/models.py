@@ -349,7 +349,7 @@ def email_helper(email):
       Parameters:
         email (string): user email
     '''
-    regex = re.compile("^[a-zA-Z0-9-._]+@[a-zA-Z0-9]+\.[a-z]{1,3}$")
+    regex = re.compile('^[a-zA-Z0-9-._]+@[a-zA-Z0-9]+\.[a-z]{1,3}')
     #the email meets the requirements
     if (re.match(regex, email)): 
         return True
