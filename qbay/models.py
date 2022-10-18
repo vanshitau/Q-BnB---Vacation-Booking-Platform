@@ -42,7 +42,7 @@ class User(db.Model):
         primary_key=True)
     password = db.Column(
         db.String(120), nullable=False)
-    owner_id = db.Column(db.Integer, nullable=False)
+    # owner_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -89,7 +89,7 @@ def register(owner_id, name, email, password):
         return False
 
     # create a new user
-    user = User(owner_id=owner_id, username=name, email=email, password=password)
+    user = User(id=owner_id, username=name, email=email, password=password)
     # add it to the current database session
     db.session.add(user)
     db.session.commit()
