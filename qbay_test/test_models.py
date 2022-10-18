@@ -5,16 +5,16 @@ def test_r1_7_user_register():
   '''
   Testing R1-7: If the email has been used, the operation failed.
   '''
-  assert register('user0', 'test0@test.com', '123456') is True
-  assert register('user0', 'test1@test.com', '123456') is True
-  assert register('user1', 'test0@test.com', '123456') is False
+  assert register(1, 'user0', 'test0@test.com', 'Abcdef!') is True
+  assert register(1, 'user0', 'test1@test.com', 'Abcdef!') is True
+  assert register(1, 'user1', 'test0@test.com', 'Abcdef!') is False
 
 
 def test_r1_8_user_register():
   '''
   Testing R1-8: Shipping address is empty at the time of registration.
   '''
-  user = register('user1', 'test@test.com', 'Abcdef123!')
+  user = register(1, 'user1', 'test@test.com', 'Abcdef!')
   assert user is not None
   assert user.billing_address is ''
 
@@ -31,7 +31,7 @@ def test_r2_1_2_login():
 
   user = login('test0@test.com', 'Password!')
   assert user is not None
-  assert user.username == 'u0'
+  assert user.username == 'user0'
 
   user = login('test0@test.com', 'password!')
   assert user is None
@@ -59,22 +59,6 @@ def test_r5_1_4_update_listing():
   assert listing is not None
   assert listing.listing_id == 1
   assert listing.price == 500
-
-
-def test_r2_1_login():
-    '''
-    Testing R2-1: A user can log in using her/his email address 
-      and the password.
-    (will be tested after the previous test, so we already have u0, 
-      u1 in database)
-    '''
-
-    user = login('test0@test.com', 123456)
-    assert user is not None
-    assert user.username == 'u0'
-
-    user = login('test0@test.com', 1234567)
-    assert user is None
 
 
 def test_r4_1_to_4_title():
@@ -142,7 +126,7 @@ def test_r1_9_user_register():
   '''
   Testing R1-9: Postal code is empty at the time of registration.
   '''
-  user = register('user1', 'test@test.com', 'Abcdef123!')
+  user = register(1, 'user1', 'test@test.com', 'Abcdef123!')
   assert user is not None
   assert user.postal_code is ''
 
@@ -152,7 +136,7 @@ def test_r1_10_user_register():
   Testing R1-10: Balance should be initialized as 100 at the time of registration. 
   (free $100 dollar signup bonus).
   '''
-  user = register('user1', 'test@test.com', 'Abcdef123!')
+  user = register(1, 'user1', 'test@test.com', 'Abcdef123!')
   assert user is not None
   assert user.account_bal == 100
 
@@ -224,7 +208,7 @@ def test_r1_1_register():
   '''
   Testing R1-1: Email cannot be empty. password cannot be empty.
   '''
-  assert register('', 'jill_mitchell@outlook.com', '') is True
+  assert register(1, '', 'jill_mitchell@outlook.com', '') is True
 
 
 def test_r1_2_user_id_helper():
