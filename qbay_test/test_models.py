@@ -8,12 +8,11 @@ def test_r1_7_user_register():
   user = register(1, 'user0', 'test0@test.com', 'Abcdef!')
   assert user is not None
   assert user.email == 'test0@test.com'
-  user = register(1, 'user0', 'test1@test.com', 'Abcdef!')
+  user = register(2, 'user0', 'test1@test.com', 'Abcdef!')
   assert user is not None
   assert user.email == 'test1@test.com'
-  user = register(1, 'user1', 'test0@test.com', 'Abcdef!')
-  assert user is not None
-  assert user.email == 'test0@test.com'
+  user = register(3, 'user1', 'test0@test.com', 'Abcdef!')
+  assert user is None
 
 def test_r1_8_user_register():
   '''
@@ -34,11 +33,11 @@ def test_r2_1_2_login():
     must have the same requirements as the register function
   '''
 
-  user = login('test0@test.com', 'Password!')
+  user = login('test1@test.com', 'Abcdef!')
   assert user is not None
   assert user.username == 'user0'
 
-  user = login('test0@test.com', 'password!')
+  user = login('test0@test.com', 'abcdef!')
   assert user is None
 
 
@@ -131,9 +130,9 @@ def test_r1_9_user_register():
   '''
   Testing R1-9: Postal code is empty at the time of registration.
   '''
-  user = register(1, 'user1', 'test@test.com', 'Abcdef123!')
+  user = register(1, 'user1', 'test@test.com', 'Abcdef!')
   assert user is not None
-  assert user.postal_code is ''
+  assert user.postal_code == ''
 
 
 def test_r1_10_user_register():
