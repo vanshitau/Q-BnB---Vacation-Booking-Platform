@@ -110,13 +110,13 @@ def test_r4_7_owner():
   '''
   Testing R4-7: This will check to see if the user's email is not empty and make sure the user exists in the db
   '''
-  email = "test0@test.com"
-  #should give false since the email is empty
-  assert check_owner('') is False
-  #should give false since there is no owner in the database with that email
-  assert check_owner('testemail@gmail.com') is False
+
+  user = login("test0@test.com", "Abcdef!")
   #should give true since there is an owner in the database with that email
-  assert check_owner(email) is True
+  assert check_owner(user.id) is True
+  #should give false since the email is empty
+  user.email = ""
+  assert check_owner(user.id) is False
 
 def test_r5_2_price_change():
   '''
@@ -205,7 +205,7 @@ def test_r3_1_update():
   '''
   user = update('user123', 'test0@test.com', 'john st', 'L5J2V2')
   assert user is not None
-  assert user.username is 'user123'
+  assert user.username == 'user123'
   assert user.email is 'test0@test.com'
   assert user.billing_address is 'john st'
   assert user.postal_code is 'L5J2V2'

@@ -162,7 +162,7 @@ def check_date(date_modified):
     if ('2021-01-02' <= date_modified <= '2025-01-02'):
         return True
 
-def check_owner(user_email):
+def check_owner(id):
     '''
     Check the title and description
       Parameters:
@@ -173,11 +173,11 @@ def check_owner(user_email):
     '''
     
     #check the database to find the user's email
-    user = User.query.filter_by(email=user_email).first()
+    user = User.query.filter_by(id=id).first()
     #the owner does exist in the db
     if user is None:
         return False
-    if user_email == '':
+    if user.email == "":
         return False
     return True
 
@@ -284,11 +284,11 @@ def update(name, email, billing_address, postal_code):
         postal_code (string): user postal_code
     '''
     # checking if user data in database equals current user data in current session
-    user = User.query.filter_by(User.username==name).all()
+    user = User.query.filter_by(username=name).all()
     if (user):
         # if yes, then update old user data in database
         update_helper(name, email, billing_address, postal_code)
-    return None
+    return False
     
 
 def update_helper(name, email, billing_address, postal_code):
