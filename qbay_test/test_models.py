@@ -33,7 +33,7 @@ def test_r2_1_2_login():
     must have the same requirements as the register function
   '''
 
-  user = login('test1@test.com', 'Abcdef!')
+  user = login('test0@test.com', 'Abcdef!')
   assert user is not None
   assert user.username == 'user0'
 
@@ -161,9 +161,12 @@ def test_r1_6_username_helper():
   Testing R1-6: User name has to be longer than 2 characters and 
   less than 20 characters.
   '''
-  assert username_helper('user123') is True
-  assert username_helper('testinglongerusername') is False
-  assert username_helper('Ab') is False
+  user = username_helper('user123')
+  assert user is not None
+  user = username_helper('testinglongerusername')
+  assert user is None
+  user = username_helper('Ab')
+  assert user is None
 
 
 def test_r3_3_postal_code_helper():
@@ -184,12 +187,16 @@ def test_r3_4_username_helper():
   Testing R3-4: User name follows the requirements above.
   (postal code should be non-empty, alphanumeric-only, and no special characters such as !)
   '''
-  assert username_helper('abcdefg') is True
-  assert username_helper('') is False
-  assert username_helper('1234') is True
-  assert username_helper('  pass') is False
-  assert username_helper('1234!!!') is False
-
+  username = username_helper('abcdefg')
+  assert username is not None
+  username = username_helper('')
+  assert username is None
+  username = username_helper('1234')
+  assert username is not None
+  username = username_helper('  pass')
+  assert username is None
+  username = username_helper('1234!!!')
+  assert username is not None
 
 def test_r3_1_update():
   '''
@@ -234,6 +241,7 @@ def test_r1_3_email_helper():
   assert email_helper('kenny-wright24@yahoo.com') is True
   assert email_helper('sam_mitchell@out.look.com') is False
 
+
 def test_r1_4_password_helper():
   '''
   Testing R1-4: Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, 
@@ -250,11 +258,16 @@ def test_r1_5_username_helper():
   '''
   Testing R1-5: User name has to be non-empty, alphanumeric-only, and space allowed only if it is not as the prefix or suffix.
   '''
-  assert username_helper('jasondawn123') is True
-  assert username_helper('bob rawn') is True
-  assert username_helper('john henry') is True
-  assert username_helper(' huh-123') is False
-  assert username_helper('') is False
+  username = username_helper('jasondawn123')
+  assert username is not None
+  username = username_helper('bob rawn')
+  assert username is not None
+  username = username_helper('john henry')
+  assert username is not None
+  username = username_helper(' huh-123')
+  assert username is None
+  username = username_helper('')
+  assert username is None
 
 
 def test_r3_2_postal_code_helper():

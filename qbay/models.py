@@ -288,7 +288,7 @@ def update(name, email, billing_address, postal_code):
     if (user):
         # if yes, then update old user data in database
         update_helper(name, email, billing_address, postal_code)
-    return False
+    return None
     
 
 def update_helper(name, email, billing_address, postal_code):
@@ -329,6 +329,7 @@ def user_id_helper(user):
     existed = id.query.filter_by(user=user).first()
 
 
+#R1-3
 def email_helper(email):
     '''
     R1-1:
@@ -339,9 +340,10 @@ def email_helper(email):
       Parameters:
         email (string): user email
     '''
-    regex = re.compile("^[a-zA-Z0-9-._]+@[a-zA-Z0-9]+\.[a-z]{1,3}$")
+    
+    regex = re.compile(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{1,3}')
     #the email meets the requirements
-    if (re.match(regex, email)): 
+    if (re.fullmatch(regex, email)): 
         return True
     else:
         return False
@@ -409,19 +411,22 @@ def username_helper(username):
     #check for special characters
     last_ch = len(username)-1
     #username is not empty
-    if (username != ""): 
-        for ch in range(len(username)):
-            #the first character and last character cannot be a space 
-            if (username[0] != "" and username[last_ch] != ""): 
-                #the username is alphanumeric
-                if (username[ch].isalnum()): 
-                    return True
+    if (username != ''): 
+        if len(username) > 2 and len(username) < 20:
+            for ch in range(len(username)):
+                #the first character and last character cannot be a space
+                if (username[0] != '' and username[last_ch] != ''): 
+                    #the username is alphanumeric
+                    if (username[ch].isdigit() or username[ch].isalpha()): 
+                        return username
+                    else:
+                        return None
                 else:
-                    return False
-            else:
-                return False
+                    return None
+        else:
+            return None
     else:
-        return False
+        return None
     
 
 def postal_code_helper(postal_code):
