@@ -86,7 +86,7 @@ def register(owner_id, name, email, password):
     # check if the email has been used:
     existed = User.query.filter_by(email=email).all()
     if len(existed) > 0:
-        return False
+        return None
 
     # create a new user
     user = User(id=owner_id, username=name, email=email, password=password)
@@ -94,7 +94,7 @@ def register(owner_id, name, email, password):
     db.session.add(user)
     db.session.commit()
 
-    return True
+    return user
 
 
 def login(email, password):
