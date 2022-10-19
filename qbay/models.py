@@ -114,41 +114,31 @@ def login(email, password):
             return None
         return valids[0]
 
-def title_desc(id,title,description,last_modified_date, price,owner_id):
+def title_desc(title_used,description):
     '''
     Check the title and description
       Parameters:
-        id (string):     listing id
-        title (string):    listing title
-        description (string): user password
-        last_modified_date:   listing last modified date
-        price:                listing price
-        owner_id:             owner id of the listing
+        title_used (string):    listing title
+        description (string): listing description 
       Returns:
         True if title and description meet the requirements otherwise False
     '''
-    #fix - check to see if all characters are alphanum
-    #this does not check to see if all the characters are alphanumeric - to do this you would need to use regex
-    # and check to see if each character is a-z A-z or 0-9
+    # check if the title has been used:
+    existed = Listing.query.filter_by(title=title_used).first()
+    if (existed):
+        return False
 
-    #check to see if the title exists
-    existed = Listing.query.filter_by(title=title).first()
-
-    #if the title is not an empty sting, check to see if the first and last char are not spaces
-    #make sure the length of the description is more than the title length and is <2000 and >20
-    if not(existed):
-        if (len(title) > 0):
-            if (title[0] != " ") and title[:1].isalnum() and (len(title) <= 80) and  title[-1] != " " and len(description) > 20 and len(description)< 2000 and (len(description) > len(title)) :
-                return True
-
-    # create a new user
-    listing = Listing(id=id, title=title, description=description, last_modified_date=last_modified_date, price=price, owner_id=owner_id)
-    # add it to the current database session
-    db.session.add(listing)
-    # actually save the user object
-    db.session.commit()
-
-    return False
+    if len(title_used) <= 80:
+        if title_used[0] != " " and title_used[-1] != " " and len(description) > 20 and len(description)< 2000 and len(description) > len(title_used):
+            title_regex = title_used.split(" ")
+            for word in title_regex:
+                if not re.match(r'^[a-zA-Z0-9]+$', word):
+                    return False
+        else:
+            return False
+    else:
+        return False
+    return True
     
 def check_price(price):
     '''
@@ -159,7 +149,7 @@ def check_price(price):
         True if the price meets the requirements otherwise False
     '''
     if(10<=price<=10000):
-        return price
+        return True
 
 def check_date(date_modified):
     '''
@@ -170,9 +160,9 @@ def check_date(date_modified):
         True if the date modified meets the requirements otherwise False
     '''
     if ('2021-01-02' <= date_modified <= '2025-01-02'):
-        return date_modified
+        return True
 
-def check_owner(email, owner_id):
+def check_owner(user_email):
     '''
     Check the title and description
       Parameters:
@@ -183,15 +173,13 @@ def check_owner(email, owner_id):
     '''
     
     #check the database to find the user's email
-    user = User.query.filter_by(email=owner_id).first()
-   # listing_email = user.email
+    user = User.query.filter_by(email=user_email).first()
     #the owner does exist in the db
-    if user:
-        #the email is not empty
-        if email != '':
-            return True
-    else:
+    if user is None:
         return False
+    if user_email == '':
+        return False
+    return True
 
 def listing(id, title, description, price, owner_id, last_modified_date):
     '''
@@ -212,13 +200,15 @@ def listing(id, title, description, price, owner_id, last_modified_date):
         return False
 
     # create a new listing
-    listing = Listing(id=id, title=title, description=description, 
+    if title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True and check_owner(User.email) == True:
+
+        listing = Listing(id=id, title=title, description=description, 
         price=price, owner_id=owner_id, last_modified_date=last_modified_date)
-    # add it to the current database session
-    db.session.add(listing)
-    # actually save the listing object
-    db.session.commit()
-    return True
+         # add it to the current database session
+        db.session.add(listing)
+        # actually save the listing object
+        db.session.commit()
+        return True
 
 def update_listing(listing_id, title, description, price):
     '''
@@ -387,7 +377,7 @@ def password_helper(password):
         
     #check the validity of the password
     #password is not empty
-    if (password != ""): 
+    if (password != ''): 
         #the password has 6 or more characters
         if (len(password) >= 6):  
             #more than one uppercase, lowercase and special characters
