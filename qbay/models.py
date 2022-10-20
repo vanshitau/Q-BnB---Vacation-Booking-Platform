@@ -87,15 +87,20 @@ def register(owner_id, name, email, password):
     existed = User.query.filter_by(email=email).all()
     if len(existed) > 0:
         return None
+    
+    #check if email is empty
+    if email ==  '' or password == '':
+        return None
+    #if password == "":
+     #   return None
+    else:
+        # create a new user
+        user = User(id=owner_id, username=name, email=email, password=password)
+        # add it to the current database session
+        db.session.add(user)
+        db.session.commit()
 
-    # create a new user
-    user = User(id=owner_id, username=name, email=email, password=password)
-    # add it to the current database session
-    db.session.add(user)
-    db.session.commit()
-
-    return user
-
+        return user
 
 def login(email, password):
     '''
@@ -291,7 +296,7 @@ def update(name, email, billing_address, postal_code):
     return False
     
 
-def update_helper(name, email, billing_address, postal_code):
+def update_helper(id, name, email, billing_address, postal_code):
     '''
     R3-1
     helper function to update his/her user name, user email, billing address, and postal code
@@ -304,7 +309,7 @@ def update_helper(name, email, billing_address, postal_code):
     # accessing user data
     q = db.session.query(User)
     # check if user id is correct
-    q = q.filter(User.id==1) # needed id generator
+    q = q.filter(id=id) # needed id generator
     # updating old user data
     record = q()
     record.name = name

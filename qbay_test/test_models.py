@@ -205,7 +205,7 @@ def test_r3_1_update():
   '''
   user = update('user123', 'test0@test.com', 'john st', 'L5J2V2')
   assert user is not None
-  assert user.username == 'user123'
+  assert user.username is 'user123'
   assert user.email is 'test0@test.com'
   assert user.billing_address is 'john st'
   assert user.postal_code is 'L5J2V2'
@@ -215,8 +215,10 @@ def test_r1_1_register():
   '''
   Testing R1-1: Email cannot be empty. password cannot be empty.
   '''
-  user = register(5, '', 'jill_mitchell@outlook.com', '')
-  assert user is None
+  assert register(1,'jill1_123','jill_mitchell@outlook.com','') is None
+  assert register(3,'jill3_123','','Good#1234') is None
+  user = register(2,'jill2_123','jill_m@outlook.com','Good#1234')
+  assert user is not None
 
 
 def test_r1_2_user_id_helper():
