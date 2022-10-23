@@ -1,3 +1,4 @@
+from genericpath import exists
 from sqlalchemy import PrimaryKeyConstraint
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
@@ -297,7 +298,7 @@ def update_listing(listing_id, title, description, price):
     return True
 
 
-def update(name, email, billing_address, postal_code):
+def update_user(id, username, email, billing_address, postal_code):
     '''
     R3-1
     A user is only able to update his/her user name, user email, billing address, and postal code
@@ -307,40 +308,27 @@ def update(name, email, billing_address, postal_code):
         billing_address (string): user billing_address
         postal_code (string): user postal_code
     '''
-    # checking if user data in database equals current user data in current session
-    user = User.query.filter_by(username=name).all()
-    if (user):
-        # if yes, then update old user data in database
-        update_helper(name, email, billing_address, postal_code)
-    return False
-    
 
-def update_helper(id, name, email, billing_address, postal_code):
-    '''
-    R3-1
-    helper function to update his/her user name, user email, billing address, and postal code
-      Parameters:
-        name (string): user name
-        email (string): user email
-        billing_address (string): user billing_address
-        postal_code (string): user postal_code
-    '''
-    # accessing user data
-    q = db.session.query(User)
-    # check if user id is correct
-    q = q.filter(id=id) # needed id generator
-    # updating old user data
-    record = q()
-    record.name = name
-    record.email = email
-    record.billing_address = billing_address
-    record.postal_code = postal_code
-    # saving updates to database
+    # checking if user data in database equals current user data in current session
+    existed = User.query.filter_by(id=id).first()
+    if existed is not None:
+        # if yes, then update old user data in database
+        user = User(id=id, username=username, email=email, billing_address=billing_address, postal_code=postal_code)
+        # updating old user data
+        user.username = username
+        user.email = email
+        user.billing_address = billing_address
+        user.postal_code = postal_code
+        # saving updates to database
+
+        return True
+
     db.session.commit()
 
-    return True
-                    
+    return False
 
+
+#COMMENT THIS FUNCTION OUT ==========================================================
 def user_id_helper(user):
     '''
     R1-2- A user is uniquely identified by his/her user id
@@ -351,7 +339,7 @@ def user_id_helper(user):
     
     #check if the user id already exists
     existed = id.query.filter_by(user=user).first()
-
+#=====================================================================================
 
 #R1-3
 def email_helper(email):

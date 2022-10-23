@@ -1,6 +1,6 @@
 from datetime import datetime
 from qbay.models import (register, check_price, check_date, title_desc, check_owner, login, update_listing, 
-username_helper, postal_code_helper, update, email_helper, password_helper, user_id_helper, listing)
+username_helper, postal_code_helper, update_user, email_helper, password_helper, user_id_helper, listing)
 
 def test_r1_7_user_register():
   '''
@@ -194,13 +194,20 @@ def test_r3_1_update():
   Testing P3-1: A user is only able to update his/her user name, user email, 
   billing address, and postal code
   '''
-  user = update('user123', 'test0@test.com', 'john st', 'L5J2V2')
-  assert user is not None
-  assert user.username is 'user123'
-  assert user.email is 'test0@test.com'
-  assert user.billing_address is 'john st'
-  assert user.postal_code is 'L5J2V2'
+  assert update_user(1, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5") is True
+  assert update_user(20, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5") is False
 
+# def test_r3_1_update():
+#   '''
+#   Testing P3-1: A user is only able to update his/her user name, user email, 
+#   billing address, and postal code
+#   '''
+#   user = update('user123', 'test0@test.com', 'john st', 'L5J2V2')
+#   assert user is not None
+#   assert user.username is 'user123'
+#   assert user.email is 'test0@test.com'
+#   assert user.billing_address is 'john st'
+#   assert user.postal_code is 'L5J2V2'
 
 def test_r1_1_register():
   '''
