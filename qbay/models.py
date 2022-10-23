@@ -103,6 +103,7 @@ def register(owner_id, name, email, password):
 
         return user
 
+
 def login(email, password):
     '''
     R2-1 and R2-2:
@@ -119,6 +120,7 @@ def login(email, password):
         if len(valids) != 1:
             return None
         return valids[0]
+
 
 def title_desc(title_used,description):
     '''
@@ -146,6 +148,7 @@ def title_desc(title_used,description):
         return False
     return True
     
+
 def check_price(price):
     '''
     Check the title and description
@@ -171,6 +174,7 @@ def check_date(date_modified):
     if (dt.datetime(2021, 1, 2) <= date_modified <= dt.datetime(2025, 1, 2)):
         return True
 
+
 def check_owner(id):
     '''
     Check the title and description
@@ -188,6 +192,7 @@ def check_owner(id):
     if user.email == "":
         return False
     return True
+
 
 def listing(id, title, description, price, owner_id, last_modified_date):
     '''
@@ -218,6 +223,7 @@ def listing(id, title, description, price, owner_id, last_modified_date):
         # actually save the listing object
         db.session.commit()
         return True
+
 
 def update_listing(listing_id, title, description, price):
     '''
@@ -340,6 +346,7 @@ def user_id_helper(user):
     #check if the user id already exists
     existed = id.query.filter_by(user=user).first()
 #=====================================================================================
+
 
 #R1-3
 def email_helper(email):

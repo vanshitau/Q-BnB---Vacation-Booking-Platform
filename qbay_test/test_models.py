@@ -2,6 +2,7 @@ from datetime import datetime
 from qbay.models import (register, check_price, check_date, title_desc, check_owner, login, update_listing, 
 username_helper, postal_code_helper, update_user, email_helper, password_helper, user_id_helper, listing)
 
+
 def test_r1_7_user_register():
   '''
   Testing R1-7: If the email has been used, the operation failed.
@@ -14,6 +15,7 @@ def test_r1_7_user_register():
   assert user.email == 'test1@test.com'
   user = register(3, 'user1', 'test0@test.com', 'Abcdef!')
   assert user is None
+
 
 def test_r1_8_user_register():
   '''
@@ -189,6 +191,7 @@ def test_r3_4_username_helper():
   username = username_helper('1234!!!')
   assert username is not None
 
+
 def test_r3_1_update():
   '''
   Testing P3-1: A user is only able to update his/her user name, user email, 
@@ -197,17 +200,6 @@ def test_r3_1_update():
   assert update_user(1, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5") is True
   assert update_user(20, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5") is False
 
-# def test_r3_1_update():
-#   '''
-#   Testing P3-1: A user is only able to update his/her user name, user email, 
-#   billing address, and postal code
-#   '''
-#   user = update('user123', 'test0@test.com', 'john st', 'L5J2V2')
-#   assert user is not None
-#   assert user.username is 'user123'
-#   assert user.email is 'test0@test.com'
-#   assert user.billing_address is 'john st'
-#   assert user.postal_code is 'L5J2V2'
 
 def test_r1_1_register():
   '''
@@ -224,7 +216,6 @@ def test_r1_2_user_id_helper():
   Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
   a human-friendly explanation). You can use external libraries/imports.
   '''
-
   assert user_id_helper('user0') is True
   assert user_id_helper('user1') is True
   assert user_id_helper('user2') is True
