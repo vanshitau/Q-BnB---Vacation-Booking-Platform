@@ -1,5 +1,6 @@
+from datetime import datetime
 from qbay.models import (register, check_price, check_date, title_desc, check_owner, login, update_listing, 
-username_helper, postal_code_helper, update, email_helper, password_helper, user_id_helper)
+username_helper, postal_code_helper, update, email_helper, password_helper, user_id_helper, listing)
 
 def test_r1_7_user_register():
   '''
@@ -49,20 +50,10 @@ def test_r5_1_4_update_listing():
   Testing R5-4: The updated attributes follow the same requirements as when
     the listing was created
   '''
-  listing = update_listing(1, "My House", None, None)
-  assert listing is not None
-  assert listing.listing_id == 1
-  assert listing.title == "My House"
-  
-  listing = update_listing(1, None, "This is my house", None)
-  assert listing is not None
-  assert listing.listing_id == 1
-  assert listing.description == "This is my house"
-
-  listing = update_listing(1, None, None, 500)
-  assert listing is not None
-  assert listing.listing_id == 1
-  assert listing.price == 500
+  listing(1, "house", "My house is very big you should stay here", 100, 1, datetime(2024,1,5))
+  assert update_listing(1, "My House", None, None) is True
+  assert update_listing(1, None, "This is my house", None) is True
+  assert update_listing(1, None, None, 500) is True
 
 
 def test_r4_1_to_4_title():
@@ -96,13 +87,13 @@ def test_r4_5_price():
 
 def test_r4_6_date():
   '''
-  Testing R4-6: The date of the listing must between 2021-01-02' and '2025-01-02
+  Testing R4-6: The date of the listing must between '2021-01-02' and '2025-01-02'
   '''
   #price should not be none since the price is between 10 and 10000
-  date = check_date('2024-01-05')
+  date = check_date(datetime(2024,1,2))
   assert date is not None
 
-  date = check_date('2019-01-05')
+  date = check_date(datetime(2019,1,2))
   assert date is None
 
 
@@ -281,7 +272,3 @@ def test_r3_2_postal_code_helper():
   assert postal_code_helper('ABC ') is False
   assert postal_code_helper('') is False
   assert postal_code_helper('T_45C3!') is False
-  
-
-
-  

@@ -60,7 +60,7 @@ class Listing(db.Model):
     owner_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.id
+        return '<Listing %r>' % self.id
 
 
 # create all tables
@@ -164,17 +164,19 @@ def check_date(date_modified):
       Returns:
         True if the date modified meets the requirements otherwise False
     '''
-    if ('2021-01-02' <= date_modified <= '2025-01-02'):
+    if isinstance(date_modified, str):
+        date_modified = dt.datetime.strptime(date_modified, '%Y-%m-%d')
+
+    if (dt.datetime(2021, 1, 2) <= date_modified <= dt.datetime(2025, 1, 2)):
         return True
 
 def check_owner(id):
     '''
     Check the title and description
-      Parameters:
-        email:                the owner's email of the listing 
-        owneer_id:            the owner's id of the listing 
+      Parameters: 
+        owner_id:             the owner's id of the listing 
       Returns:
-        True if the email  meets the requirements and the user is in the db otherwise False
+        True if the email meets the requirements and the user is in the db otherwise False
     '''
     
     #check the database to find the user's email
@@ -199,13 +201,14 @@ def listing(id, title, description, price, owner_id, last_modified_date):
       Returns:
         True if listing creation succeeded otherwise False
     '''
+    user = User.query.filter_by(id=owner_id).first()
     # check if the id has been used:
     existed = Listing.query.filter_by(id=id).all()
     if existed:
         return False
 
     # create a new listing
-    if title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True and check_owner(User.email) == True:
+    if title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True and check_owner(user.id) == True:
 
         listing = Listing(id=id, title=title, description=description, 
         price=price, owner_id=owner_id, last_modified_date=last_modified_date)
@@ -231,7 +234,10 @@ def update_listing(listing_id, title, description, price):
     '''
     # use this to get the id of the listing in order to know what 
     # listing is being updated
-    listing = Listing.query.get(listing_id)
+    listing = Listing.query.filter_by(id=listing_id).first()
+    
+    # if len(listing) != 1:
+    #     return False
 
     # if the the title is not being updated, pass
     if title == None:
@@ -239,10 +245,14 @@ def update_listing(listing_id, title, description, price):
     else:
         # check the requirements of the title 
         if (title[:1].isalnum()) and (len(title) <= 80):
-            # update the listing title
-            listing.title = title  
-            # update the last modified date of the listing to the current date
-            Listing.date_modified = dt.date.today()      
+            #check the date and that it is valid
+            new_date_modified = dt.datetime.now()
+            date_valid = check_date(new_date_modified)
+            if date_valid:
+                # update the listing title
+                listing.title = title
+                # update the last modified date of the listing to the current date
+                listing.last_date_modified = new_date_modified
         else:
             return False
 
@@ -253,10 +263,14 @@ def update_listing(listing_id, title, description, price):
         # check the requirements of the description
         if (len(description) > 20 and len(description) < 2000 and
             len(description) > len(title)):
-            # update the description of the listing
-            listing.description = description
-            # update the last modified date of the listing to the current date
-            Listing.date_modified = dt.date.today()
+            #check the date and that it is valid
+            new_date_modified = dt.datetime.now()
+            date_valid = check_date(new_date_modified)
+            if date_valid:
+                # update the listing description
+                listing.description = description
+                # update the last modified date of the listing to the current date
+                listing.last_date_modified = new_date_modified
         else:
             return False
 
@@ -267,15 +281,20 @@ def update_listing(listing_id, title, description, price):
         # check the requirements of the price, and also make sure that 
         # the price is only increased when it is updated
         if 10 <= price <= 10000 and price > listing.price:
-            # update the price of the listing
-            listing.price = price
-            # update the last modified date of the listing to the current date
-            Listing.date_modified = dt.date.today()
+            #check the date and that it is valid
+            new_date_modified = dt.datetime.now()
+            date_valid = check_date(new_date_modified)
+            if date_valid:
+                # update the listing price
+                listing.price = price
+                # update the last modified date of the listing to the current date
+                listing.last_date_modified = new_date_modified
         else:
             return False
 
     # save the updated listing object
     db.session.commit()
+    return True
 
 
 def update(name, email, billing_address, postal_code):
