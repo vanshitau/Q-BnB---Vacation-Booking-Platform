@@ -102,7 +102,7 @@ def register_post():
         error_message = "The passwords do not match"
     else:
         # use backend api to register the user
-        success = register(name, email, password)
+        success = register(3, name, email, password)
         if not success:
             error_message = "Registration failed."
     # if there is any error messages when registering new user
@@ -111,6 +111,33 @@ def register_post():
         return render_template('register.html', message=error_message)
     else:
         return redirect('/login')
+
+@app.route('/update', methods=['GET'])
+def update_get():
+    return render_template('update.html', message='')
+
+
+@app.route('/update', methods=['POST'])
+def update_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    user = login(email, password)
+    if user:
+        session['logged_in'] = user.email
+        """
+        Session is an object that contains sharing information 
+        between a user's browser and the end server. 
+        Typically it is packed and stored in the browser cookies. 
+        They will be past along between every request the browser made 
+        to this services. Here we store the user object into the 
+        session, so we can tell if the client has already login 
+        in the following sessions.
+        """
+        # success! go back to the home page
+        # code 303 is to force a 'GET' request
+        return redirect('/', code=303)
+    else:
+        return render_template('update.html', message='update failed')
 
 
 @app.route('/logout')

@@ -28,7 +28,15 @@ def main():
         elif selection == '2':
             regsiter_page()
         elif selection == '3':
+            user = update_page()
+            if user:
+                print(f'welcome {user.username}')
+                break
+            else:
+                print('update failed')
+        elif selection == '4':
             break
+
 
 
 if __name__ == '__main__':
