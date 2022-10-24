@@ -1,6 +1,6 @@
 from datetime import datetime
 from qbay.models import (register, check_price, check_date, title_desc, check_owner, login, update_listing, 
-username_helper, postal_code_helper, update_user, email_helper, password_helper, user_id_helper, listing)
+username_helper, postal_code_helper, update_user, email_helper, password_helper, listing)
 
 
 def test_r1_7_user_register():
@@ -111,6 +111,7 @@ def test_r4_7_owner():
   user.email = ""
   assert check_owner(user.id) is False
 
+
 def test_r5_2_price_change():
   '''
   Testing R5-2: The price can only ever be increased when it is updated, 
@@ -211,14 +212,21 @@ def test_r1_1_register():
   assert user is not None
 
 
-def test_r1_2_user_id_helper():
+def test_r1_2_user_id():
   '''
-  Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
-  a human-friendly explanation). You can use external libraries/imports.
+  Testing R1-2: A user is uniquely identified by his/her user id - automatically generated.
   '''
-  assert user_id_helper('user0') is True
-  assert user_id_helper('user1') is True
-  assert user_id_helper('user2') is True
+  assert register(1,'jerry100','jerry@outlook.com','Good#1234') is None
+  user = register(12,'jerry100','jerry@outlook.com','Good#1234') is None
+
+# def test_r1_2_user_id_helper():
+#   '''
+#   Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
+#   a human-friendly explanation). You can use external libraries/imports.
+#   '''
+#   assert user_id_helper('user0') is True
+#   assert user_id_helper('user1') is True
+#   assert user_id_helper('user2') is True
   
 
 def test_r1_3_email_helper():

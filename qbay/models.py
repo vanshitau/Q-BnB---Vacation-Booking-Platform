@@ -29,7 +29,7 @@ class User(db.Model):
     R1-10
         Balance should be initialized as 100 at the time of registration. (free $100 dollar signup bonus).
     '''
-    id = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer(), nullable=False, autoincrement=True)
     # added default value for billing_address = ""
     billing_address = db.Column(db.String(150), default="",  nullable=False)
     # added default value of account_bal = 100
@@ -68,7 +68,7 @@ class Listing(db.Model):
 db.create_all()
 
 
-def register(owner_id, name, email, password):
+def register(id, name, email, password):
     '''
     R1-7
         If the email has been used, the operation failed.
@@ -96,7 +96,11 @@ def register(owner_id, name, email, password):
      #   return None
     else:
         # create a new user
-        user = User(id=owner_id, username=name, email=email, password=password)
+        user = User(id=id, username=name, email=email, password=password)
+        
+        #r1_2 
+        # owner_id = id(user)  
+
         # add it to the current database session
         db.session.add(user)
         db.session.commit()
@@ -334,18 +338,18 @@ def update_user(id, username, email, billing_address, postal_code):
     return False
 
 
-#COMMENT THIS FUNCTION OUT ==========================================================
-def user_id_helper(user):
-    '''
-    R1-2- A user is uniquely identified by his/her user id
-    '''
-    #generate a random id for the user
-    for i in range(len(user)):
-        id = random.randint(1,1000)
+# #COMMENT THIS FUNCTION OUT ==========================================================
+# def user_id_helper(user):
+#     '''
+#     R1-2- A user is uniquely identified by his/her user id
+#     '''
+#     #generate a random id for the user
+#     for i in range(len(user)):
+#         id = random.randint(1,1000)
     
-    #check if the user id already exists
-    existed = id.query.filter_by(user=user).first()
-#=====================================================================================
+#     #check if the user id already exists
+#     existed = id.query.filter_by(user=user).first()
+# #=====================================================================================
 
 
 #R1-3
