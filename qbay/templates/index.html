@@ -11,9 +11,12 @@
 <h2>Here are all available products</h2>
 
 <div id="products">
+    <div>
+        <h4><a href='/update-user'>Update User Profile</a></h4>
+    </div>
     {% for product in products %}
     <div>
-        <h4>name: {{ product.name }} price: {{ product.price }} <a href='/update'>update</a></h4>
+        <h4>name: {{ product.name }} price: {{ product.price }} <a href='/'>update</a></h4>
     </div>
     {% endfor %}
 </div>

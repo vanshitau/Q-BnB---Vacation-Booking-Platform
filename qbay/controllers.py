@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, User, register
+from qbay.models import login, User, register, update_user
 
 
 from qbay import app
@@ -102,7 +102,7 @@ def register_post():
         error_message = "The passwords do not match"
     else:
         # use backend api to register the user
-        success = register(3, name, email, password)
+        success = register(3,name, email, password)
         if not success:
             error_message = "Registration failed."
     # if there is any error messages when registering new user
@@ -112,32 +112,31 @@ def register_post():
     else:
         return redirect('/login')
 
-@app.route('/update', methods=['GET'])
+@app.route('/update-user', methods=['GET'])
 def update_get():
-    return render_template('update.html', message='')
+    return render_template('updateUser.html', message='')
 
-
-@app.route('/update', methods=['POST'])
+@app.route('/update-user', methods=['POST'])
 def update_post():
     email = request.form.get('email')
+    name = request.form.get('name')
     password = request.form.get('password')
-    user = login(email, password)
-    if user:
-        session['logged_in'] = user.email
-        """
-        Session is an object that contains sharing information 
-        between a user's browser and the end server. 
-        Typically it is packed and stored in the browser cookies. 
-        They will be past along between every request the browser made 
-        to this services. Here we store the user object into the 
-        session, so we can tell if the client has already login 
-        in the following sessions.
-        """
-        # success! go back to the home page
-        # code 303 is to force a 'GET' request
-        return redirect('/', code=303)
+    password2 = request.form.get('password2')
+    error_message = None
+
+    if password != password2:
+        error_message = "The passwords do not match"
     else:
-        return render_template('update.html', message='update failed')
+        # use backend api to register the user
+        success = register(3,name, email, password)
+        if not success:
+            error_message = "Update failed."
+    # if there is any error messages when registering new user
+    # at the backend, go back to the register page.
+    if error_message:
+        return render_template('updateUser.html', message=error_message)
+    else:
+        return redirect('/')
 
 
 @app.route('/logout')
