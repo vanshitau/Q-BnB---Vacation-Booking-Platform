@@ -1,6 +1,16 @@
 from qbay import *
-from qbay.cli import login_page, regsiter_page
+from qbay.models import *
 
+from qbay.controllers import *
+
+"""
+This file runs the server at a given port
+"""
+
+FLASK_PORT = 8081
+
+if __name__ == "__main__":
+    app.run(debug=True, port=FLASK_PORT)
 
 def main():
     while True:
