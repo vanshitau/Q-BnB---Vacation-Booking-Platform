@@ -218,15 +218,6 @@ def test_r1_2_user_id():
   '''
   assert register(1,'jerry100','jerry@outlook.com','Good#1234') is None
   user = register(12,'jerry100','jerry@outlook.com','Good#1234') is None
-
-# def test_r1_2_user_id_helper():
-#   '''
-#   Testing R1-3:  The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
-#   a human-friendly explanation). You can use external libraries/imports.
-#   '''
-#   assert user_id_helper('user0') is True
-#   assert user_id_helper('user1') is True
-#   assert user_id_helper('user2') is True
   
 
 def test_r1_3_email_helper():

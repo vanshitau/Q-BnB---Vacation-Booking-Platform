@@ -338,20 +338,6 @@ def update_user(id, username, email, billing_address, postal_code):
     return False
 
 
-# #COMMENT THIS FUNCTION OUT ==========================================================
-# def user_id_helper(user):
-#     '''
-#     R1-2- A user is uniquely identified by his/her user id
-#     '''
-#     #generate a random id for the user
-#     for i in range(len(user)):
-#         id = random.randint(1,1000)
-    
-#     #check if the user id already exists
-#     existed = id.query.filter_by(user=user).first()
-# #=====================================================================================
-
-
 #R1-3
 def email_helper(email):
     '''
