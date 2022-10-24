@@ -4,7 +4,7 @@ from qbay import app
 from flask_sqlalchemy import SQLAlchemy
 #from entities import *
 from curses.ascii import isalnum, isalpha
-from xxlimited import new
+#from xxlimited import new
 # import library to work with the current date
 import datetime as dt
 import string
