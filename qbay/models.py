@@ -1,3 +1,4 @@
+from genericpath import exists
 from sqlalchemy import PrimaryKeyConstraint
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
@@ -28,7 +29,7 @@ class User(db.Model):
     R1-10
         Balance should be initialized as 100 at the time of registration. (free $100 dollar signup bonus).
     '''
-    id = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer(), nullable=False, autoincrement=True)
     # added default value for billing_address = ""
     billing_address = db.Column(db.String(150), default="",  nullable=False)
     # added default value of account_bal = 100
@@ -42,7 +43,7 @@ class User(db.Model):
         primary_key=True)
     password = db.Column(
         db.String(120), nullable=False)
-    owner_id = db.Column(db.Integer, nullable=False)
+    # owner_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -60,14 +61,14 @@ class Listing(db.Model):
     owner_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.id
+        return '<Listing %r>' % self.id
 
 
 # create all tables
 db.create_all()
 
 
-def register(owner_id, name, email, password):
+def register(id, name, email, password):
     '''
     R1-7
         If the email has been used, the operation failed.
@@ -86,15 +87,25 @@ def register(owner_id, name, email, password):
     # check if the email has been used:
     existed = User.query.filter_by(email=email).all()
     if len(existed) > 0:
-        return False
+        return None
+    
+    #check if email is empty
+    if email ==  '' or password == '':
+        return None
+    #if password == "":
+     #   return None
+    else:
+        # create a new user
+        user = User(id=id, username=name, email=email, password=password)
+        
+        #r1_2 
+        # owner_id = id(user)  
 
-    # create a new user
-    user = User(owner_id=owner_id, username=name, email=email, password=password)
-    # add it to the current database session
-    db.session.add(user)
-    db.session.commit()
+        # add it to the current database session
+        db.session.add(user)
+        db.session.commit()
 
-    return True
+        return user
 
 
 def login(email, password):
@@ -114,42 +125,34 @@ def login(email, password):
             return None
         return valids[0]
 
-def title_desc(id,title,description,last_modified_date, price,owner_id):
+
+def title_desc(title_used,description):
     '''
     Check the title and description
       Parameters:
-        id (string):     listing id
-        title (string):    listing title
-        description (string): user password
-        last_modified_date:   listing last modified date
-        price:                listing price
-        owner_id:             owner id of the listing
+        title_used (string):    listing title
+        description (string): listing description 
       Returns:
         True if title and description meet the requirements otherwise False
     '''
-    #fix - check to see if all characters are alphanum
-    #this does not check to see if all the characters are alphanumeric - to do this you would need to use regex
-    # and check to see if each character is a-z A-z or 0-9
+    # check if the title has been used:
+    existed = Listing.query.filter_by(title=title_used).first()
+    if (existed):
+        return False
 
-    #check to see if the title exists
-    existed = Listing.query.filter_by(title=title).first()
-
-    #if the title is not an empty sting, check to see if the first and last char are not spaces
-    #make sure the length of the description is more than the title length and is <2000 and >20
-    if not(existed):
-        if (len(title) > 0):
-            if (title[0] != " ") and title[:1].isalnum() and (len(title) <= 80) and  title[-1] != " " and len(description) > 20 and len(description)< 2000 and (len(description) > len(title)) :
-                return True
-
-    # create a new user
-    listing = Listing(id=id, title=title, description=description, last_modified_date=last_modified_date, price=price, owner_id=owner_id)
-    # add it to the current database session
-    db.session.add(listing)
-    # actually save the user object
-    db.session.commit()
-
-    return False
+    if len(title_used) <= 80:
+        if title_used[0] != " " and title_used[-1] != " " and len(description) > 20 and len(description)< 2000 and len(description) > len(title_used):
+            title_regex = title_used.split(" ")
+            for word in title_regex:
+                if not re.match(r'^[a-zA-Z0-9]+$', word):
+                    return False
+        else:
+            return False
+    else:
+        return False
+    return True
     
+
 def check_price(price):
     '''
     Check the title and description
@@ -159,7 +162,7 @@ def check_price(price):
         True if the price meets the requirements otherwise False
     '''
     if(10<=price<=10000):
-        return price
+        return True
 
 def check_date(date_modified):
     '''
@@ -169,29 +172,31 @@ def check_date(date_modified):
       Returns:
         True if the date modified meets the requirements otherwise False
     '''
-    if ('2021-01-02' <= date_modified <= '2025-01-02'):
-        return date_modified
+    if isinstance(date_modified, str):
+        date_modified = dt.datetime.strptime(date_modified, '%Y-%m-%d')
 
-def check_owner(email, owner_id):
+    if (dt.datetime(2021, 1, 2) <= date_modified <= dt.datetime(2025, 1, 2)):
+        return True
+
+
+def check_owner(id):
     '''
     Check the title and description
-      Parameters:
-        email:                the owner's email of the listing 
-        owneer_id:            the owner's id of the listing 
+      Parameters: 
+        owner_id:             the owner's id of the listing 
       Returns:
-        True if the email  meets the requirements and the user is in the db otherwise False
+        True if the email meets the requirements and the user is in the db otherwise False
     '''
     
     #check the database to find the user's email
-    user = User.query.filter_by(email=owner_id).first()
-   # listing_email = user.email
+    user = User.query.filter_by(id=id).first()
     #the owner does exist in the db
-    if user:
-        #the email is not empty
-        if email != '':
-            return True
-    else:
+    if user is None:
         return False
+    if user.email == "":
+        return False
+    return True
+
 
 def listing(id, title, description, price, owner_id, last_modified_date):
     '''
@@ -206,19 +211,23 @@ def listing(id, title, description, price, owner_id, last_modified_date):
       Returns:
         True if listing creation succeeded otherwise False
     '''
+    user = User.query.filter_by(id=owner_id).first()
     # check if the id has been used:
     existed = Listing.query.filter_by(id=id).all()
     if existed:
         return False
 
     # create a new listing
-    listing = Listing(id=id, title=title, description=description, 
+    if title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True and check_owner(user.id) == True:
+
+        listing = Listing(id=id, title=title, description=description, 
         price=price, owner_id=owner_id, last_modified_date=last_modified_date)
-    # add it to the current database session
-    db.session.add(listing)
-    # actually save the listing object
-    db.session.commit()
-    return True
+         # add it to the current database session
+        db.session.add(listing)
+        # actually save the listing object
+        db.session.commit()
+        return True
+
 
 def update_listing(listing_id, title, description, price):
     '''
@@ -236,7 +245,10 @@ def update_listing(listing_id, title, description, price):
     '''
     # use this to get the id of the listing in order to know what 
     # listing is being updated
-    listing = Listing.query.get(listing_id)
+    listing = Listing.query.filter_by(id=listing_id).first()
+    
+    # if len(listing) != 1:
+    #     return False
 
     # if the the title is not being updated, pass
     if title == None:
@@ -244,10 +256,14 @@ def update_listing(listing_id, title, description, price):
     else:
         # check the requirements of the title 
         if (title[:1].isalnum()) and (len(title) <= 80):
-            # update the listing title
-            listing.title = title  
-            # update the last modified date of the listing to the current date
-            Listing.date_modified = dt.date.today()      
+            #check the date and that it is valid
+            new_date_modified = dt.datetime.now()
+            date_valid = check_date(new_date_modified)
+            if date_valid:
+                # update the listing title
+                listing.title = title
+                # update the last modified date of the listing to the current date
+                listing.last_date_modified = new_date_modified
         else:
             return False
 
@@ -258,10 +274,14 @@ def update_listing(listing_id, title, description, price):
         # check the requirements of the description
         if (len(description) > 20 and len(description) < 2000 and
             len(description) > len(title)):
-            # update the description of the listing
-            listing.description = description
-            # update the last modified date of the listing to the current date
-            Listing.date_modified = dt.date.today()
+            #check the date and that it is valid
+            new_date_modified = dt.datetime.now()
+            date_valid = check_date(new_date_modified)
+            if date_valid:
+                # update the listing description
+                listing.description = description
+                # update the last modified date of the listing to the current date
+                listing.last_date_modified = new_date_modified
         else:
             return False
 
@@ -272,18 +292,23 @@ def update_listing(listing_id, title, description, price):
         # check the requirements of the price, and also make sure that 
         # the price is only increased when it is updated
         if 10 <= price <= 10000 and price > listing.price:
-            # update the price of the listing
-            listing.price = price
-            # update the last modified date of the listing to the current date
-            Listing.date_modified = dt.date.today()
+            #check the date and that it is valid
+            new_date_modified = dt.datetime.now()
+            date_valid = check_date(new_date_modified)
+            if date_valid:
+                # update the listing price
+                listing.price = price
+                # update the last modified date of the listing to the current date
+                listing.last_date_modified = new_date_modified
         else:
             return False
 
     # save the updated listing object
     db.session.commit()
+    return True
 
 
-def update(name, email, billing_address, postal_code):
+def update_user(id, username, email, billing_address, postal_code):
     '''
     R3-1
     A user is only able to update his/her user name, user email, billing address, and postal code
@@ -293,52 +318,27 @@ def update(name, email, billing_address, postal_code):
         billing_address (string): user billing_address
         postal_code (string): user postal_code
     '''
-    # checking if user data in database equals current user data in current session
-    user = User.query.filter_by(User.username==name).all()
-    if (user):
-        # if yes, then update old user data in database
-        update_helper(name, email, billing_address, postal_code)
-    return False
-    
 
-def update_helper(name, email, billing_address, postal_code):
-    '''
-    R3-1
-    helper function to update his/her user name, user email, billing address, and postal code
-      Parameters:
-        name (string): user name
-        email (string): user email
-        billing_address (string): user billing_address
-        postal_code (string): user postal_code
-    '''
-    # accessing user data
-    q = db.session.query(User)
-    # check if user id is correct
-    q = q.filter(User.id==1) # needed id generator
-    # updating old user data
-    record = q()
-    record.name = name
-    record.email = email
-    record.billing_address = billing_address
-    record.postal_code = postal_code
-    # saving updates to database
+    # checking if user data in database equals current user data in current session
+    existed = User.query.filter_by(id=id).first()
+    if existed is not None:
+        # if yes, then update old user data in database
+        user = User(id=id, username=username, email=email, billing_address=billing_address, postal_code=postal_code)
+        # updating old user data
+        user.username = username
+        user.email = email
+        user.billing_address = billing_address
+        user.postal_code = postal_code
+        # saving updates to database
+
+        return True
+
     db.session.commit()
 
-    return True
-                    
-
-def user_id_helper(user):
-    '''
-    R1-2- A user is uniquely identified by his/her user id
-    '''
-    #generate a random id for the user
-    for i in range(len(user)):
-        id = random.randint(1,1000)
-    
-    #check if the user id already exists
-    existed = id.query.filter_by(user=user).first()
+    return False
 
 
+#R1-3
 def email_helper(email):
     '''
     R1-1:
@@ -349,9 +349,10 @@ def email_helper(email):
       Parameters:
         email (string): user email
     '''
-    regex = re.compile('^[a-zA-Z0-9-._]+@[a-zA-Z0-9]+\.[a-z]{1,3}')
+    
+    regex = re.compile(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{1,3}')
     #the email meets the requirements
-    if (re.match(regex, email)): 
+    if (re.fullmatch(regex, email)): 
         return True
     else:
         return False
@@ -387,7 +388,7 @@ def password_helper(password):
         
     #check the validity of the password
     #password is not empty
-    if (password != ""): 
+    if (password != ''): 
         #the password has 6 or more characters
         if (len(password) >= 6):  
             #more than one uppercase, lowercase and special characters
@@ -419,19 +420,22 @@ def username_helper(username):
     #check for special characters
     last_ch = len(username)-1
     #username is not empty
-    if (username != ""): 
-        for ch in range(len(username)):
-            #the first character and last character cannot be a space 
-            if (username[0] != "" and username[last_ch] != ""): 
-                #the username is alphanumeric
-                if (username[ch].isalnum()): 
-                    return True
+    if (username != ''): 
+        if len(username) > 2 and len(username) < 20:
+            for ch in range(len(username)):
+                #the first character and last character cannot be a space
+                if (username[0] != '' and username[last_ch] != ''): 
+                    #the username is alphanumeric
+                    if (username[ch].isdigit() or username[ch].isalpha()): 
+                        return username
+                    else:
+                        return None
                 else:
-                    return False
-            else:
-                return False
+                    return None
+        else:
+            return None
     else:
-        return False
+        return None
     
 
 def postal_code_helper(postal_code):
