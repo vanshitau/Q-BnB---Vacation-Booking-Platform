@@ -10,6 +10,7 @@ import datetime as dt
 import string
 import re
 import random
+from sqlalchemy import func
 
 
 '''
@@ -88,18 +89,25 @@ def register(id, name, email, password):
     existed = User.query.filter_by(email=email).all()
     if len(existed) > 0:
         return None
+
+    existed = User.query.filter_by(id=id).all()
+    if len(existed) > 0:
+        return None
     
     #check if email is empty
     if email ==  '' or password == '':
         return None
-    #if password == "":
-     #   return None
     else:
-        # create a new user
-        user = User(id=id, username=name, email=email, password=password)
-        
         #r1_2 
-        # owner_id = id(user)  
+        if id is not None:
+            # create a new user
+            user = User(id=id, username=name, email=email, password=password)
+        else:
+            max_id= db.session.query(func.max(User.id)).scalar()
+            if max_id is None:
+                max_id = 0
+            next_id = max_id + 1
+            user = User(id=next_id, username=name, email=email, password=password)
 
         # add it to the current database session
         db.session.add(user)
@@ -198,7 +206,7 @@ def check_owner(id):
     return True
 
 
-def listing(id, title, description, price, owner_id, last_modified_date):
+def listing(listing_id, title, description, price, owner_id, last_modified_date):
     '''
     Create a new listing
       Parameters:
@@ -213,20 +221,24 @@ def listing(id, title, description, price, owner_id, last_modified_date):
     '''
     user = User.query.filter_by(id=owner_id).first()
     # check if the id has been used:
-    existed = Listing.query.filter_by(id=id).all()
+    existed = Listing.query.filter_by(id=listing_id).all()
     if existed:
         return False
+    if (listing_id is not None and title_desc(title, description) == True and 
+    check_price(price) == True and check_date(last_modified_date) == True):
+        # create a new user
+            listing = Listing(id=listing_id, title=title, description=description, price=price, owner_id=owner_id, last_modified_date=last_modified_date)
+    else:
+        max_id= db.session.query(func.max(Listing.id)).scalar()
+        if max_id is None:
+            max_id = 0
+        next_id = max_id + 1
+        listing = Listing(id=next_id, title=title, description=description, price=price, owner_id=owner_id, last_modified_date=last_modified_date)
 
-    # create a new listing
-    if title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True and check_owner(user.id) == True:
-
-        listing = Listing(id=id, title=title, description=description, 
-        price=price, owner_id=owner_id, last_modified_date=last_modified_date)
-         # add it to the current database session
         db.session.add(listing)
         # actually save the listing object
         db.session.commit()
-        return True
+        return listing
 
 
 def update_listing(listing_id, title, description, price):
@@ -246,14 +258,12 @@ def update_listing(listing_id, title, description, price):
     # use this to get the id of the listing in order to know what 
     # listing is being updated
     listing = Listing.query.filter_by(id=listing_id).first()
-    
     # if len(listing) != 1:
     #     return False
 
-    # if the the title is not being updated, pass
-    if title == None:
-        pass
-    else:
+
+
+    if title is not None:
         # check the requirements of the title 
         if (title[:1].isalnum()) and (len(title) <= 80):
             #check the date and that it is valid
@@ -267,13 +277,11 @@ def update_listing(listing_id, title, description, price):
         else:
             return False
 
-    # if the the description is not being updated, pass
-    if description == None:
-        pass
-    else:
+    
+    if description is not None:
         # check the requirements of the description
         if (len(description) > 20 and len(description) < 2000 and
-            len(description) > len(title)):
+            len(description) > len(listing.title)):
             #check the date and that it is valid
             new_date_modified = dt.datetime.now()
             date_valid = check_date(new_date_modified)
@@ -285,10 +293,7 @@ def update_listing(listing_id, title, description, price):
         else:
             return False
 
-    # if the the price is not being updated, pass
-    if price == None:
-        pass
-    else:
+    if price is not None:
         # check the requirements of the price, and also make sure that 
         # the price is only increased when it is updated
         if 10 <= price <= 10000 and price > listing.price:

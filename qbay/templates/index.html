@@ -8,14 +8,15 @@
 <h2 id="welcome-header">Welcome {{ user.name }} !</h2>
 
 
-<h2>Here are all available products</h2>
+<h2>Use these links to get started with your first listing!</h2>
 
 <div id="products">
-    {% for product in products %}
-    <div>
-        <h4>name: {{ product.name }} price: {{ product.price }} <a href=''>update</a></h4>
-    </div>
-    {% endfor %}
+    <h4>
+        <a href='/create_listing'>Create Listing</a>
+    </h4>
+    <h4>
+        <a href='/update_listing'>Update Listing</a>
+    </h4>
 </div>
 
 <a href='/logout'>logout</a>

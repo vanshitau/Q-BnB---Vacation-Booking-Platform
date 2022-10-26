@@ -1,5 +1,6 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, User, register
+from qbay.models import login, User, register, listing, update_listing
+import datetime as dt
 
 
 from qbay import app
@@ -102,7 +103,7 @@ def register_post():
         error_message = "The passwords do not match"
     else:
         # use backend api to register the user
-        success = register(name, email, password)
+        success = register(None, name, email, password)
         if not success:
             error_message = "Registration failed."
     # if there is any error messages when registering new user
@@ -112,6 +113,65 @@ def register_post():
     else:
         return redirect('/login')
 
+@app.route('/create_listing', methods=['GET'])
+def create_listing_get():
+    # templates are stored in the templates folder
+    return render_template('create_listing.html', message='')
+
+
+@app.route('/create_listing', methods=['POST'])
+def create_listing_post():
+    #listing_id = request.form.get('listing_id')
+    title = request.form.get('title')
+    desc = request.form.get('description')
+    price = request.form.get('price')
+    #owner_id = request.form.get('user_id')
+    #date_mod = request.form.get('date_mod')
+    #owner_id = request.form.get('owner_id')
+    error_message = None
+
+    if int(price) < 10:
+        error_message = "The price cannot be less than 10."
+    else:
+        # use backend api to register the user
+        success = listing(100, title, desc, int(price))
+        if not success:
+            error_message = "Listing creation failed."
+    # if there is any error messages when registering new user
+    # at the backend, go back to the register page.
+    if error_message:
+        return render_template('create_listing.html', message=error_message)
+    else:
+        return redirect('/')
+
+@app.route('/update_listing', methods=['GET'])
+def update_listing_get():
+    # templates are stored in the templates folder
+    return render_template('update_listing.html', message='')
+
+
+@app.route('/update_listing', methods=['POST'])
+def update_listing_post():
+    listing_id = request.form.get('listing_id')
+    title = request.form.get('title')
+    desc = request.form.get('description')
+    price = request.form.get('price')
+    #owner_id = request.form.get('owner_id')
+    error_message = None
+
+    if int(price) < 10:
+        error_message = "The price cannot be less than 10."
+    else:
+        # use backend api to register the user
+        success = update_listing(1, title, desc, price)
+        if not success:
+            error_message = "Listing update failed."
+    # if there is any error messages when registering new user
+    # at the backend, go back to the register page.
+    if error_message:
+        return render_template('update_listing.html', message=error_message)
+    else:
+        return redirect('/')
 
 @app.route('/logout')
 def logout():
