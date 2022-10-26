@@ -146,7 +146,7 @@ def create_listing_post():
 
 @app.route('/update_listing', methods=['GET'])
 def update_listing_get():
-    # templates are stored in the templates folder
+    #templates are stored in the templates folder
     return render_template('update_listing.html', message='')
 
 
