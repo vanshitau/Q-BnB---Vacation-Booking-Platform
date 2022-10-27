@@ -44,9 +44,22 @@ def test_r2_1_2_login():
   assert user is None
 
 def test_listing():
-  register(15, 'user1', 'testabcdefg@test.com', 'Abcdef!')
-  listing(None, "house", "My house is very big you should stay here", 100, 15, datetime(2024,1,5)) is True
-  listing(None, "house", "My house is very big you should stay here", 1, 15, datetime(2024,1,5)) is False
+  user = register(None, 'user1', 'testabcdefg@test.com', 'Abcdef!')
+  listing1 = listing(20, "house", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5))
+  assert listing1 is not None
+  print("next lisitng")
+  #same title - should return None
+  listing2 = listing(None, "house", "My house is very big you should stay hereasdfasd", 1000, user.id, datetime(2024,1,5))
+  assert listing2 is None
+  #price is less than 10 - should return None
+  listing3 = listing(None, "my houses", "My house is very big you should stay hereasdfasd", 1, user.id, datetime(2024,1,5))
+  assert listing3 is None
+  #desc shorter than title - should return None
+  listing4 = listing(None, "your housess", "My house", 100, user.id, datetime(2024,1,5))
+  assert listing4 is None
+  #date is out of the range - should return None
+  listing5 = listing(None, "your housess", "My house", 100, user.id, datetime(2026,1,5))
+  assert listing5 is None
 
 def test_r5_1_4_update_listing():
   '''
@@ -60,6 +73,7 @@ def test_r5_1_4_update_listing():
   assert user is not None
   listing1 = listing(None, "houseseseses", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5))
   assert listing1 is not None
+  print("this is my listing", listing1)
   assert update_listing(listing1.id, "My House", None, None) is True
   assert update_listing(listing1.id, "house", "This is my house ThisThisThisThisThis", None) is True
   assert update_listing(listing1.id, None, "This is my house This is my house", None) is True
@@ -71,6 +85,7 @@ def test_r4_1_to_4_title():
   Testing R4-1 and R4-2: A user can create a listing only if the title is alphanumeric and 
   if the title does not begin with a space
   '''
+  
   #this should give true since all requirements are met
   assert title_desc("Condo for rent", "Two bedroom condo for rent in Downtown Toronto") is True
   #this should give false since the title has a leading space
@@ -81,6 +96,8 @@ def test_r4_1_to_4_title():
   assert title_desc("Condo for rent&", "Two bedroom condo for rent in Downtown Toronto") is False
   #this should give false since the description is shorter than the title length
   assert title_desc("Condo for rent", "Two bedroom") is False
+  #this should give false since this title has already been used
+  #assert title_desc("Condo for rent", "Two bedroom condo for rent in Downtown Kingston") is False
 
 def test_r4_5_price():
   '''

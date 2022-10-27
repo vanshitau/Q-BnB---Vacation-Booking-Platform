@@ -1,6 +1,7 @@
 from flask import render_template, request, session, redirect
 from qbay.models import login, User, register, listing, update_listing
 import datetime as dt
+from entities import *
 
 
 from qbay import app
@@ -22,20 +23,27 @@ def authenticate(inner_function):
     def wrapped_inner():
 
         # check did we store the key in the session
+        print("session: ", session)
         if 'logged_in' in session:
             email = session['logged_in']
+            print("logged in: ", email)
             try:
+                print("email", email)
                 user = User.query.filter_by(email=email).one_or_none()
+                print("user ", user)
                 if user:
+                    print("found user: ", user)
                     # if the user exists, call the inner_function
                     # with user as parameter
                     return inner_function(user)
             except Exception:
+                print("except")
                 pass
         else:
             # else, redirect to the login page
+            print("loggin in")
             return redirect('/login')
-
+    print("returnning wrapped inner")
     # return the wrapped version of the inner_function:
     return wrapped_inner
 
@@ -50,7 +58,9 @@ def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
     user = login(email, password)
+
     if user:
+        print("the user was created")
         session['logged_in'] = user.email
         """
         Session is an object that contains sharing information 
@@ -82,7 +92,8 @@ def home(user):
         {'name': 'prodcut 1', 'price': 10},
         {'name': 'prodcut 2', 'price': 20}
     ]
-    return render_template('index.html', user=user, products=products)
+    print("user: ", user)
+    return render_template('index.html', user=user)
 
 
 @app.route('/register', methods=['GET'])
@@ -121,20 +132,21 @@ def create_listing_get():
 
 @app.route('/create_listing', methods=['POST'])
 def create_listing_post():
-    #listing_id = request.form.get('listing_id')
     title = request.form.get('title')
     desc = request.form.get('description')
     price = request.form.get('price')
-    #owner_id = request.form.get('user_id')
-    #date_mod = request.form.get('date_mod')
-    #owner_id = request.form.get('owner_id')
+    owner_id = request.form.get('user_id')
+    date_mod = dt.date.today()
     error_message = None
+    print("date", date_mod)
 
     if int(price) < 10:
         error_message = "The price cannot be less than 10."
     else:
         # use backend api to register the user
-        success = listing(100, title, desc, int(price))
+        print("else triggered")
+        success = listing(None, title, desc, int(price), 1, date_mod)
+        print("title", success.title, "desc", success.description, "price", success.price, "owner id", success.owner_id, "date", success.last_modified_date)
         if not success:
             error_message = "Listing creation failed."
     # if there is any error messages when registering new user
