@@ -118,25 +118,23 @@ def update_get():
 
 @app.route('/update-user', methods=['POST'])
 def update_post():
+    username = request.form.get('username')
     email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
-    password2 = request.form.get('password2')
+    billing_address = request.form.get('billing_address')
+    postal_code = request.form.get('postal_code')
     error_message = None
 
-    if password != password2:
-        error_message = "The passwords do not match"
-    else:
-        # use backend api to register the user
-        success = register(3,name, email, password)
+    user = update_user(1, username, email, billing_address, postal_code)
+    if user:
+        # session['updated_user'] = user.email
+        success = user
         if not success:
             error_message = "Update failed."
-    # if there is any error messages when registering new user
-    # at the backend, go back to the register page.
-    if error_message:
-        return render_template('updateUser.html', message=error_message)
-    else:
-        return redirect('/')
+
+        if error_message:
+            return render_template('updateUser.html', message=error_message)
+        else:
+            return redirect('/')
 
 
 @app.route('/logout')

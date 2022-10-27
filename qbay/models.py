@@ -330,12 +330,11 @@ def update_user(id, username, email, billing_address, postal_code):
         user.billing_address = billing_address
         user.postal_code = postal_code
         # saving updates to database
+        db.session.commit()
 
-        return True
-
-    db.session.commit()
-
-    return False
+        return user
+        
+    return None
 
 
 #R1-3
