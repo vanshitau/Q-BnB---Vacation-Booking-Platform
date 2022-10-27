@@ -75,11 +75,11 @@ def home(user):
     # by using @authenticate, we don't need to re-write
     # the login checking code all the time for other
     # front-end portals
-
+    user = User.username
     # some fake product data
     products = [
-        {'name': 'prodcut 1', 'price': 10},
-        {'name': 'prodcut 2', 'price': 20}
+        {'name': 'product 1', 'price': 10},
+        {'name': 'product 2', 'price': 20}
     ]
     return render_template('index.html', user=user, products=products)
 
@@ -102,7 +102,7 @@ def register_post():
         error_message = "The passwords do not match"
     else:
         # use backend api to register the user
-        success = register(3,name, email, password)
+        success = register(3, name, email, password)
         if not success:
             error_message = "Registration failed."
     # if there is any error messages when registering new user
@@ -112,9 +112,11 @@ def register_post():
     else:
         return redirect('/login')
 
+
 @app.route('/update-user', methods=['GET'])
 def update_get():
     return render_template('updateUser.html', message='')
+
 
 @app.route('/update-user', methods=['POST'])
 def update_post():

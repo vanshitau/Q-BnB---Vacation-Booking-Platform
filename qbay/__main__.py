@@ -12,6 +12,7 @@ FLASK_PORT = 8081
 if __name__ == "__main__":
     app.run(debug=True, port=FLASK_PORT)
 
+
 def main():
     while True:
         selection = input(
@@ -36,7 +37,6 @@ def main():
                 print('update failed')
         elif selection == '4':
             break
-
 
 
 if __name__ == '__main__':
