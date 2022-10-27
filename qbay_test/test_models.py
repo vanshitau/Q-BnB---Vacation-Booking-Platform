@@ -205,8 +205,10 @@ def test_r3_1_update():
     Testing P3-1: A user is only able to update his/her user name, user email, 
     billing address, and postal code
     '''
-    assert update_user(1, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5") is True
-    assert update_user(20, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5") is False
+    update1 = update_user(1, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5")
+    update1 is not None
+    update2 = update_user(20, "sally04", "sally04@gmail.com", "sally st", "F5Y 3B5")
+    update2 is None
 
 
 def test_r1_1_register():

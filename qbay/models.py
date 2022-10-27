@@ -343,7 +343,6 @@ def update_user(id, username, email, billing_address, postal_code):
         db.session.commit()
 
         return user
-        
     return None
 
 

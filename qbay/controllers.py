@@ -75,7 +75,6 @@ def home(user):
     # by using @authenticate, we don't need to re-write
     # the login checking code all the time for other
     # front-end portals
-    user = User.username
     # some fake product data
     products = [
         {'name': 'product 1', 'price': 10},
