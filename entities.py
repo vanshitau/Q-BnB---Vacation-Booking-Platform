@@ -35,7 +35,8 @@ class Reviews:
 class Listing:
     # listing (id, title, description, price, 
     # last_modified_date, owner_id)
-    def __init__(self, id=0, title="", description="", price=0, last_modified_date="", owner_id=0): 
+    def __init__(self, id=0, title="", description="", price=0,
+        last_modified_date="", owner_id=0): 
         self._price = price
         self._title = title
         self._id = id
@@ -139,7 +140,8 @@ class Bookings:
 
 # user entity
 class User:
-    def __init__(self, id=0, username="", email="", password="", account_bal=0, billing_address="", postal=""):
+    def __init__(self, id=0, username="", email="", password="", 
+        account_bal=0, billing_address="", postal=""):
         # initializing components of user entity
         self.id = id
         self.username = username
