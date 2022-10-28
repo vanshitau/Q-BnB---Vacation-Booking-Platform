@@ -67,7 +67,7 @@ def login_post():
         return render_template('login.html', message='login failed')
 
 
-@app.route('/', endpoint='home')
+@app.route('/')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
@@ -122,7 +122,7 @@ def update_get():
 def update_post():
     # getting info from form
     username = request.form.get('username')
-    email = request.form.get('email')
+    email_new = request.form.get('email')
     billing_address = request.form.get('billing_address')
     postal_code = request.form.get('postal_code')
     error_message = None
@@ -130,9 +130,8 @@ def update_post():
     user = User.query.filter_by(email=email).one_or_none()
 
     # calling update function
-    user = update_user(user.id, username, email, billing_address, postal_code)
+    user = update_user(user.id, username, email_new, billing_address, postal_code)
     if user:
-        print("user emial", user.email)
         # session['updated_user'] = user.email
         # are we supposed to use success? If so how?
         success = user
@@ -142,6 +141,7 @@ def update_post():
         if error_message:
             return render_template('updateUser.html', message=error_message)
         else:
+            session['logged_in'] = user.email
             return redirect('/')
 
 
