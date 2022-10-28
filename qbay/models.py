@@ -30,7 +30,7 @@ class User(db.Model):
         Balance should be initialized as 100 at the time of registration. 
         (free $100 dollar signup bonus).
     '''
-    id = db.Column(db.Integer(), nullable=False, autoincrement=True)
+    id = db.Column(db.Integer(), nullable=False, autoincrement=True, primary_key=True)
     # added default value for billing_address = ""
     billing_address = db.Column(db.String(150), default="", nullable=False)
     # added default value of account_bal = 100
@@ -40,8 +40,7 @@ class User(db.Model):
     username = db.Column(
         db.String(80), nullable=False)
     email = db.Column(
-        db.String(120), unique=True, nullable=False, 
-        primary_key=True)
+        db.String(120), unique=True, nullable=False)
     password = db.Column(
         db.String(120), nullable=False)
     # owner_id = db.Column(db.Integer, nullable=False)

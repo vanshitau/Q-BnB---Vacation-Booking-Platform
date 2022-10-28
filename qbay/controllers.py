@@ -30,7 +30,7 @@ def authenticate(inner_function):
                     # with user as parameter
                     return inner_function(user)
             except Exception:
-                pass
+                return redirect('/login')
         else:
             # else, redirect to the login page
             return redirect('/login')
@@ -67,7 +67,7 @@ def login_post():
         return render_template('login.html', message='login failed')
 
 
-@app.route('/')
+@app.route('/', endpoint='home')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
@@ -112,7 +112,8 @@ def register_post():
         return redirect('/login')
 
 
-@app.route('/update-user', methods=['GET'])
+@app.route('/update-user', methods=['GET'], endpoint='update_get')
+
 def update_get():
     return render_template('updateUser.html', message='')
 
@@ -125,10 +126,13 @@ def update_post():
     billing_address = request.form.get('billing_address')
     postal_code = request.form.get('postal_code')
     error_message = None
+    email = session['logged_in']
+    user = User.query.filter_by(email=email).one_or_none()
 
     # calling update function
-    user = update_user(None, username, email, billing_address, postal_code)
+    user = update_user(user.id, username, email, billing_address, postal_code)
     if user:
+        print("user emial", user.email)
         # session['updated_user'] = user.email
         # are we supposed to use success? If so how?
         success = user
