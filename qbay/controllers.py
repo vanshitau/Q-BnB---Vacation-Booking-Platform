@@ -75,7 +75,7 @@ def login_post():
         return render_template('login.html', message='login failed')
 
 
-@app.route('/')
+@app.route('/', endpoint='home')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
@@ -83,11 +83,12 @@ def home(user):
     # by using @authenticate, we don't need to re-write
     # the login checking code all the time for other
     # front-end portals
-
     # some fake product data
-    
-    print("user user: ", user)
-    return render_template('index.html', user=user)
+    listings = [
+        {listing.title: 'product 1', 'price': 10},
+        {'name': 'product 2', 'price': 20}
+    ]
+    return render_template('index.html', user=user, listings=listings)
 
 
 @app.route('/register', methods=['GET'])
