@@ -113,7 +113,6 @@ def register_post():
 
 
 @app.route('/update-user', methods=['GET'], endpoint='update_get')
-
 def update_get():
     return render_template('updateUser.html', message='')
 
