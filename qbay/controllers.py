@@ -119,19 +119,22 @@ def update_get():
 
 @app.route('/update-user', methods=['POST'])
 def update_post():
+    # getting info from form
     username = request.form.get('username')
     email = request.form.get('email')
     billing_address = request.form.get('billing_address')
     postal_code = request.form.get('postal_code')
     error_message = None
 
-    user = update_user(1, username, email, billing_address, postal_code)
+    # calling update function
+    user = update_user(None, username, email, billing_address, postal_code)
     if user:
         # session['updated_user'] = user.email
+        # are we supposed to use success? If so how?
         success = user
         if not success:
             error_message = "Update failed."
-
+        # logic not quite right here
         if error_message:
             return render_template('updateUser.html', message=error_message)
         else:

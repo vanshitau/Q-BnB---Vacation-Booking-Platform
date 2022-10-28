@@ -105,7 +105,8 @@ def test_r4_6_date():
 
 def test_r4_7_owner():
     '''
-    Testing R4-7: This will check to see if the user's email is not empty and make sure the user exists in the db
+    Testing R4-7: This will check to see if the user's email is not 
+    empty and make sure the user exists in the db
     '''
 
     user = login("test0@test.com", "Abcdef!")
@@ -226,9 +227,11 @@ def test_r1_2_user_id():
     Testing R1-2: A user is uniquely identified by his/her user id 
     - automatically generated.
     '''
-    assert register(1, 'jerry100', 'jerry@outlook.com', 'Good#1234') is None
-    user = register(12, 'jerry100', 'jerry@outlook.com', 'Good#1234') is None
-  
+    user1 = register(1, 'jerry100', 'jerry@outlook.com', 'Good#1234') 
+    user1 is None
+    user = register(120, 'jerry100', 'jerry@outlook.com', 'Good#1234') 
+    user is None
+
 
 def test_r1_3_email_helper():
     '''

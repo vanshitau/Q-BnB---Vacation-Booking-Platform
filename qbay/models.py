@@ -163,7 +163,7 @@ def check_price(price):
       Returns:
         True if the price meets the requirements otherwise False
     '''
-    if(10 <= price <= 10000):
+    if (10 <= price <= 10000):
         return True
 
 def check_date(date_modified):
@@ -190,7 +190,6 @@ def check_owner(id):
         True if the email meets the requirements and the user is in 
         the db otherwise False
     '''
-    
     # check the database to find the user's email
     user = User.query.filter_by(id=id).first()
     # the owner does exist in the db
@@ -332,17 +331,16 @@ def update_user(id, username, email, billing_address, postal_code):
     existed = User.query.filter_by(id=id).first()
     if existed is not None:
         # if yes, then update old user data in database
-        user = User(id=id, username=username, email=email, 
-        billing_address=billing_address, postal_code=postal_code)
+        #user = User(id=id, username=username, email=email, billing_address=billing_address, postal_code=postal_code)
         # updating old user data
-        user.username = username
-        user.email = email
-        user.billing_address = billing_address
-        user.postal_code = postal_code
+        existed.username = username
+        existed.email = email
+        existed.billing_address = billing_address
+        existed.postal_code = postal_code
         # saving updates to database
         db.session.commit()
 
-        return user
+        return existed
     return None
 
 
