@@ -85,7 +85,7 @@ def test_r4_1_to_4_title():
   Testing R4-1 and R4-2: A user can create a listing only if the title is alphanumeric and 
   if the title does not begin with a space
   '''
-  
+
   #this should give true since all requirements are met
   assert title_desc("Condo for rent", "Two bedroom condo for rent in Downtown Toronto") is True
   #this should give false since the title has a leading space

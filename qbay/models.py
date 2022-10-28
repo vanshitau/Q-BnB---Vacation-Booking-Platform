@@ -28,7 +28,8 @@ class User(db.Model):
     R1-9
         Postal code is empty at the time of registration.
     R1-10
-        Balance should be initialized as 100 at the time of registration. (free $100 dollar signup bonus).
+        Balance should be initialized as 100 at the time of registration. 
+        (free $100 dollar signup bonus).
     '''
     id = db.Column(db.Integer(), nullable=False, autoincrement=True)
     # added default value for billing_address = ""
@@ -107,7 +108,8 @@ def register(id, name, email, password):
             if max_id is None:
                 max_id = 0
             next_id = max_id + 1
-            user = User(id=next_id, username=name, email=email, password=password)
+            user = User(id=next_id, username=name, email=email, 
+            password=password)
 
         # add it to the current database session
         db.session.add(user)
@@ -150,7 +152,9 @@ def title_desc(title_used,description):
         return False
 
     if len(title_used) <= 80:
-        if title_used[0] != " " and title_used[-1] != " " and len(description) > 20 and len(description) < 2000 and len(description) > len(title_used):
+        if (title_used[0] != " " and title_used[-1] != " " and 
+        len(description) > 20 and len(description) < 2000 and 
+        len(description) > len(title_used)):
             title_regex = title_used.split(" ")
             for word in title_regex:
                 if not re.match(r'^[a-zA-Z0-9]+$', word):
@@ -206,7 +210,8 @@ def check_owner(id):
       Parameters: 
         owner_id:             the owner's id of the listing 
       Returns:
-        True if the email meets the requirements and the user is in the db otherwise False
+        True if the email meets the requirements and the user is in the db 
+        otherwise False
     '''
     
     #check the database to find the user's email
@@ -221,7 +226,8 @@ def check_owner(id):
     return True
 
 
-def listing(listing_id, title, description, price, owner_id, last_modified_date):
+def listing(listing_id, title, description, price, owner_id, 
+last_modified_date):
     '''
     Create a new listing
       Parameters:
@@ -242,36 +248,40 @@ def listing(listing_id, title, description, price, owner_id, last_modified_date)
         print("Sorry, this listing id is already created")
         return None
     if listing_id is not None:
-        print("id has been entered manually")
-        if (title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True):
+        #print("id has been entered manually")
+        if (title_desc(title, description) == True and check_price(price) 
+        == True and check_date(last_modified_date) == True and 
+        check_owner(owner_id) == True):
             # create a new user
-            print("passed req check")
+            #print("passed req check")
             listing = Listing(id=listing_id, title=title, description=description, price=price, owner_id=owner_id, last_modified_date=last_modified_date)
-            print("listing: ", listing)
+            #print("listing: ", listing)
             db.session.add(listing)
             # actually save the listing object
             db.session.commit()
-            print("final listing", listing)
+            #print("final listing", listing)
             return listing
     else:
-        print("randomly generated")
+        #print("randomly generated")
         if (title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True and check_owner(owner_id) == True):
-            print("passed req check")
-            print("listing id", listing_id)
+            #print("passed req check")
+            #print("listing id", listing_id)
             max_id = db.session.query(func.max(Listing.id)).scalar()
-            print("max id: ", max_id)
+            #print("max id: ", max_id)
             if max_id is None:
                 max_id = 0
             next_id = max_id + 1
-            print("next id", next_id)
-            listing = Listing(id=next_id, title=title, description=description, price=price, owner_id=owner_id, last_modified_date=last_modified_date)
-            print("listing id: ", listing.id)
+            #print("next id", next_id)
+            listing = Listing(id=next_id, title=title, description=description
+            , price=price, owner_id=owner_id, last_modified_date=
+            last_modified_date)
+            #print("listing id: ", listing.id)
             db.session.add(listing)
             # actually save the listing object
             db.session.commit()
-            print("final listing", listing)
+            #print("final listing", listing)
             return listing
-    print("your listing is fucked")
+    #print("your listing is fucked")
     return None
 
 
@@ -292,10 +302,6 @@ def update_listing(listing_id, title, description, price):
     # use this to get the id of the listing in order to know what 
     # listing is being updated
     listing = Listing.query.filter_by(id=listing_id).first()
-    # if len(listing) != 1:
-    #     return False
-
-
 
     if title is not None:
         # check the requirements of the title 
@@ -306,7 +312,8 @@ def update_listing(listing_id, title, description, price):
             if date_valid:
                 # update the listing title
                 listing.title = title
-                # update the last modified date of the listing to the current date
+                # update the last modified date of the listing to the current
+                # date
                 listing.last_date_modified = new_date_modified
         else:
             return False
@@ -322,7 +329,8 @@ def update_listing(listing_id, title, description, price):
             if date_valid:
                 # update the listing description
                 listing.description = description
-                # update the last modified date of the listing to the current date
+                # update the last modified date of the listing to the current
+                # date
                 listing.last_date_modified = new_date_modified
         else:
             return False
@@ -337,7 +345,8 @@ def update_listing(listing_id, title, description, price):
             if date_valid:
                 # update the listing price
                 listing.price = price
-                # update the last modified date of the listing to the current date
+                # update the last modified date of the listing to the current
+                # date
                 listing.last_date_modified = new_date_modified
         else:
             return False
@@ -350,7 +359,8 @@ def update_listing(listing_id, title, description, price):
 def update_user(id, username, email, billing_address, postal_code):
     '''
     R3-1
-    A user is only able to update his/her user name, user email, billing address, and postal code
+    A user is only able to update his/her user name, user email, billing 
+    address, and postal code
       Parameters:
         name (string): user name
         email (string): user email
@@ -358,11 +368,13 @@ def update_user(id, username, email, billing_address, postal_code):
         postal_code (string): user postal_code
     '''
 
-    # checking if user data in database equals current user data in current session
+    # checking if user data in database equals current user data in current
+    # session
     existed = User.query.filter_by(id=id).first()
     if existed is not None:
         # if yes, then update old user data in database
-        user = User(id=id, username=username, email=email, billing_address=billing_address, postal_code=postal_code)
+        user = User(id=id, username=username, email=email, 
+        billing_address=billing_address, postal_code=postal_code)
         # updating old user data
         user.username = username
         user.email = email
@@ -383,8 +395,9 @@ def email_helper(email):
     R1-1:
     Email cannot be empty. password cannot be empty.
     R1-3
-    The email has to follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for 
-    a human-friendly explanation). You can use external libraries/imports.
+    The email has to follow addr-spec defined in RFC 5322 (see 
+    https://en.wikipedia.org/wiki/Email_address for a human-friendly 
+    explanation). You can use external libraries/imports.
       Parameters:
         email (string): user email
     '''
@@ -402,7 +415,8 @@ def password_helper(password):
     R1-1:
     Email cannot be empty. password cannot be empty.
     R1-4:
-    Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, 
+    Password has to meet the required complexity: minimum length 6, at least 
+    one upper case, at least one lower case, 
     and at least one special character.
       Parameters:
         password (string): user password
@@ -447,12 +461,15 @@ def username_helper(username):
         User name has to be non-empty, alphanumeric-only, and space allowed 
         only if it is not as the prefix or suffix.
     R1-6: 
-        User name has to be longer than 2 characters and less than 20 characters.
+        User name has to be longer than 2 characters and less than 20 
+        characters.
     R3-1: 
-        A user is only able to update his/her user name, user email, billing address, and postal code.
+        A user is only able to update his/her user name, user email, billing 
+        address, and postal code.
     R3-4: 
         User name follows the requirements above.
-        (postal code should be non-empty, alphanumeric-only, and no special characters such as !)
+        (postal code should be non-empty, alphanumeric-only, and no special 
+        characters such as !)
     Parameters:
         username (string): user username
     '''
@@ -480,7 +497,8 @@ def username_helper(username):
 def postal_code_helper(postal_code):
     '''
     R3-2
-    postal code should be non-empty, alphanumeric-only, and no special characters such as !
+    postal code should be non-empty, alphanumeric-only, and no special 
+    characters such as !
     R3-3
     Postal code has to be a valid Canadian postal code
       Parameters:
@@ -494,7 +512,7 @@ def postal_code_helper(postal_code):
     char_count = 0
     
     for ch in range(len(postal_code)):
-        #count the number of special characters
+        # count the number of special characters
         if postal_code in string.punctuation:
             count_s += 1
 
