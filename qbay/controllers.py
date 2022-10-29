@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, User, register, listing, update_listing, Listing, update_user
+from qbay.models import login, User, register, listing, update_listing, update_user
 import datetime as dt
 
 
@@ -203,7 +203,7 @@ def update_post():
     email = session['logged_in']
     user = User.query.filter_by(email=email).one_or_none()
 
-    # calling update function
+    # calling update functionx
     user = update_user(user.id, username, email_new, billing_address, postal_code)
     if user:
         # session['updated_user'] = user.email
