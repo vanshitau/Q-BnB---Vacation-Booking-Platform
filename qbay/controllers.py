@@ -164,7 +164,7 @@ def update_listing_get():
     return render_template('update_listing.html', message='')
 
 
-@app.route('/update_listing/<string:old ', methods=['POST'])
+@app.route('/update_listing', methods=['POST'])
 def update_listing_post():
     listing_id = request.form.get('listing_id')
     title = request.form.get('title')
