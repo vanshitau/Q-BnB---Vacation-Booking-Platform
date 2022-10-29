@@ -37,8 +37,6 @@ def authenticate(inner_function):
                     return inner_function(user)
             except Exception:
                 return redirect('/login')
-            else:
-                return redirect('/')
         else:
             # else, redirect to the login page
             #print("loggin in")
@@ -160,13 +158,13 @@ def create_listing_post():
 
 @app.route('/update_listing', methods=['GET'])
 def update_listing_get():
-    #templates are stored in the templates folder
+    # templates are stored in the templates folder
     # email = session['logged_in']
     # listing = Listing.query.filter_by(id=listing_id).first()
     return render_template('update_listing.html', message='')
 
 
-@app.route('/update_listing', methods=['POST'])
+@app.route('/update_listing/<string:old ', methods=['POST'])
 def update_listing_post():
     listing_id = request.form.get('listing_id')
     title = request.form.get('title')
