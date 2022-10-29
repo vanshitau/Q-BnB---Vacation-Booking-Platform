@@ -14,13 +14,10 @@
     <input class="form-control" name="description" id="description" required>
     <label for="price">Price</label>
     <input class="form-control" name="price" id="price" required>
-    <!--<label for="owner_id">User ID</label>
-    <input class="form-control" name="owner_id" id="owner_id" required> -->
-    <label name="date_mod" id="date_mod" for="date_mod">Todays date</label>
     <input class="btn btn-primary" type="submit" value="Create Listing">
   <a href='/' class="btn btn-primary" id="btn-submit" >Home</a>
   </div>
 </form>
-<h4 id='message'>{{ user.username }}'s Listing's</h4>
+<h4 id='message'>{{ user.username }}'s Listing</h4>
 
 {% endblock %}

@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, User, register, listing, update_listing
+from qbay.models import login, User, register, listing, update_listing, Listing
 import datetime as dt
 
 
@@ -29,13 +29,16 @@ def authenticate(inner_function):
             try:
                 #print("email", email)
                 user = User.query.filter_by(email=email).one_or_none()
-                #print("user ", user)
+                
                 if user:
+                    print("user ", user)
                     # if the user exists, call the inner_function
                     # with user as parameter
                     return inner_function(user)
             except Exception:
                 return redirect('/login')
+            else:
+                return redirect('/')
         else:
             # else, redirect to the login page
             #print("loggin in")
@@ -75,7 +78,7 @@ def login_post():
         return render_template('login.html', message='login failed')
 
 
-@app.route('/', endpoint='home')
+@app.route('/')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
@@ -84,11 +87,10 @@ def home(user):
     # the login checking code all the time for other
     # front-end portals
     # some fake product data
-    listings = [
-        {listing.title: 'product 1', 'price': 10},
-        {'name': 'product 2', 'price': 20}
-    ]
-    return render_template('index.html', user=user, listings=listings)
+    # listings = [
+    #     {listing.title: 'product 1', 'price': 10},
+    #     {'name': 'product 2', 'price': 20}
+    return render_template('index.html', user=user)
 
 
 @app.route('/register', methods=['GET'])
@@ -132,7 +134,6 @@ def create_listing_post():
     title = request.form.get('title')
     desc = request.form.get('description')
     price = request.form.get('price')
-    owner_id = request.form.get('user_id')
     date_mod = dt.date.today()
     error_message = None
     print("date", date_mod)
@@ -143,12 +144,11 @@ def create_listing_post():
         error_message = "The price cannot be less than 10."
     else:
         # use backend api to register the user
-        print("else triggered")
         success = listing(None, title, desc, int(price), user.id, date_mod)
         print(
-            "listing id", success.id, "title", success.title, "desc",
-            success.description, "price", success.price, "owner id", 
-            success.owner_id, "date", success.last_modified_date)
+            "listing id:", success.id, ", title:", success.title, ", desc:",
+            success.description, ", price:", success.price, ", owner id:", 
+            success.owner_id, ", date:", success.last_modified_date)
         if not success:
             error_message = "Listing creation failed."
     # if there is any error messages when registering new user
@@ -161,6 +161,8 @@ def create_listing_post():
 @app.route('/update_listing', methods=['GET'])
 def update_listing_get():
     #templates are stored in the templates folder
+    # email = session['logged_in']
+    # listing = Listing.query.filter_by(id=listing_id).first()
     return render_template('update_listing.html', message='')
 
 
@@ -168,16 +170,15 @@ def update_listing_get():
 def update_listing_post():
     listing_id = request.form.get('listing_id')
     title = request.form.get('title')
-    desc = request.form.get('description')
+    description = request.form.get('description')
     price = request.form.get('price')
-    #owner_id = request.form.get('owner_id')
     error_message = None
 
     if int(price) < 10:
         error_message = "The price cannot be less than 10."
     else:
         # use backend api to register the user
-        success = update_listing(1, title, desc, price)
+        success = update_listing(1, title, description, price)
         if not success:
             error_message = "Listing update failed."
     # if there is any error messages when registering new user

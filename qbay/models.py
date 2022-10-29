@@ -166,7 +166,6 @@ def title_desc(title_used,description):
     else:
         print("title too long")
         return False
-    print("title and description are ok")
     return True
     
 
@@ -179,7 +178,6 @@ def check_price(price):
         True if the price meets the requirements otherwise False
     '''
     if(10<=price<=10000):
-        print("price is ok")
         return True
     else:
         print("price lower than 10 or hier than 10000")
@@ -194,10 +192,10 @@ def check_date(date_modified):
         True if the date modified meets the requirements otherwise False
     '''
     if isinstance(date_modified, str):
-        date_modified = dt.datetime.strptime(date_modified, '%Y-%m-%d')
-
+        date_modified = dt.date.strptime(date_modified, '%Y-%m-%d')
+    print("1: ", date_modified)
     if (dt.date(2021, 1, 2) <= date_modified <= dt.date(2025, 1, 2)):
-        print("date is ok")
+        print(date_modified)
         return True
     else:
         print("date is outside range")
@@ -222,7 +220,6 @@ def check_owner(id):
         return False
     if user.email == "":
         return False
-    print("owner id is ok")
     return True
 
 
@@ -307,7 +304,7 @@ def update_listing(listing_id, title, description, price):
         # check the requirements of the title 
         if (title[:1].isalnum()) and (len(title) <= 80):
             #check the date and that it is valid
-            new_date_modified = dt.datetime.now()
+            new_date_modified = dt.date.now()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing title
