@@ -2,9 +2,9 @@ from genericpath import exists
 from sqlalchemy import PrimaryKeyConstraint
 from qbay import app
 from flask_sqlalchemy import SQLAlchemy
-#from entities import *
+# from entities import *
 from curses.ascii import isalnum, isalpha
-from xxlimited import new
+#  from xxlimited import new
 # import library to work with the current date
 import datetime as dt
 import string
@@ -31,9 +31,9 @@ class User(db.Model):
         Balance should be initialized as 100 at the time of registration. 
         (free $100 dollar signup bonus).
     '''
-    id = db.Column(db.Integer(), nullable=False, autoincrement=True)
+    id = db.Column(db.Integer(), nullable=False, autoincrement=True, primary_key=True)
     # added default value for billing_address = ""
-    billing_address = db.Column(db.String(150), default="",  nullable=False)
+    billing_address = db.Column(db.String(150), default="", nullable=False)
     # added default value of account_bal = 100
     account_bal = db.Column(db.Integer, default=100, nullable=False)
     # added default value of postal_code = ""
@@ -41,8 +41,7 @@ class User(db.Model):
     username = db.Column(
         db.String(80), nullable=False)
     email = db.Column(
-        db.String(120), unique=True, nullable=False, 
-        primary_key=True)
+        db.String(120), unique=True, nullable=False)
     password = db.Column(
         db.String(120), nullable=False)
     # owner_id = db.Column(db.Integer, nullable=False)
@@ -95,8 +94,8 @@ def register(id, name, email, password):
     if len(existed) > 0:
         return None
     
-    #check if email is empty
-    if email ==  '' or password == '':
+    # check if email is empty
+    if email == '' or password == '':
         return None
     else:
         #r1_2 
@@ -136,7 +135,7 @@ def login(email, password):
         return valids[0]
 
 
-def title_desc(title_used,description):
+def title_desc(title_used, description):
     '''
     Check the title and description
       Parameters:
@@ -177,7 +176,7 @@ def check_price(price):
       Returns:
         True if the price meets the requirements otherwise False
     '''
-    if(10<=price<=10000):
+    if (10 <= price <= 10000):
         return True
     else:
         print("price lower than 10 or hier than 10000")
@@ -208,13 +207,12 @@ def check_owner(id):
       Parameters: 
         owner_id:             the owner's id of the listing 
       Returns:
-        True if the email meets the requirements and the user is in the db 
-        otherwise False
+        True if the email meets the requirements and the user is in 
+        the db otherwise False
     '''
-    
-    #check the database to find the user's email
+    # check the database to find the user's email
     user = User.query.filter_by(id=id).first()
-    #the owner does exist in the db
+    # the owner does exist in the db
     if user is None:
         print("user is none")
         return False
@@ -309,8 +307,8 @@ def update_listing(listing_id, title, description, price):
             if date_valid:
                 # update the listing title
                 listing.title = title
-                # update the last modified date of the listing to the current
-                # date
+                # update the last modified date of the listing 
+                # to the current date
                 listing.last_date_modified = new_date_modified
         else:
             return False
@@ -326,8 +324,8 @@ def update_listing(listing_id, title, description, price):
             if date_valid:
                 # update the listing description
                 listing.description = description
-                # update the last modified date of the listing to the current
-                # date
+                # update the last modified date of the listing 
+                # to the current date
                 listing.last_date_modified = new_date_modified
         else:
             return False
@@ -342,8 +340,8 @@ def update_listing(listing_id, title, description, price):
             if date_valid:
                 # update the listing price
                 listing.price = price
-                # update the last modified date of the listing to the current
-                # date
+                # update the last modified date of the listing to 
+                # the current date
                 listing.last_date_modified = new_date_modified
         else:
             return False
@@ -356,8 +354,8 @@ def update_listing(listing_id, title, description, price):
 def update_user(id, username, email, billing_address, postal_code):
     '''
     R3-1
-    A user is only able to update his/her user name, user email, billing 
-    address, and postal code
+    A user is only able to update his/her user name, user email,
+    billing address, and postal code
       Parameters:
         name (string): user name
         email (string): user email
@@ -373,20 +371,18 @@ def update_user(id, username, email, billing_address, postal_code):
         user = User(id=id, username=username, email=email, 
         billing_address=billing_address, postal_code=postal_code)
         # updating old user data
-        user.username = username
-        user.email = email
-        user.billing_address = billing_address
-        user.postal_code = postal_code
+        existed.username = username
+        existed.email = email
+        existed.billing_address = billing_address
+        existed.postal_code = postal_code
         # saving updates to database
+        db.session.commit()
 
-        return True
-
-    db.session.commit()
-
-    return False
+        return existed
+    return None
 
 
-#R1-3
+# R1-3
 def email_helper(email):
     '''
     R1-1:
@@ -400,7 +396,7 @@ def email_helper(email):
     '''
     
     regex = re.compile(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{1,3}')
-    #the email meets the requirements
+    # the email meets the requirements
     if (re.fullmatch(regex, email)): 
         return True
     else:
@@ -418,31 +414,31 @@ def password_helper(password):
       Parameters:
         password (string): user password
     '''
-    #lower case
+    # lower case
     count_l = 0 
-    #upper case
+    # upper case
     count_u = 0 
-    #special character
+    # special character
     count_s = 0 
         
     for ch in password:
-        #uppercase characters
+        # uppercase characters
         if (ch.isupper()): 
-            count_u+=1
-        #lowecase characters
+            count_u += 1
+        # lowecase characters
         if (ch.islower()): 
-            count_l+=1
-        #special character
+            count_l += 1
+        # special character
         if ch in string.punctuation: 
-            count_s+=1
+            count_s += 1
         
-    #check the validity of the password
-    #password is not empty
+    # check the validity of the password
+    # password is not empty 
     if (password != ''): 
-        #the password has 6 or more characters
+        # the password has 6 or more characters
         if (len(password) >= 6):  
-            #more than one uppercase, lowercase and special characters
-            if (count_u >=1 and count_l >=1 and count_s >= 1):  
+            # more than one uppercase, lowercase and special characters
+            if (count_u >= 1 and count_l >= 1 and count_s >= 1):  
                 return True
             else:
                 return False
@@ -455,8 +451,8 @@ def password_helper(password):
 def username_helper(username):
     '''
     R1-5:
-        User name has to be non-empty, alphanumeric-only, and space allowed 
-        only if it is not as the prefix or suffix.
+        User name has to be non-empty, alphanumeric-only, and 
+        space allowed only if it is not as the prefix or suffix.
     R1-6: 
         User name has to be longer than 2 characters and less than 20 
         characters.
@@ -470,15 +466,15 @@ def username_helper(username):
     Parameters:
         username (string): user username
     '''
-    #check for special characters
-    last_ch = len(username)-1
-    #username is not empty
+    # check for special characters
+    last_ch = len(username) - 1
+    # username is not empty
     if (username != ''): 
         if len(username) > 2 and len(username) < 20:
             for ch in range(len(username)):
-                #the first character and last character cannot be a space
+                # the first character and last character cannot be a space
                 if (username[0] != '' and username[last_ch] != ''): 
-                    #the username is alphanumeric
+                    # the username is alphanumeric
                     if (username[ch].isdigit() or username[ch].isalpha()): 
                         return username
                     else:
@@ -501,11 +497,11 @@ def postal_code_helper(postal_code):
       Parameters:
         postal_code (string): user postal_code
     '''
-    #special character
+    # special character
     count_s = 0
-    #digits
+    # digits
     num_count = 0
-    #alphabets
+    # alphabets
     char_count = 0
     
     for ch in range(len(postal_code)):

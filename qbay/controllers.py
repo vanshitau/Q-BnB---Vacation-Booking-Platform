@@ -187,6 +187,38 @@ def update_listing_post():
         return redirect('/')
 
 
+@app.route('/update-user', methods=['GET'], endpoint='update_get')
+def update_get():
+    return render_template('updateUser.html', message='')
+
+
+@app.route('/update-user', methods=['POST'])
+def update_post():
+    # getting info from form
+    username = request.form.get('username')
+    email_new = request.form.get('email')
+    billing_address = request.form.get('billing_address')
+    postal_code = request.form.get('postal_code')
+    error_message = None
+    email = session['logged_in']
+    user = User.query.filter_by(email=email).one_or_none()
+
+    # calling update function
+    user = update_user(user.id, username, email_new, billing_address, postal_code)
+    if user:
+        # session['updated_user'] = user.email
+        # are we supposed to use success? If so how?
+        success = user
+        if not success:
+            error_message = "Update failed."
+        # logic not quite right here
+        if error_message:
+            return render_template('updateUser.html', message=error_message)
+        else:
+            session['logged_in'] = user.email
+            return redirect('/')
+
+
 @app.route('/logout')
 def logout():
     if 'logged_in' in session:

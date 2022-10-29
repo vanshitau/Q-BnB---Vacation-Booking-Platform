@@ -1,10 +1,10 @@
 # reviews entity
 class Reviews:
     # initializing components of reviews entity
-    def __init__(self, name = "", rating = 0, comment = ""):
-         self.rating = rating
-         self.comment = comment
-         self.name = name
+    def __init__(self, name="", rating=0, comment=""):
+        self.rating = rating
+        self.comment = comment
+        self.name = name
 
     # getter method for name
     def get_name(self):
@@ -30,82 +30,81 @@ class Reviews:
     def set_comments(self, x):
         self.comment = x
 
-#listings entity
+
+# listings entity
 class Listing:
-    #listing (id, title, description, price, last_modified_date, owner_id)
-    def __init__(self, id = 0, title = "", description = "", price = 0, last_modified_date = "", owner_id = 0): 
-         self._price = price
-         self._title = title
-         self._id = id
-         self._description = description
-         self._last_modified_date = last_modified_date
-         self._owner_id = owner_id
+    # listing (id, title, description, price, 
+    # last_modified_date, owner_id)
+    def __init__(self, id=0, title="", description="", price=0,
+        last_modified_date="", owner_id=0): 
+        self._price = price
+        self._title = title
+        self._id = id
+        self._description = description
+        self._last_modified_date = last_modified_date
+        self._owner_id = owner_id
 
-      
     # getter methods
-
-    #getter method for the price
+    # getter method for the price
     def get_price(self):
         return self._price
     
-    #getter method for the title
+    # getter method for the title
     def get_title(self):
         return self._title
 
-    #getter method for the id
+    # getter method for the id
     def get_id(self):
         return self._id
 
-    #getter method for the last modified date
+    # getter method for the last modified date
     def get_modified_date(self):
         return self._last_modified_date
         
-    #getter method for the description
+    # getter method for the description
     def get_description(self):
         return self._description
     
-    #getter method for the owner's id
+    # getter method for the owner's id
     def get_owner_id(self):
         return self._owner_id
       
-    #setter methods
+    # setter methods
 
-    #setter method for the price
-    def set_price(self,price):
+    # setter method for the price
+    def set_price(self, price):
         self._price = price
 
-    #setter method for the description      
-    def set_description(self,description):
+    # setter method for the description      
+    def set_description(self, description):
         self._description = description
 
-     #setter method for the id      
-    def set_id(self,id):
+    # setter method for the id      
+    def set_id(self, id):
         self._id = id
     
-    #setter method for the owner id      
-    def set_owner_id(self,owner_id):
+    # setter method for the owner id      
+    def set_owner_id(self, owner_id):
         self._owner_id = owner_id
     
-    #setter method for the title      
-    def set_title(self,title):
+    # setter method for the title      
+    def set_title(self, title):
         self._title = title
 
-    #setter method for the last modified date     
-    def set_modified_date(self,mod_date):
+    # setter method for the last modified date     
+    def set_modified_date(self, mod_date):
         self._last_modified_date = mod_date
 
 
-
-        
 # bookings entity
 class Bookings:
     # initializing components of reviews entity
-    def __init__(self, verification = "", date = "", duration = "", is_paid = ""):
-         self.verification = verification
-         self.date = date
-         self.duration = duration
-         self.is_paid = is_paid
-      
+    def __init__(self, verification="", date="", duration="", is_paid=""):
+        self.verification = verification
+        self.date = date
+        self.duration = duration
+        self.is_paid = is_paid
+        
     # getter method for verification
     def get_verfication(self):
         return self.verification
@@ -122,7 +121,7 @@ class Bookings:
     def set_date(self, date):
         self.date = date
 
-     # getter method for duration
+    # getter method for duration
     def get_duration(self):
         return self.duration
 
@@ -138,10 +137,12 @@ class Bookings:
     def set_is_paid(self, paid):
         self.is_paid = paid
 
+
 # user entity
 class User:
-    # initializing components of user entity
-    def __init__(self, id = 0, username = "", email = "", password = "", account_bal = 0, billing_address = "", postal = ""):
+    def __init__(self, id=0, username="", email="", password="", 
+        account_bal=0, billing_address="", postal=""):
+        # initializing components of user entity
         self.id = id
         self.username = username
         self.email = email

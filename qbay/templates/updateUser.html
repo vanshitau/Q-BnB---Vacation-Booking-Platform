@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Update Profile{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input class="form-control" type="username" name="username" id="username">
+    <label for="email">Email</label>
+    <input class="form-control" type="email" name="email" id="email">
+    <label for="billing_address">Billing Address</label>
+    <input class="form-control" name="billing_address" id="billing_address">
+    <label for="postal_code">Postal Code</label>
+    <input class="form-control" type="postal_code" name="postal_code" id="postal_code">
+    <input class="btn btn-primary" type="submit" value="Update">
+  <a href='/' class="btn btn-primary" id="btn-submit">Home</a>
+  </div>
+</form>
+<h4 id='message'>{{message}}</h4>
+{% endblock %}

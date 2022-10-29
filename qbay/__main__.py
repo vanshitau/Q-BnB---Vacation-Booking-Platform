@@ -12,6 +12,7 @@ FLASK_PORT = 8081
 if __name__ == "__main__":
     app.run(debug=True, port=FLASK_PORT)
 
+
 def main():
     while True:
         selection = input(
@@ -28,6 +29,13 @@ def main():
         elif selection == '2':
             regsiter_page()
         elif selection == '3':
+            user = update_page()
+            if user:
+                print(f'welcome {user.username}')
+                break
+            else:
+                print('update failed')
+        elif selection == '4':
             break
 
 
