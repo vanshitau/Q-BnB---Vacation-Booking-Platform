@@ -187,12 +187,12 @@ def update_listing_post():
         return redirect('/')
 
 
-@app.route('/update-user', methods=['GET'], endpoint='update_get')
+@app.route('/updateUser', methods=['GET'], endpoint='update_get')
 def update_get():
     return render_template('updateUser.html', message='')
 
 
-@app.route('/update-user', methods=['POST'])
+@app.route('/updateUser', methods=['POST'])
 def update_post():
     # getting info from form
     username = request.form.get('username')
