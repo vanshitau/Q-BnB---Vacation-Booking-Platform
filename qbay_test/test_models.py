@@ -19,12 +19,12 @@ def test_r1_7_user_register():
 
 
 def test_r1_8_user_register():
-    '''
-    Testing R1-8: Shipping address is empty at the time of registration.
-    '''
-    user = register(1, 'user1', 'test@test.com', 'Abcdef!')
-    assert user is not None
-    assert user.billing_address == ''
+  '''
+  Testing R1-8: Shipping address is empty at the time of registration.
+  '''
+  user = register(None, 'user1', 'test@test.com', 'Abcdef!')
+  assert user is not None
+  assert user.billing_address == ''
 
 
 def test_r2_1_2_login():
@@ -44,6 +44,23 @@ def test_r2_1_2_login():
     user = login('test0@test.com', 'abcdef!')
     assert user is None
 
+def test_listing():
+  user = register(None, 'user1', 'testabcdefg@test.com', 'Abcdef!')
+  listing1 = listing(20, "house", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5))
+  assert listing1 is not None
+  print("next lisitng")
+  #same title - should return None
+  listing2 = listing(None, "house", "My house is very big you should stay hereasdfasd", 1000, user.id, datetime(2024,1,5))
+  assert listing2 is None
+  #price is less than 10 - should return None
+  listing3 = listing(None, "my houses", "My house is very big you should stay hereasdfasd", 1, user.id, datetime(2024,1,5))
+  assert listing3 is None
+  #desc shorter than title - should return None
+  listing4 = listing(None, "your housess", "My house", 100, user.id, datetime(2024,1,5))
+  assert listing4 is None
+  #date is out of the range - should return None
+  listing5 = listing(None, "your housess", "My house", 100, user.id, datetime(2026,1,5))
+  assert listing5 is None
 
 def test_r5_1_4_update_listing():
     '''
@@ -213,25 +230,25 @@ def test_r3_1_update():
 
 
 def test_r1_1_register():
-    '''
-    Testing R1-1: Email cannot be empty. password cannot be empty.
-    '''
-    assert register(1, 'jill1_123', 'jill_mitchell@outlook.com', '') is None
-    assert register(3, 'jill3_123', '', 'Good#1234') is None
-    user = register(2, 'jill2_123', 'jill_m@outlook.com', 'Good#1234')
-    assert user is not None
+  '''
+  Testing R1-1: Email cannot be empty. password cannot be empty.
+  '''
+  assert register(None,'jill1_123','jill_mitchell@outlook.com','') is None
+  assert register(None,'jill3_123','','Good#1234') is None
+  user = register(None,'jill2_123','jill_m@outlook.com','Good#1234')
+  assert user is not None
 
 
 def test_r1_2_user_id():
-    '''
-    Testing R1-2: A user is uniquely identified by his/her user id 
-    - automatically generated.
-    '''
-    user1 = register(1, 'jerry100', 'jerry@outlook.com', 'Good#1234') 
-    user1 is None
-    user = register(120, 'jerry100', 'jerry@outlook.com', 'Good#1234') 
-    user is None
-
+  '''
+  Testing R1-2: A user is uniquely identified by his/her user id - automatically generated.
+  '''
+  user1 = register(None, 'jerry100', 'jerry3@outlook.com', 'Good#1234')
+  user2 = register(None, 'jerry100', 'jerry4@outlook.com', 'Good#1234')
+  user3 = register(0, 'jerry100', 'jerry5@outlook.com', 'Good#1234')
+  assert user3 is not None
+  assert user1.id == user2.id - 1
+  
 
 def test_r1_3_email_helper():
     '''
