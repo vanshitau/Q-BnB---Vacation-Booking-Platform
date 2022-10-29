@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, User, register, listing, update_listing, Listing
+from qbay.models import login, User, register, listing, update_listing, Listing, update_user
 import datetime as dt
 
 
