@@ -104,12 +104,10 @@ def test_r4_5_price():
   Testing R4-5: The price of the listing must between 10 and 10,000
   '''
   #price should not be none since the price is between 10 and 10000
-  price = check_price(2000)
-  assert price is not None
-
+  assert check_price(2000) is True
   #price should be none since the price is not between 10 and 10000
-  price = check_price(2)
-  assert price is None
+  assert check_price(2) is False
+  
   
 
 def test_r4_6_date():
@@ -144,8 +142,7 @@ def test_r5_2_price_change():
   user = register(None, 'user1', 'testhijklmasdkfjhskdfhkan@test.com', 'Abcdef!')
   assert user is not None
   listing2 = listing(None, "The house", "My house is very big you should stay here", 150, user.id, datetime(2023,1,5))
-  update = update_listing(listing2.id, None, None, 500) #price of listing is 500
-  assert update is True
+  assert update_listing(listing2.id, None, None, 500) is True #price of listing is 500
   assert update_listing(listing2.id, None, None, 50) is False #decreasing the price
   assert update_listing(listing2.id, None, None, 5000) is True #increasing the price
 
@@ -155,8 +152,10 @@ def test_r5_3_date_modified():
   Testing R5-3: When at least one attribute has been updated, the last 
     modified date of the file needs to be updated
   '''
+  user = register(None, 'user100', 'testhijklmasjhskdfhkan@test.com', 'Abcdef!')
+  listing(1, "This my house", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5))
   assert update_listing(1, "My House", None, None) is True
-  assert update_listing(1, None, None, None) is True
+  assert update_listing(1, "My condo", None, None) is True
 
 
 def test_r1_9_user_register():
