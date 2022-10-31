@@ -13,6 +13,7 @@ import random
 from sqlalchemy import func
 
 
+
 '''
 This file defines data models and related business logics
 '''
@@ -191,11 +192,12 @@ def check_date(date_modified):
       Returns:
         True if the date modified meets the requirements otherwise False
     '''
+    print("before anything happens: ", date_modified)
     if isinstance(date_modified, str):
-        date_modified = dt.date.strptime(date_modified, '%Y-%m-%d')
+        print("gone into strip time", date_modified)
+        date_modified = dt.datetime.strptime(date_modified, '%Y-%m-%d')
     print("1: ", date_modified)
     if (dt.datetime(2021, 1, 2) <= date_modified <= dt.datetime(2025, 1, 2)):
-        print(date_modified)
         return True
     else:
         print("date is outside range")
@@ -321,7 +323,7 @@ def update_listing(listing_id, title, description, price):
         if (len(description) > 20 and len(description) < 2000 and
             len(description) > len(listing.title)):
             #check the date and that it is valid
-            new_date_modified = dt.date.today()
+            new_date_modified =  dt.datetime.now()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing description
@@ -337,7 +339,7 @@ def update_listing(listing_id, title, description, price):
         # the price is only increased when it is updated
         if 10 <= price <= 10000 and price > listing.price:
             #check the date and that it is valid
-            new_date_modified = dt.date.today()
+            new_date_modified =  dt.datetime.now()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing price

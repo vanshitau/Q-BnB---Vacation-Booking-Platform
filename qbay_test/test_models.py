@@ -45,20 +45,20 @@ def test_r2_1_2_login():
 
 def test_listing():
   user = register(None, 'user1', 'testabcdefg@test.com', 'Abcdef!')
-  listing1 = listing(20, "house", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5))
+  listing1 = listing(20, "house", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5).strftime('%Y-%m-%d'))
   assert listing1 is not None
   print("next lisitng")
   #same title - should return None
-  listing2 = listing(None, "house", "My house is very big you should stay hereasdfasd", 1000, user.id, datetime(2024,1,5))
+  listing2 = listing(None, "house", "My house is very big you should stay hereasdfasd", 1000, user.id, datetime(2024,1,5).strftime('%Y-%m-%d'))
   assert listing2 is None
   #price is less than 10 - should return None
-  listing3 = listing(None, "my houses", "My house is very big you should stay hereasdfasd", 1, user.id, datetime(2024,1,5))
+  listing3 = listing(None, "my houses", "My house is very big you should stay hereasdfasd", 1, user.id, datetime(2024,1,5).strftime('%Y-%m-%d'))
   assert listing3 is None
   #desc shorter than title - should return None
-  listing4 = listing(None, "your housess", "My house", 100, user.id, datetime(2024,1,5))
+  listing4 = listing(None, "your housess", "My house", 100, user.id, datetime(2024,1,5).strftime('%Y-%m-%d'))
   assert listing4 is None
   #date is out of the range - should return None
-  listing5 = listing(None, "your housess", "My house", 100, user.id, datetime(2026,1,5))
+  listing5 = listing(None, "your housess", "My house", 100, user.id, datetime(2026,1,5).strftime('%Y-%m-%d'))
   assert listing5 is None
 
 def test_r5_1_4_update_listing():
@@ -71,7 +71,7 @@ def test_r5_1_4_update_listing():
   '''
   user = register(None, 'user1', 'testhijklmn@test.com', 'Abcdef!')
   assert user is not None
-  listing1 = listing(None, "houseseseses", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5))
+  listing1 = listing(None, "houseseseses", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5).strftime('%Y-%m-%d'))
   assert listing1 is not None
   print("this is my listing", listing1)
   assert update_listing(listing1.id, "My House", None, None) is True
@@ -115,10 +115,10 @@ def test_r4_6_date():
   Testing R4-6: The date of the listing must between '2021-01-02' and '2025-01-02'
   '''
   #price should not be none since the price is between 10 and 10000
-  date = check_date(datetime(2024,1,2))
+  date = check_date(datetime(2024,1,2).strftime('%Y-%m-%d'))
   assert date is not None
 
-  date = check_date(datetime(2019,1,2))
+  date = check_date(datetime(2019,1,2).strftime('%Y-%m-%d'))
   assert date is None
 
 
@@ -141,7 +141,7 @@ def test_r5_2_price_change():
   '''
   user = register(None, 'user1', 'testhijklmasdkfjhskdfhkan@test.com', 'Abcdef!')
   assert user is not None
-  listing2 = listing(None, "The house", "My house is very big you should stay here", 150, user.id, datetime(2023,1,5))
+  listing2 = listing(None, "The house", "My house is very big you should stay here", 150, user.id, datetime(2023,1,5).strftime('%Y-%m-%d'))
   assert update_listing(listing2.id, None, None, 500) is True #price of listing is 500
   assert update_listing(listing2.id, None, None, 50) is False #decreasing the price
   assert update_listing(listing2.id, None, None, 5000) is True #increasing the price
@@ -153,9 +153,9 @@ def test_r5_3_date_modified():
     modified date of the file needs to be updated
   '''
   user = register(None, 'user100', 'testhijklmasjhskdfhkan@test.com', 'Abcdef!')
-  listing(1, "This my house", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5))
+  listing(1, "This my house", "My house is very big you should stay here", 100, user.id, datetime(2024,1,5).strftime('%Y-%m-%d'))
   assert update_listing(1, "My House", None, None) is True
-  assert update_listing(1, "My condo", None, None) is True
+  assert update_listing(1, None, None, None) is True
 
 
 def test_r1_9_user_register():
