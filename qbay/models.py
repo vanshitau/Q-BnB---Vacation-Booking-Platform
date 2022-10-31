@@ -302,7 +302,7 @@ def update_listing(listing_id, title, description, price):
         # check the requirements of the title 
         if (title[:1].isalnum()) and (len(title) <= 80):
             #check the date and that it is valid
-            new_date_modified = dt.date.now()
+            new_date_modified = dt.date.today()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing title

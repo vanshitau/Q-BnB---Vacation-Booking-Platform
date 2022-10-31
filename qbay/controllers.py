@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, User, register, listing, update_listing, update_user
+from qbay.models import login, User, register, listing, update_listing, update_user, Listing
 import datetime as dt
 
 
@@ -36,10 +36,11 @@ def authenticate(inner_function):
                     # with user as parameter
                     return inner_function(user)
             except Exception:
+                print("pass?")
                 return redirect('/login')
         else:
             # else, redirect to the login page
-            #print("loggin in")
+            print("loggin in")
             return redirect('/login')
     #print("returnning wrapped inner")
     # return the wrapped version of the inner_function:
@@ -71,12 +72,12 @@ def login_post():
         """
         # success! go back to the home page
         # code 303 is to force a 'GET' request
-        return redirect('/', code=303)
+        return redirect('/home', code=303)
     else:
         return render_template('login.html', message='login failed')
 
 
-@app.route('/')
+@app.route('/home')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
@@ -84,11 +85,18 @@ def home(user):
     # by using @authenticate, we don't need to re-write
     # the login checking code all the time for other
     # front-end portals
-    # some fake product data
-    # listings = [
-    #     {listing.title: 'product 1', 'price': 10},
-    #     {'name': 'product 2', 'price': 20}
-    return render_template('index.html', user=user)
+    # the user's listings
+    all_listings = Listing.query.filter_by(owner_id=user.id).all()
+    if len(all_listings) > 0:
+        listings = []
+        for listing in all_listings:
+            listings.append({"name": listing.name, "description": listing.description, 
+                            "price": f"${listing.price}"})
+    else:
+        listings = [{"name": "No listings yet!", "description": "", 
+                    "price": ""}]
+
+    return render_template('index.html', user=user, listings=listings)
 
 
 @app.route('/register', methods=['GET'])
@@ -134,7 +142,6 @@ def create_listing_post():
     price = request.form.get('price')
     date_mod = dt.date.today()
     error_message = None
-    print("date", date_mod)
     email = session['logged_in']
     user = User.query.filter_by(email=email).first()
 
@@ -154,18 +161,18 @@ def create_listing_post():
     if error_message:
         return render_template('create_listing.html', message=error_message)
     else:
-        return redirect('/')
+        return redirect('/home')
 
-@app.route('/update_listing', methods=['GET'])
-def update_listing_get():
+@app.route('/update_listing/<string:old_name>', methods=['POST'])
+def update_listing(old_name):
     # templates are stored in the templates folder
     # email = session['logged_in']
     # listing = Listing.query.filter_by(id=listing_id).first()
-    return render_template('update_listing.html', message='')
+    return render_template('update_listing.html', message='', old_id=old_name)
 
 
-@app.route('/update_listing', methods=['POST'])
-def update_listing_post():
+@app.route('/update_listing/<string:old_name>', methods=['POST'])
+def update_listing_post(old_name):
     listing_id = request.form.get('listing_id')
     title = request.form.get('title')
     description = request.form.get('description')
@@ -176,15 +183,15 @@ def update_listing_post():
         error_message = "The price cannot be less than 10."
     else:
         # use backend api to register the user
-        success = update_listing(1, title, description, price)
+        success = update_listing(5000, title, description, int(price))
         if not success:
             error_message = "Listing update failed."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('update_listing.html', message=error_message)
+        return render_template('update_listing.html', message=error_message, old_id=old_name)
     else:
-        return redirect('/')
+        return redirect('/home')
 
 
 @app.route('/updateUser', methods=['GET'], endpoint='update_get')
@@ -216,11 +223,11 @@ def update_post():
             return render_template('updateUser.html', message=error_message)
         else:
             session['logged_in'] = user.email
-            return redirect('/')
+            return redirect('/home')
 
 
 @app.route('/logout')
 def logout():
     if 'logged_in' in session:
         session.pop('logged_in', None)
-    return redirect('/')
+    return redirect('/home')
