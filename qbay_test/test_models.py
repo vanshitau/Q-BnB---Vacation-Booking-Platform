@@ -160,7 +160,7 @@ def test_r1_9_user_register():
     '''
     Testing R1-9: Postal code is empty at the time of registration.
     '''
-    user = register(3, 'user3', 'testemail@test.com', 'Abcdef!')
+    user = register(10, 'user3', 'testemail@test.com', 'Abcdef!')
     assert user is not None
     assert user.postal_code == ''
 
@@ -170,7 +170,7 @@ def test_r1_10_user_register():
     Testing R1-10: Balance should be initialized as 100 at the time of registration. 
     (free $100 dollar signup bonus).
     '''
-    user = register(4, 'user4', 'testEmail@test.com', 'Abcdef!')
+    user = register(14, 'user4', 'testEmail@test.com', 'Abcdef!')
     assert user is not None
     assert user.account_bal == 100
 
