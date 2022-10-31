@@ -1,6 +1,7 @@
 from flask import render_template, request, session, redirect
 from qbay.models import login, User, register, listing, update_listing, update_user, Listing
 import datetime as dt
+import traceback
 
 
 from qbay import app
@@ -37,6 +38,7 @@ def authenticate(inner_function):
                     return inner_function(user)
             except Exception:
                 print("pass?")
+                traceback.print_exc()
                 return redirect('/login')
         else:
             # else, redirect to the login page
@@ -90,7 +92,7 @@ def home(user):
     if len(all_listings) > 0:
         listings = []
         for listing in all_listings:
-            listings.append({"name": listing.name, "description": listing.description, 
+            listings.append({"name": listing.title, "description": listing.description, 
                             "price": f"${listing.price}"})
     else:
         listings = [{"name": "No listings yet!", "description": "", 
