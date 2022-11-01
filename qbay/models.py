@@ -31,7 +31,10 @@ class User(db.Model):
         Balance should be initialized as 100 at the time of registration. 
         (free $100 dollar signup bonus).
     '''
-    id = db.Column(db.Integer(), nullable=False, autoincrement=True, primary_key=True)
+    id = db.Column(
+        db.Integer(), nullable=False, 
+        autoincrement=True, primary_key=True
+    )
     # added default value for billing_address = ""
     billing_address = db.Column(db.String(150), default="", nullable=False)
     # added default value of account_bal = 100
@@ -107,8 +110,10 @@ def register(id, name, email, password):
             if max_id is None:
                 max_id = 0
             next_id = max_id + 1
-            user = User(id=next_id, username=name, email=email, 
-            password=password)
+            user = User(
+                id=next_id, username=name, email=email, 
+                password=password
+            )
 
         # add it to the current database session
         db.session.add(user)
@@ -151,9 +156,11 @@ def title_desc(title_used, description):
         return False
 
     if len(title_used) <= 80:
-        if (title_used[0] != " " and title_used[-1] != " " and 
-        len(description) > 20 and len(description) < 2000 and 
-        len(description) > len(title_used)):
+        if (
+            title_used[0] != " " and title_used[-1] != " " and 
+            len(description) > 20 and len(description) < 2000 and 
+            len(description) > len(title_used)
+        ):
             title_regex = title_used.split(" ")
             for word in title_regex:
                 if not re.match(r'^[a-zA-Z0-9]+$', word):
@@ -222,8 +229,10 @@ def check_owner(id):
     return True
 
 
-def listing(listing_id, title, description, price, owner_id, 
-last_modified_date):
+def listing(
+    listing_id, title, description, price, owner_id, 
+    last_modified_date
+):
     '''
     Create a new listing
       Parameters:
@@ -245,12 +254,18 @@ last_modified_date):
         return None
     if listing_id is not None:
         # print("id has been entered manually")
-        if (title_desc(title, description) == True and check_price(price) 
-        == True and check_date(last_modified_date) == True and 
-        check_owner(owner_id) == True):
+        if (
+            title_desc(title, description) == True and check_price(price) 
+            == True and check_date(last_modified_date) == True and 
+            check_owner(owner_id) == True
+        ):
             # create a new user
             # print("passed req check")
-            listing = Listing(id=listing_id, title=title, description=description, price=price, owner_id=owner_id, last_modified_date=last_modified_date)
+            listing = Listing(
+                id=listing_id, title=title, description=description, 
+                price=price, owner_id=owner_id, 
+                last_modified_date=last_modified_date
+            )
             # print("listing: ", listing)
             db.session.add(listing)
             # actually save the listing object
@@ -259,7 +274,12 @@ last_modified_date):
             return listing
     else:
         # print("randomly generated")
-        if (title_desc(title, description) == True and check_price(price) == True and check_date(last_modified_date) == True and check_owner(owner_id) == True):
+        if (
+            title_desc(title, description) == True and 
+            check_price(price) == True and 
+            check_date(last_modified_date) == True and 
+            check_owner(owner_id) == True
+        ):
             # print("passed req check")
             # print("listing id", listing_id)
             max_id = db.session.query(func.max(Listing.id)).scalar()
@@ -268,9 +288,11 @@ last_modified_date):
                 max_id = 0
             next_id = max_id + 1
             # print("next id", next_id)
-            listing = Listing(id=next_id, title=title, description=description, 
-            price=price, owner_id=owner_id, last_modified_date=
-            last_modified_date)
+            listing = Listing(
+                id=next_id, title=title, description=description, 
+                price=price, owner_id=owner_id, 
+                last_modified_date=last_modified_date
+            )
             # print("listing id: ", listing.id)
             db.session.add(listing)
             # actually save the listing object
@@ -316,8 +338,10 @@ def update_listing(listing_id, title, description, price):
 
     if description is not None:
         # check the requirements of the description
-        if (len(description) > 20 and len(description) < 2000 and
-            len(description) > len(listing.title)):
+        if (
+            len(description) > 20 and len(description) < 2000 and
+            len(description) > len(listing.title)
+        ):
             # check the date and that it is valid
             new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
@@ -368,8 +392,10 @@ def update_user(id, username, email, billing_address, postal_code):
     existed = User.query.filter_by(id=id).first()
     if existed is not None:
         # if yes, then update old user data in database
-        user = User(id=id, username=username, email=email, 
-        billing_address=billing_address, postal_code=postal_code)
+        user = User(
+            id=id, username=username, email=email, 
+            billing_address=billing_address, postal_code=postal_code
+        )
         # updating old user data
         existed.username = username
         existed.email = email

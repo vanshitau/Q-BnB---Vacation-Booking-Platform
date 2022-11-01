@@ -1,5 +1,8 @@
 from flask import render_template, request, session, redirect
-from qbay.models import login, User, register, listing, update_listing, update_user, Listing
+from qbay.models import (
+    login, User, register, listing, 
+    update_listing, update_user, Listing
+)
 import datetime as dt
 import traceback
 
@@ -91,8 +94,10 @@ def home(user):
     if len(all_listings) > 0:
         listings = []
         for listing in all_listings:
-            listings.append({"name": listing.title, "description": listing.description, 
-                            "price": f"${listing.price}"})
+            listings.append({
+                "name": listing.title, "description": listing.description, 
+                "price": f"${listing.price}"
+            })
     else:
         listings = [{"name": "No listings yet!", "description": "", 
                     "price": ""}]
@@ -192,7 +197,9 @@ def update_listing_post(old_name):
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('update_listing.html', message=error_message, old_id=old_name)
+        return render_template(
+            'update_listing.html', message=error_message, old_id=old_name
+        )
     else:
         return redirect('/home')
 
@@ -214,7 +221,9 @@ def update_post():
     user = User.query.filter_by(email=email).one_or_none()
 
     # calling update functionx
-    user = update_user(user.id, username, email_new, billing_address, postal_code)
+    user = update_user(
+        user.id, username, email_new, billing_address, postal_code
+    )
     if user:
         # session['updated_user'] = user.email
         # are we supposed to use success? If so how?
