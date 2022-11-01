@@ -41,13 +41,9 @@ class User(db.Model):
     account_bal = db.Column(db.Integer, default=100, nullable=False)
     # added default value of postal_code = ""
     postal_code = db.Column(db.String(20), default="", nullable=False)
-    username = db.Column(
-        db.String(80), nullable=False)
-    email = db.Column(
-        db.String(120), unique=True, nullable=False)
-    password = db.Column(
-        db.String(120), nullable=False)
-    # owner_id = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -57,7 +53,7 @@ class Listing(db.Model):
     '''
     Initiates the listing class and all of the columns of the listing
     '''
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     price = db.Column(db.Integer, nullable=False)
@@ -299,7 +295,6 @@ def listing(
             db.session.commit()
             # print("final listing", listing)
             return listing
-    # print("your listing is fucked")
     return None
 
 
