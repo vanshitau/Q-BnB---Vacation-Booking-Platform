@@ -53,7 +53,10 @@ class Listing(db.Model):
     '''
     Initiates the listing class and all of the columns of the listing
     '''
-    id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
+    id = db.Column(
+        db.Integer, nullable=False, 
+        primary_key=True, autoincrement=True
+    )
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     price = db.Column(db.Integer, nullable=False)
