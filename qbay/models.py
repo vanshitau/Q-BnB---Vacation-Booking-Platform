@@ -315,20 +315,23 @@ def update_listing(listing_id, title, description, price):
     # use this to get the id of the listing in order to know what 
     # listing is being updated
     listing = Listing.query.filter_by(id=listing_id).first()
-
+    print("starting the update")
     if title is not None:
         # check the requirements of the title 
         if (title[:1].isalnum()) and (len(title) <= 80):
+            print("the title is valid")
             # check the date and that it is valid
             new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing title
                 listing.title = title
+                print("update title")
                 # update the last modified date of the listing 
                 # to the current date
                 listing.last_date_modified = new_date_modified
         else:
+            print("title not valid")
             return False
 
     if description is not None:
@@ -337,32 +340,38 @@ def update_listing(listing_id, title, description, price):
             len(description) > 20 and len(description) < 2000 and
             len(description) > len(listing.title)
         ):
+            print("the desc is valid")
             # check the date and that it is valid
             new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing description
                 listing.description = description
+                print("update desc")
                 # update the last modified date of the listing 
                 # to the current date
                 listing.last_date_modified = new_date_modified
         else:
+            print("desc not valid")
             return False
 
     if price is not None:
         # check the requirements of the price, and also make sure that 
         # the price is only increased when it is updated
-        if 10 <= price <= 10000 and price > listing.price:
+        if 10 <= int(price) <= 10000 and int(price) > listing.price:
+            print("price valid")
             # check the date and that it is valid
             new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing price
                 listing.price = price
+                print("update price")
                 # update the last modified date of the listing to 
                 # the current date
                 listing.last_date_modified = new_date_modified
         else:
+            print("price not valid")
             return False
 
     # save the updated listing object
