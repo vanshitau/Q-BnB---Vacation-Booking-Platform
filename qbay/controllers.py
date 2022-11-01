@@ -26,9 +26,9 @@ def authenticate(inner_function):
         print("session: ", session)
         if 'logged_in' in session:
             email = session['logged_in']
-            #print("logged in: ", email)
+            # print("logged in: ", email)
             try:
-                #print("email", email)
+                # print("email", email)
                 user = User.query.filter_by(email=email).one_or_none()
                 
                 if user:
@@ -44,7 +44,7 @@ def authenticate(inner_function):
             # else, redirect to the login page
             print("loggin in")
             return redirect('/login')
-    #print("returnning wrapped inner")
+    # print("returnning wrapped inner")
     # return the wrapped version of the inner_function:
     return wrapped_inner
 
@@ -129,6 +129,7 @@ def register_post():
     else:
         return redirect('/login')
 
+
 @app.route('/create_listing', methods=['GET'])
 def create_listing_get():
     # templates are stored in the templates folder
@@ -164,6 +165,7 @@ def create_listing_post():
         return render_template('create_listing.html', message=error_message)
     else:
         return redirect('/home')
+
 
 @app.route('/update_listing/<string:old_name>', methods=['POST'])
 def update_listing(old_name):
