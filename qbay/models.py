@@ -133,7 +133,7 @@ def login(email, password):
         The user object if login succeeded otherwise None
     '''
     # make sure that the password and email meet the requirements
-    if (password_helper(password) == True and email_helper(email) == True):
+    if (password_helper(password) is True and email_helper(email) is True):
         valids = User.query.filter_by(email=email, password=password).all()
         if len(valids) != 1:
             return None
@@ -255,9 +255,9 @@ def listing(
     if listing_id is not None:
         # print("id has been entered manually")
         if (
-            title_desc(title, description) == True and check_price(price) 
-            == True and check_date(last_modified_date) == True and 
-            check_owner(owner_id) == True
+            title_desc(title, description) is True and check_price(price) 
+            is True and check_date(last_modified_date) is True and 
+            check_owner(owner_id) is True
         ):
             # create a new user
             # print("passed req check")
@@ -275,10 +275,10 @@ def listing(
     else:
         # print("randomly generated")
         if (
-            title_desc(title, description) == True and 
-            check_price(price) == True and 
-            check_date(last_modified_date) == True and 
-            check_owner(owner_id) == True
+            title_desc(title, description) is True and 
+            check_price(price) is True and 
+            check_date(last_modified_date) is True and 
+            check_owner(owner_id) is True
         ):
             # print("passed req check")
             # print("listing id", listing_id)
