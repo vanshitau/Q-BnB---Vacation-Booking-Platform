@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from curses.ascii import isalnum, isalpha
 #  from xxlimited import new
 # import library to work with the current date
-import datetime as dt
+from datetime import *
 import string
 import re
 import random
@@ -191,12 +191,11 @@ def check_date(date_modified):
       Returns:
         True if the date modified meets the requirements otherwise False
     '''
-    print("before anything happens: ", date_modified)
     if isinstance(date_modified, str):
-        print("gone into strip time", date_modified)
-        date_modified = dt.datetime.strptime(date_modified, '%Y-%m-%d')
-    print("1: ", date_modified)
-    if (dt.datetime(2021, 1, 2) <= date_modified <= dt.datetime(2025, 1, 2)):
+        date_modified = datetime.strptime(date_modified, '%Y-%m-%d').date()
+    lower = datetime(2021, 1, 2).date()
+    upper = datetime(2025, 1, 2).date()
+    if (lower <= date_modified <= upper):
         return True
     else:
         print("date is outside range")
@@ -304,7 +303,7 @@ def update_listing(listing_id, title, description, price):
         # check the requirements of the title 
         if (title[:1].isalnum()) and (len(title) <= 80):
             # check the date and that it is valid
-            new_date_modified = dt.datetime.now()
+            new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing title
@@ -320,7 +319,7 @@ def update_listing(listing_id, title, description, price):
         if (len(description) > 20 and len(description) < 2000 and
             len(description) > len(listing.title)):
             # check the date and that it is valid
-            new_date_modified = dt.datetime.now()
+            new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing description
@@ -336,7 +335,7 @@ def update_listing(listing_id, title, description, price):
         # the price is only increased when it is updated
         if 10 <= price <= 10000 and price > listing.price:
             # check the date and that it is valid
-            new_date_modified = dt.datetime.now()
+            new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing price

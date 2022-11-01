@@ -60,7 +60,7 @@ def test_listing():
     listing4 = listing(None, "your housess", "My house", 100, user.id, datetime(2024, 1, 5).strftime('%Y-%m-%d'))
     assert listing4 is None
     # date is out of the range - should return None
-    listing5 = listing(None, "your housess", "My house", 100, user.id, datetime(2026, 1, 5).strftime('%Y-%m-%d'))
+    listing5 = listing(None, "your housessss", "My housefaksdjfhoasdjfsdfasd", 100, user.id, datetime(2026,1,5).strftime('%Y-%m-%d'))
     assert listing5 is None
     
 

@@ -36,9 +36,8 @@ def authenticate(inner_function):
                     # if the user exists, call the inner_function
                     # with user as parameter
                     return inner_function(user)
-            except Exception:
-                print("pass?")
-                traceback.print_exc()
+            except Exception as e:
+                print("pass?", e)
                 return redirect('/login')
         else:
             # else, redirect to the login page

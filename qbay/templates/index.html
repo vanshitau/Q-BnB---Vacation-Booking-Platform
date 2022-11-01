@@ -12,18 +12,19 @@
 
 <div id="products">
     <h4>
-        <a href='/create_listing'>Create Listing</a>
+        <a href='/updateUser'>Update User Profile</a>
     </h4>
     <h4>
-        <a href='/updateUser'>Update User Profile</a>
+        <a href='/create_listing'>Create Listing</a>
     </h4>
     {% for listing in listings %}
     <div>
-        <h4>title: {{ listing.title }} 
-            description: {{ listing.description }} 
-            price: {{ listing.price }} 
-            Date last modified: {{ listing.last_modified_date }}
-            <a href="/update_listing/{{ listing.title }}">update</a></h4>
+        <h4>listing ID: {{ listing.id }} <br>
+            title: {{ listing.title }} <br>
+            description: {{ listing.description }} <br>
+            price: {{ listing.price }} <br>
+            Date last modified: {{ listing.last_modified_date }}<br>
+            <a href="/update_listing/{{ listing.id }}">update</a></h4>
     </div>
     {% endfor %}
 </div>
