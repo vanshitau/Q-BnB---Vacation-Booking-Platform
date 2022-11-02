@@ -41,13 +41,9 @@ class User(db.Model):
     account_bal = db.Column(db.Integer, default=100, nullable=False)
     # added default value of postal_code = ""
     postal_code = db.Column(db.String(20), default="", nullable=False)
-    username = db.Column(
-        db.String(80), nullable=False)
-    email = db.Column(
-        db.String(120), unique=True, nullable=False)
-    password = db.Column(
-        db.String(120), nullable=False)
-    # owner_id = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -57,7 +53,10 @@ class Listing(db.Model):
     '''
     Initiates the listing class and all of the columns of the listing
     '''
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    id = db.Column(
+        db.Integer, nullable=False, 
+        primary_key=True, autoincrement=True
+    )
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     price = db.Column(db.Integer, nullable=False)
@@ -186,7 +185,7 @@ def check_price(price):
     if (10 <= price <= 10000):
         return True
     else:
-        print("price lower than 10 or hier than 10000")
+        print("price lower than 10 or higher than 10000")
         return False
 
 
@@ -245,61 +244,45 @@ def listing(
       Returns:
         True if listing creation succeeded otherwise False
     '''
-    # user = User.query.filter_by(id=owner_id).first()
     # check if the id has been used:
     existed = Listing.query.filter_by(id=listing_id).all()
-    # print("existed", existed)
     if len(existed) > 0:
         print("Sorry, this listing id is already created")
         return None
     if listing_id is not None:
-        # print("id has been entered manually")
         if (
             title_desc(title, description) is True and check_price(price) 
             is True and check_date(last_modified_date) is True and 
             check_owner(owner_id) is True
         ):
             # create a new user
-            # print("passed req check")
             listing = Listing(
                 id=listing_id, title=title, description=description, 
                 price=price, owner_id=owner_id, 
                 last_modified_date=last_modified_date
             )
-            # print("listing: ", listing)
             db.session.add(listing)
-            # actually save the listing object
             db.session.commit()
-            # print("final listing", listing)
             return listing
     else:
-        # print("randomly generated")
         if (
             title_desc(title, description) is True and 
             check_price(price) is True and 
             check_date(last_modified_date) is True and 
             check_owner(owner_id) is True
         ):
-            # print("passed req check")
-            # print("listing id", listing_id)
             max_id = db.session.query(func.max(Listing.id)).scalar()
-            # print("max id: ", max_id)
             if max_id is None:
                 max_id = 0
             next_id = max_id + 1
-            # print("next id", next_id)
             listing = Listing(
                 id=next_id, title=title, description=description, 
                 price=price, owner_id=owner_id, 
                 last_modified_date=last_modified_date
             )
-            # print("listing id: ", listing.id)
             db.session.add(listing)
-            # actually save the listing object
             db.session.commit()
-            # print("final listing", listing)
             return listing
-    # print("your listing is fucked")
     return None
 
 
@@ -320,20 +303,27 @@ def update_listing(listing_id, title, description, price):
     # use this to get the id of the listing in order to know what 
     # listing is being updated
     listing = Listing.query.filter_by(id=listing_id).first()
-
     if title is not None:
         # check the requirements of the title 
-        if (title[:1].isalnum()) and (len(title) <= 80):
+        title_regex = title.split(" ")
+        for word in title_regex:
+            if not re.match(r'^[a-zA-Z0-9]+$', word):
+                print("not alphanumeric")
+                return False
+        if (len(title) <= 80 and title[0] != " " and title[-1] != " "):
+            print("the title is valid")
             # check the date and that it is valid
             new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing title
                 listing.title = title
+                print("update title")
                 # update the last modified date of the listing 
                 # to the current date
                 listing.last_date_modified = new_date_modified
         else:
+            print("title not valid")
             return False
 
     if description is not None:
@@ -342,32 +332,38 @@ def update_listing(listing_id, title, description, price):
             len(description) > 20 and len(description) < 2000 and
             len(description) > len(listing.title)
         ):
+            print("the desc is valid")
             # check the date and that it is valid
             new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing description
                 listing.description = description
+                print("update desc")
                 # update the last modified date of the listing 
                 # to the current date
                 listing.last_date_modified = new_date_modified
         else:
+            print("desc not valid")
             return False
 
     if price is not None:
         # check the requirements of the price, and also make sure that 
         # the price is only increased when it is updated
-        if 10 <= price <= 10000 and price > listing.price:
+        if 10 <= int(price) <= 10000 and int(price) > listing.price:
+            print("price valid")
             # check the date and that it is valid
             new_date_modified = datetime.now().date()
             date_valid = check_date(new_date_modified)
             if date_valid:
                 # update the listing price
                 listing.price = price
+                print("update price")
                 # update the last modified date of the listing to 
                 # the current date
                 listing.last_date_modified = new_date_modified
         else:
+            print("price not valid")
             return False
 
     # save the updated listing object

@@ -40,8 +40,8 @@ def authenticate(inner_function):
                     # with user as parameter
                     return inner_function(user)
             except Exception as e:
-                print("pass?", e)
-                return redirect('/login')
+                print(e)
+                pass
         else:
             # else, redirect to the login page
             print("loggin in")
@@ -76,12 +76,12 @@ def login_post():
         """
         # success! go back to the home page
         # code 303 is to force a 'GET' request
-        return redirect('/home', code=303)
+        return redirect('/', code=303)
     else:
         return render_template('login.html', message='login failed')
 
 
-@app.route('/home')
+@app.route('/')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
@@ -95,11 +95,14 @@ def home(user):
         listings = []
         for listing in all_listings:
             listings.append({
-                "name": listing.title, "description": listing.description, 
-                "price": f"${listing.price}"
+                "id": listing.id,
+                "title": listing.title, 
+                "description": listing.description, 
+                "price": f"${listing.price}",
+                "last_modified_date": listing.last_modified_date
             })
     else:
-        listings = [{"name": "No listings yet!", "description": "", 
+        listings = [{"title": "No listings yet!", "description": "", 
                     "price": ""}]
 
     return render_template('index.html', user=user, listings=listings)
@@ -168,40 +171,39 @@ def create_listing_post():
     if error_message:
         return render_template('create_listing.html', message=error_message)
     else:
-        return redirect('/home')
+        return redirect('/')
 
 
-@app.route('/update_listing/<string:old_name>', methods=['POST'])
-def update_listing(old_name):
+@app.route('/update_listing/<int:old_id>', methods=['GET'])
+def update_listing_get(old_id):
     # templates are stored in the templates folder
     # email = session['logged_in']
     # listing = Listing.query.filter_by(id=listing_id).first()
-    return render_template('update_listing.html', message='', old_id=old_name)
+    return render_template('update_listing.html', message='', old_id=old_id)
 
 
-@app.route('/update_listing/<string:old_name>', methods=['POST'])
-def update_listing_post(old_name):
-    listing_id = request.form.get('listing_id')
+@app.route('/update_listing/<int:old_id>', methods=['POST'])
+def update_listing_post(old_id):
     title = request.form.get('title')
     description = request.form.get('description')
     price = request.form.get('price')
     error_message = None
 
-    if int(price) < 10:
-        error_message = "The price cannot be less than 10."
-    else:
-        # use backend api to register the user
-        success = update_listing(5000, title, description, int(price))
-        if not success:
-            error_message = "Listing update failed."
+    # if int(price) < 10:
+    #     error_message = "The price cannot be less than 10."
+    # else:
+    # use backend api to register the user
+    success = update_listing(old_id, title, description, int(price))
+    if not success:
+        error_message = "Listing update failed."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
         return render_template(
-            'update_listing.html', message=error_message, old_id=old_name
+            'update_listing.html', message=error_message, old_id=old_id
         )
     else:
-        return redirect('/home')
+        return redirect('/')
 
 
 @app.route('/updateUser', methods=['GET'], endpoint='update_get')
@@ -235,11 +237,11 @@ def update_post():
             return render_template('updateUser.html', message=error_message)
         else:
             session['logged_in'] = user.email
-            return redirect('/home')
+            return redirect('/')
 
 
 @app.route('/logout')
 def logout():
     if 'logged_in' in session:
         session.pop('logged_in', None)
-    return redirect('/home')
+    return redirect('/')
