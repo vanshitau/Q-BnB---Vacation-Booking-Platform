@@ -20,7 +20,15 @@ def pytest_sessionstart():
     if os.path.exists(db_file):
         os.remove(db_file)
     app.app_context().push()
-    
+
+
+# def pytest_sessionfinish():
+#     '''
+#     Optional function called when testing is done.
+#     Do nothing for now
+#     '''
+#     pass
+
 
 base_url = 'http://127.0.0.1:{}'.format(8081)
 
