@@ -99,7 +99,7 @@ def register(id, name, email, password):
     # check if email is empty
     if email == '' or password == '':
         return None
-    else:
+    elif (username_helper(name) is True and password_helper(password) is True and email_helper(email) is True):
         # r1_2  
         if id is not None:
             # create a new user
