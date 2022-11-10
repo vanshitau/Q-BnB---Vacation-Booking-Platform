@@ -95,11 +95,10 @@ def register(id, name, email, password):
     existed = User.query.filter_by(id=id).all()
     if len(existed) > 0:
         return None
-    
-    # check if email is empty
-    if email == '' or password == '':
+    # check input meets the requirements
+    if (username_helper(name) is False or password_helper(password) is False or email_helper(email) is False):
         return None
-    elif (username_helper(name) is True and password_helper(password) is True and email_helper(email) is True):
+    else:
         # r1_2  
         if id is not None:
             # create a new user
@@ -493,11 +492,11 @@ def username_helper(username):
     # username is not empty
     if (username != ''): 
         if len(username) > 2 and len(username) < 20:
-            for ch in range(len(username)):
+            for ch in username:
                 # the first character and last character cannot be a space
-                if (username[0] != '' and username[last_ch] != ''): 
+                if (username[0] != ' ' and username[last_ch] != ' '): 
                     # the username is alphanumeric
-                    if (username[ch].isdigit() or username[ch].isalpha()): 
+                    if (ch.isalnum()): 
                         return username
                     else:
                         return None
@@ -507,7 +506,7 @@ def username_helper(username):
             return None
     else:
         return None
-    
+
 
 def postal_code_helper(postal_code):
     '''
