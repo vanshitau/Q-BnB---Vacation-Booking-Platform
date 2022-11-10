@@ -187,15 +187,3 @@ class FrontEndHomePageTest(BaseCase):
     #     self.type("#price", 100)
     #     # click enter button
     #     self.click('input[type="submit"]')
-
-
-     
-
-
-    
-
-        
-        
-        
-        
-
