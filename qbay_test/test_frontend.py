@@ -90,6 +90,7 @@ class FrontEndHomePageTest(BaseCase):
         
         # open home page (success)
         self.open(base_url)
+        
 
 
     def test_2_register_input(self, *_):
@@ -167,26 +168,24 @@ class FrontEndHomePageTest(BaseCase):
         # open register page
         self.open(base_url + '/register')
 
-        # OUTPUT TESTING FOR REGISTER --- SUCCESS
-
         # registering with valid email
-        self.type("#email", "student@gmail.com")
-        self.type("#name", "Student")
-        self.type("#password", "Student1!") 
-        self.type("#password2", "Student1!")
+        self.type("#email", "student1@gmail.com")
+        self.type("#name", "Student1")
+        self.type("#password", "Student1234!") 
+        self.type("#password2", "Student1234!")
         # click enter button
         self.click('input[type="submit"]')
 
         # logging in with valid email
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "student@gmail.com")
-        self.type("#password", "Student1!")
+        self.type("#email", "student1@gmail.com")
+        self.type("#password", "Student1234!")
         # click enter button
         self.click('input[type="submit"]')
-
+        
         # open home page (success)
         self.open(base_url)
         # test if correct user name is displayed
         self.assert_element("#welcome-header")
-        self.assert_text("Welcome Student !", "#welcome-header")
+        self.assert_text("Welcome Student1 !", "#welcome-header")
