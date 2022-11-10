@@ -239,11 +239,11 @@ def test_r1_6_username_helper():
     less than 20 characters.
     '''
     user = username_helper('user123')
-    assert user is not None
+    assert user is True
     user = username_helper('testinglongerusername')
-    assert user is None
+    assert user is False
     user = username_helper('Ab')
-    assert user is None
+    assert user is False
 
 
 def test_r3_3_postal_code_helper():
@@ -266,15 +266,15 @@ def test_r3_4_username_helper():
     and no special characters such as !)
     '''
     username = username_helper('abcdefg')
-    assert username is not None
+    assert username is True
     username = username_helper('')
-    assert username is None
+    assert username is False
     username = username_helper('1234')
-    assert username is not None
+    assert username is True
     username = username_helper('  pass')
-    assert username is None
+    assert username is False
     username = username_helper('1234!!!')
-    assert username is not None
+    assert username is True
 
 
 def test_r3_1_update():
@@ -346,15 +346,15 @@ def test_r1_5_username_helper():
     and space allowed only if it is not as the prefix or suffix.
     '''
     username = username_helper('jasondawn123')
-    assert username is not None
+    assert username is True
     username = username_helper('bob rawn')
-    assert username is not None
+    assert username is True
     username = username_helper('john henry')
-    assert username is not None
+    assert username is True
     username = username_helper(' huh-123')
-    assert username is None
+    assert username is False
     username = username_helper('')
-    assert username is None
+    assert username is False
 
 
 def test_r3_2_postal_code_helper():
