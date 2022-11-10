@@ -96,8 +96,9 @@ def register(id, name, email, password):
     if len(existed) > 0:
         return None
     
+    # if (username_helper(name) is True and password_helper(password) is True and email_helper(email) is True)
     # check if email is empty
-    if email == '' or password == '':
+    if (username_helper(name) is False or password_helper(password) is False or email_helper(email) is False):
         return None
     else:
         # r1_2  
@@ -495,7 +496,7 @@ def username_helper(username):
         if len(username) > 2 and len(username) < 20:
             for ch in range(len(username)):
                 # the first character and last character cannot be a space
-                if (username[0] != '' and username[last_ch] != ''): 
+                if (username[0] != ' ' and username[last_ch] != ' '): 
                     # the username is alphanumeric
                     if (username[ch].isdigit() or username[ch].isalpha()): 
                         return username
