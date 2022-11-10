@@ -490,18 +490,30 @@ def username_helper(username):
     # check for special characters
     last_ch = len(username) - 1
     # username is not empty
-    if (username != ''): 
+    if (username != " "): 
         if len(username) > 2 and len(username) < 20:
-            for ch in username:
-                # the first character and last character cannot be a space
-                if (username[0] != ' ' and username[last_ch] != ' '): 
-                    # the username is alphanumeric
-                    if (ch.isalnum()): 
-                        return username
-                    else:
+            print("passed length")
+            if (username[0] != " " and username[last_ch] != " "):
+                print("passed spaces")
+                username_regex = username.split(" ")
+                for ch in username_regex:
+                    if not re.match(r'^[a-zA-Z0-9]+$', ch):
+                        print("WORKED")
                         return None
-                else:
-                    return None
+                    else:
+                        return username
+            else: 
+                return None
+            # for ch in username:
+            #     # the first character and last character cannot be a space
+            #     if (username[0] != ' ' and username[last_ch] != ' '): 
+            #         # the username is alphanumeric
+            #         if (ch.isalnum()): 
+            #             return username
+            #         else:
+            #             return None
+            #     else:
+            #         return None
         else:
             return None
     else:

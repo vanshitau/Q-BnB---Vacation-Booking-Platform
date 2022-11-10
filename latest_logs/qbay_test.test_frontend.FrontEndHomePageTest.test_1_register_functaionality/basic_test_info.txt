@@ -1,0 +1,28 @@
+qbay_test/test_frontend.py::FrontEndHomePageTest::test_1_register_functaionality
+--------------------------------------------------------------------
+Last Page: http://127.0.0.1:8081/login
+ Duration: 15.79s
+  Browser: Chrome 107.0.5304.110
+   Driver: chromedriver 107.0.5304.62
+Timestamp: 1668100720  (Unix Timestamp)
+     Date: Thursday, November 10, 2022
+     Time: 12:18:40 PM  (EDT, UTC-05:00)
+--------------------------------------------------------------------
+Traceback: File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.8/lib/python3.8/unittest/case.py", line 676, in run
+    self._callTestMethod(testMethod)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.8/lib/python3.8/unittest/case.py", line 633, in _callTestMethod
+    method()
+  File "/Users/amandamisek/group-11/qbay_test/test_frontend.py", line 77, in test_1_register_functaionality
+    self.type("#name", "Student")
+  File "/Users/amandamisek/Library/Python/3.8/lib/python/site-packages/seleniumbase/fixtures/base_case.py", line 799, in type
+    self.update_text(selector, text, by=by, timeout=timeout, retry=retry)
+  File "/Users/amandamisek/Library/Python/3.8/lib/python/site-packages/seleniumbase/fixtures/base_case.py", line 628, in update_text
+    element = self.wait_for_element_clickable(
+  File "/Users/amandamisek/Library/Python/3.8/lib/python/site-packages/seleniumbase/fixtures/base_case.py", line 8009, in wait_for_element_clickable
+    return page_actions.wait_for_element_clickable(
+  File "/Users/amandamisek/Library/Python/3.8/lib/python/site-packages/seleniumbase/fixtures/page_actions.py", line 820, in wait_for_element_clickable
+    timeout_exception(NoSuchElementException, message)
+  File "/Users/amandamisek/Library/Python/3.8/lib/python/site-packages/seleniumbase/fixtures/page_actions.py", line 189, in timeout_exception
+    raise exc(msg)
+Exception: Message: 
+ Element {#name} was not present after 10 seconds!
