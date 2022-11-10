@@ -492,32 +492,19 @@ def username_helper(username):
     # username is not empty
     if (username != " "): 
         if len(username) > 2 and len(username) < 20:
-            print("passed length")
             if (username[0] != " " and username[last_ch] != " "):
-                print("passed spaces")
                 username_regex = username.split(" ")
                 for ch in username_regex:
-                    if not re.match(r'^[a-zA-Z0-9]+$', ch):
-                        print("WORKED")
-                        return None
+                    if not re.match(r'^[a-zA-Z0-9]*$', ch):
+                        return False
                     else:
-                        return username
+                        return True
             else: 
-                return None
-            # for ch in username:
-            #     # the first character and last character cannot be a space
-            #     if (username[0] != ' ' and username[last_ch] != ' '): 
-            #         # the username is alphanumeric
-            #         if (ch.isalnum()): 
-            #             return username
-            #         else:
-            #             return None
-            #     else:
-            #         return None
+                return False
         else:
-            return None
+            return False
     else:
-        return None
+        return False
 
 
 def postal_code_helper(postal_code):
