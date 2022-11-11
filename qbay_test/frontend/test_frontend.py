@@ -11,7 +11,47 @@ This file defines all integration tests for the frontend homepage.
 
 class FrontEndHomePageTest(BaseCase):
 
-    def test_1_register_functaionality(self, *_):
+    def test1_login(self, *_):
+        """
+        This is testing login input coverage.
+        """
+        # open register page
+        self.open(base_url + '/register')
+
+        # login with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # testing empty email - fails
+        self.type("#email", "")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # testing email format - fails
+        self.type("#email", "studentstudent.com")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # login with invalid password - fail
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student") 
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # login with a valid password - pass
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!") 
+        # click enter button
+        self.click('input[type="submit"]')
+        self.open(base_url)
+
+    def test2_update_listing_functionality(self, *_):
         """
         This is a testing register functionality coverage.
         """
@@ -156,7 +196,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#price", 100)
         self.click('input[type="submit"]')
         
-        self.open(base_url + '/update_listing/28')
+        self.open(base_url + '/update_listing/23')
 
     def test1_create_listing_functionality(self, *_):
         # open create listing page
@@ -201,7 +241,7 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
 
-    def test2_create_listing_output(self, *_):
+    def test3_create_listing_output(self, *_):
 
         # open login page
         self.open(base_url + '/login')
@@ -210,9 +250,9 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Student123!")
         # click enter button
         self.click('input[type="submit"]')
-    
+
         # open update listing page
-        self.open(base_url + '/update_listing/28')
+        self.open(base_url + '/update_listing/23')
 
         # this is unsucessful listing creation - price is invalid 
         self.type("#title", "Sucessful title")
@@ -238,10 +278,10 @@ class FrontEndHomePageTest(BaseCase):
         # open home page
         self.open(base_url)
         # output is correct - price is valid and showed on the home page
-        self.assert_element("#product_28")
-        self.assert_text("price: $200", "#product_28")
+        self.assert_element("#product_23")
+        self.assert_text("price: $200", "#product_23")
 
-    def test3_create_listing_input(self, *_):
+    def test4_create_listing_input(self, *_):
 
         # open login page
         self.open(base_url + '/login')
@@ -252,7 +292,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         
         # open create listing page
-        self.open(base_url + '/update_listing/28')
+        self.open(base_url + '/update_listing/23')
 
         # input testing for description 
         # desc is empty
