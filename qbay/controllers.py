@@ -160,10 +160,6 @@ def create_listing_post():
     else:
         # use backend api to register the user
         success = listing(None, title, desc, int(price), user.id, date_mod)
-        # print(
-        #     "listing id:", success.id, ", title:", success.title, ", desc:",
-        #     success.description, ", price:", success.price, ", owner id:", 
-        #     success.owner_id, ", date:", success.last_modified_date)
         if not success:
             error_message = "Listing creation failed."
     # if there is any error messages when registering new user
