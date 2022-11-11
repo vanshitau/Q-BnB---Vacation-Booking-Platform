@@ -94,21 +94,18 @@ def test_r5_1_4_update_listing():
     user = register(None, 'user1', 'testhijklmn@test.com', 'Abcdef!')
     assert user is not None
     listing1 = listing(
-        None, "houseseseses", "My house is very big you should stay here",
+        26, "houseseseses", "My house is very big you should stay here",
         100, user.id, datetime(2024, 1, 5).strftime('%Y-%m-%d')
     )
     assert listing1 is not None
     print("this is my listing", listing1)
     assert update_listing(listing1.id, "My House", None, None) is True
     assert update_listing(
-        listing1.id, "house", 
-        "This is my house ThisThisThisThisThis", None
-    ) is True
-    assert update_listing(
         listing1.id, None, 
         "This is my house This is my house", None
     ) is True
     assert update_listing(listing1.id, None, None, 500) is True
+    print(listing1.title, listing1.description, listing1.price)
 
 
 def test_r4_1_to_4_title():

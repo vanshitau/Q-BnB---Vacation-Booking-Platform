@@ -160,16 +160,18 @@ def create_listing_post():
     else:
         # use backend api to register the user
         success = listing(None, title, desc, int(price), user.id, date_mod)
-        print(
-            "listing id:", success.id, ", title:", success.title, ", desc:",
-            success.description, ", price:", success.price, ", owner id:", 
-            success.owner_id, ", date:", success.last_modified_date)
+        # print(
+        #     "listing id:", success.id, ", title:", success.title, ", desc:",
+        #     success.description, ", price:", success.price, ", owner id:", 
+        #     success.owner_id, ", date:", success.last_modified_date)
         if not success:
             error_message = "Listing creation failed."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('create_listing.html', message=error_message)
+        return render_template(
+            'create_listing.html', message=error_message, user=user
+        )
     else:
         return redirect('/')
 
@@ -189,13 +191,13 @@ def update_listing_post(old_id):
     price = request.form.get('price')
     error_message = None
 
-    # if int(price) < 10:
-    #     error_message = "The price cannot be less than 10."
-    # else:
-    # use backend api to register the user
-    success = update_listing(old_id, title, description, int(price))
-    if not success:
-        error_message = "Listing update failed."
+    if int(price) < 10:
+        error_message = "The price cannot be less than 10."
+    else:
+        # use backend api to register the user
+        success = update_listing(old_id, title, description, int(price))
+        if not success:
+            error_message = "Listing update failed."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
