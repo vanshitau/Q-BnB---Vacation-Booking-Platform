@@ -1,0 +1,35 @@
+Sprint-4 Markdown File
+
+1. what is the branch he/she worked on (has to be pushed to the repo)?
+2. what is the progress so far (at least some test cases written, more than 2)?
+3. any difficulties?
+4. what is the plan for the days before the deadline?
+
+
+Amanda (Scrum Master)
+1. branch `frontend-register`
+2. Implemented Selenium and given front-end code from CISC327 github. Input converage, functionality converage is working.
+3. Output coverage isn't working. Loggin in is failing for some reason.
+4. Collaborate with team and reach out to professor or TAs if needed for help if I can't resolve this myself over the next few days. All PRs are to be finished by Thurs night so I can resolve merge conflicts.
+
+
+Bilal
+1. branch `create_listing_test`
+2. input converage, functionality converage working.
+3. Output coverage isn't working. Passing test case for output coverage not working
+4. Review code from previous sprint to make sure there is no issues causing the output to fail. If I still not figure it out, I will consult my team and/or prof/TA's
+
+
+Keenan
+1. branch `frontend-testing`
+2. Currently, I have written test cases for the update listing function, listing the title and the description.
+3. I am struggling with the test cases for functionality testing. I am unsure how to implement the testing for this type of black box testing.
+4. For the next few days, I will talk with my group to work together to figure out how to implement functionality testing and finish my test cases.
+
+
+Vanshita
+1. branch `user-frontend`
+2. Input coverage and functionality coverage test cases pass.
+3. Output coverage does not work -- it gives a server error at the end.
+4. Continue to work on the test cases and reach out to the TAs, professor and other team members if help is needed.
+
