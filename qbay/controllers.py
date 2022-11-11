@@ -188,7 +188,6 @@ def update_listing_post(old_id):
     description = request.form.get('description')
     price = request.form.get('price')
     error_message = None
-
   
     success = update_listing(old_id, title, description, int(price))
     if not success:
