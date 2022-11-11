@@ -95,9 +95,11 @@ def register(id, name, email, password):
     existed = User.query.filter_by(id=id).all()
     if len(existed) > 0:
         return None
-    
-    # check if email is empty
-    if email == '' or password == '':
+    # check input meets the requirements
+    if (
+        username_helper(name) is False or password_helper(password) is False 
+        or email_helper(email) is False
+    ):
         return None
     else:
         # r1_2  
@@ -491,23 +493,22 @@ def username_helper(username):
     # check for special characters
     last_ch = len(username) - 1
     # username is not empty
-    if (username != ''): 
+    if (username != " "): 
         if len(username) > 2 and len(username) < 20:
-            for ch in range(len(username)):
-                # the first character and last character cannot be a space
-                if (username[0] != '' and username[last_ch] != ''): 
-                    # the username is alphanumeric
-                    if (username[ch].isdigit() or username[ch].isalpha()): 
-                        return username
+            if (username[0] != " " and username[last_ch] != " "):
+                username_regex = username.split(" ")
+                for ch in username_regex:
+                    if not re.match(r'^[a-zA-Z0-9]*$', ch):
+                        return False
                     else:
-                        return None
-                else:
-                    return None
+                        return True
+            else: 
+                return False
         else:
-            return None
+            return False
     else:
-        return None
-    
+        return False
+
 
 def postal_code_helper(postal_code):
     '''
