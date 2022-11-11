@@ -277,7 +277,6 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
 
-    
     def test_3_register_output_fail(self, *_):
         """
         This is a test for register output coverage.
