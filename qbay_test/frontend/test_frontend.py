@@ -8,6 +8,7 @@ from qbay.models import User
 This file defines all integration tests for the frontend homepage.
 """
 
+
 class FrontEndHomePageTest(BaseCase):
 
     def test1_update_listing_functionality(self, *_):

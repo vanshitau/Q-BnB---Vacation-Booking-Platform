@@ -169,7 +169,9 @@ def create_listing_post():
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('create_listing.html', message=error_message, user=user)
+        return render_template(
+            'create_listing.html', message=error_message, user=user
+        )
     else:
         return redirect('/')
 
@@ -192,7 +194,7 @@ def update_listing_post(old_id):
     if int(price) < 10:
         error_message = "The price cannot be less than 10."
     else:
-    # use backend api to register the user
+        # use backend api to register the user
         success = update_listing(old_id, title, description, int(price))
         if not success:
             error_message = "Listing update failed."
