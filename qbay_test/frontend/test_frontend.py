@@ -18,7 +18,7 @@ class FrontEndHomePageTest(BaseCase):
         # open register page
         self.open(base_url + '/register')
         # fill email and password
-        self.type("#email", "student@student.com")
+        self.type("#email", "student@gmail.com")
         # CORRECT NAME
         self.type("#name", "Student")
         # CORRECT PASSWORD
@@ -148,6 +148,16 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element("#welcome-header")
         self.assert_text("Welcome Student !", "#welcome-header")
 
+        # open create listing page
+        self.open(base_url + '/create_listing')
+
+        self.type("#title", "houses")
+        self.type("#description", "My house is very big you should stay here")
+        self.type("#price", 100)
+        self.click('input[type="submit"]')
+        
+        self.open(base_url + '/update_listing/28')
+
     def test1_create_listing_functionality(self, *_):
         # open create listing page
         self.open(base_url + '/create_listing')
@@ -156,13 +166,13 @@ class FrontEndHomePageTest(BaseCase):
         # title has a leading space, description is fine, price is fine
         self.type("#title", " Leading space")
         self.type("#description", "My house is very big you should stay here")
-        self.type("#price", 100)
+        self.type("#price", 101)
         self.click('input[type="submit"]')
 
         # title has a trailing space, description is fine, price is fine
         self.type("#title", "Trailing space ")
         self.type("#description", "My house is very big you should stay here")
-        self.type("#price", 100)
+        self.type("#price", 102)
         # click enter button
         self.click('input[type="submit"]')
 
@@ -173,21 +183,21 @@ class FrontEndHomePageTest(BaseCase):
             + "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
         )
         self.type("#description", "My house is very big you should stay here")
-        self.type("#price", 100)
+        self.type("#price", 103)
         # click enter button
         self.click('input[type="submit"]')
 
         # title is not all alphanum., description is fine, price is fine
         self.type("#title", "Th!s title is n>t alphanum")
         self.type("#description", "My house is very big you should stay here")
-        self.type("#price", 100)
+        self.type("#price", 104)
         # click enter button
         self.click('input[type="submit"]')
 
         # title is fine, description is fine, price is fine - successful 
         self.type("#title", "Sucessful title")
         self.type("#description", "this description is valid and it passed")
-        self.type("#price", 100)
+        self.type("#price", 105)
         # click enter button
         self.click('input[type="submit"]')
 
@@ -196,13 +206,13 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "student@student.com")
+        self.type("#email", "student@gmail.com")
         self.type("#password", "Student123!")
         # click enter button
         self.click('input[type="submit"]')
     
-        # open create listing page
-        self.open(base_url + '/create_listing')
+        # open update listing page
+        self.open(base_url + '/update_listing/28')
 
         # this is unsucessful listing creation - price is invalid 
         self.type("#title", "Sucessful title")
@@ -213,7 +223,7 @@ class FrontEndHomePageTest(BaseCase):
         
         # confirm output is incorrect
         self.assert_element("#message")
-        self.assert_text("Price is not between 10 and 10000", "#message")
+        self.assert_text("The price cannot be less than 10.", "#message")
 
         # title is fine, description is fine, price is fine - successful 
         self.type("#title", "valid title")
@@ -221,28 +231,28 @@ class FrontEndHomePageTest(BaseCase):
             "#description", "this description is valid and it passed"
             + "nsfnsfsfusfs"
         )
-        self.type("#price", 100)
+        self.type("#price", 200)
         # click enter button
         self.click('input[type="submit"]')
         
         # open home page
         self.open(base_url)
         # output is correct - price is valid and showed on the home page
-        self.assert_element("#product_24")
-        self.assert_text("price: $100", "#product_24")
+        self.assert_element("#product_28")
+        self.assert_text("price: $200", "#product_28")
 
     def test3_create_listing_input(self, *_):
 
         # open login page
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "student@student.com")
+        self.type("#email", "student@gmail.com")
         self.type("#password", "Student123!")
         # click enter button
         self.click('input[type="submit"]')
         
         # open create listing page
-        self.open(base_url + '/create_listing')
+        self.open(base_url + '/update_listing/28')
 
         # input testing for description 
         # desc is empty
