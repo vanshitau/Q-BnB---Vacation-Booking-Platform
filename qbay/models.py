@@ -508,7 +508,7 @@ def username_helper(username):
             return False
     else:
         return False
-
+    
 
 def postal_code_helper(postal_code):
     '''

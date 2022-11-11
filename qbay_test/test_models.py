@@ -288,10 +288,10 @@ def test_r1_1_register():
     '''
     Testing R1-1: Email cannot be empty. password cannot be empty.
     '''
-    assert register(None, 'jill1123', 'jill_mitchell@outlook.com', '') is None
-    assert register(None, 'jill3123', '', 'Good#1234') is None
-    user = register(None, 'jill2123', 'jill_m@outlook.com', 'Good#1234')
-    assert user is not None
+    assert register(None, 'jill1_123', 'jill_mitchell@outlook.com', '') is None
+    assert register(None, 'jill3_123', '', 'Good#1234') is None
+    user = register(None, 'jill2_123', 'jill_m@outlook.com', 'Good#1234')
+    assert user is True
 
 
 def test_r1_2_user_id():
