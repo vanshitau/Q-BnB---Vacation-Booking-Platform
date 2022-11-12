@@ -390,20 +390,29 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
     
     def test_9_updateUser_input(self, *_):
-        # Check postal code
-        # open login page
+        # open register page
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # logging in with valid email
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "test0@test.com")
-        self.type("#password", "Bobfill#12")
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
         # click enter button
         self.click('input[type="submit"]')
 
         # INVALID postal code --> not the correct format
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "LAA2C6")
         # click enter button
@@ -412,8 +421,8 @@ class FrontEndHomePageTest(BaseCase):
         # INVALID postal code --> empty
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "")
         # click enter button
@@ -422,8 +431,8 @@ class FrontEndHomePageTest(BaseCase):
         # VALID
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -435,8 +444,8 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/updateUser')
         # fill username, email, billing address 
         # and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -446,8 +455,8 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/updateUser')
         # fill username, email, billing address 
         # and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "1411 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -456,15 +465,24 @@ class FrontEndHomePageTest(BaseCase):
         # Open the home page
         self.open(base_url)
         self.assert_element("#welcome-header")
-        self.assert_text("Welcome Bob !", "#welcome-header")
+        self.assert_text("Welcome Student !", "#welcome-header")
 
     def test_10_updateUser_output(self, *_):
-        # Check username
-        # open login page
+        # open register page
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # logging in with valid email
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "test0@test.com")
-        self.type("#password", "Bobfill#12")
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
         # click enter button
         self.click('input[type="submit"]')
 
@@ -472,8 +490,8 @@ class FrontEndHomePageTest(BaseCase):
         # The username is greater than 20 characters
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "BobFiller1234567891011")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student123456789101122")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -483,8 +501,8 @@ class FrontEndHomePageTest(BaseCase):
         # There is a space in the begining
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", " Bob123")
-        self.type("#email", "test0@test.com")
+        self.type("#username", " Student12")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -494,8 +512,8 @@ class FrontEndHomePageTest(BaseCase):
         # The username has an "!" at the end --> not alphanumeric
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob123!")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student!")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -504,8 +522,8 @@ class FrontEndHomePageTest(BaseCase):
         # VALID username
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob1234")
-        self.type("#email", "test0@test.com")
+        self.type("#username", "Student1234")
+        self.type("#email", "student@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -514,23 +532,33 @@ class FrontEndHomePageTest(BaseCase):
         # Open the home page
         self.open(base_url)
         self.assert_element("#welcome-header")
-        self.assert_text("Welcome Bob1234 !", "#welcome-header")
+        self.assert_text("Welcome Student1234 !", "#welcome-header")
 
     def test_11_updateUser_functionality(self, *_):
+        # open register page
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+        
         # Check email
         # open login page
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "test0@test.com")
-        self.type("#password", "Bobfill#12")
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
         # click enter button
         self.click('input[type="submit"]')
         
         # INVALID email --> "_" in domain
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "bob_fill12@gma_il.com")
+        self.type("#username", "Student")
+        self.type("#email", "student@gm_ail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -539,7 +567,7 @@ class FrontEndHomePageTest(BaseCase):
         # INVALID email --> empty
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob")
+        self.type("#username", "Student")
         self.type("#email", "")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
@@ -549,8 +577,8 @@ class FrontEndHomePageTest(BaseCase):
         # INVALID email --> Email is has more than 3 letters after "." 
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "bob_fill12@gmail.come")
+        self.type("#username", "Student")
+        self.type("#email", "student@gmail.come")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -560,8 +588,8 @@ class FrontEndHomePageTest(BaseCase):
         # open user update page
         self.open(base_url + '/updateUser')
         # fill username, email, billing address and postal code
-        self.type("#username", "Bob")
-        self.type("#email", "bob_fill@gmail.com")
+        self.type("#username", "Student")
+        self.type("#email", "student_1@gmail.com")
         self.type("#billing_address", "141 Courtney Street")
         self.type("#postal_code", "L7A2C6")
         # click enter button
@@ -570,14 +598,14 @@ class FrontEndHomePageTest(BaseCase):
         # open login page
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "bob_fill@gmail.com")
-        self.type("#password", "Bobfill#12")
+        self.type("#email", "student_1@gmail.com")
+        self.type("#password", "Student123!")
         # click enter button
         self.click('input[type="submit"]')
 
         self.open(base_url)
         self.assert_element("#welcome-header")
-        self.assert_text("Welcome Bob !", "#welcome-header")
+        self.assert_text("Welcome Student !", "#welcome-header")
 
     def test_12_create_listing_functionality(self, *_):
         """
@@ -680,7 +708,8 @@ class FrontEndHomePageTest(BaseCase):
         # title is fine, description is fine, price is fine - successful 
         self.type("#title", "valid title")
         self.type(
-        "#description", "this description is valid and it passed beonvoernvv"
+            "#description", 
+            "this description is valid and it passed beonvoernvv"
         )
         self.type("#price", 100)
         # click enter button
@@ -692,9 +721,8 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element("#product_24")
         self.assert_text("price: $100", "#product_24")
 
-
     def test_14_create_listing_input(self, *_):
-    
+
         # open login page
         self.open(base_url + '/login')
         # fill email and password
