@@ -314,7 +314,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
 
         # open update listing page
-        self.open(base_url + '/update_listing/23')
+        self.open(base_url + '/update_listing/25')
 
         # this is unsucessful listing creation - price is invalid 
         self.type("#title", "Sucessful title")
@@ -325,7 +325,7 @@ class FrontEndHomePageTest(BaseCase):
         
         # confirm output is incorrect
         self.assert_element("#message")
-        self.assert_text("The price cannot be less than 10.", "#message")
+        self.assert_text("Listing update failed.", "#message")
 
         # title is fine, description is fine, price is fine - successful 
         self.type("#title", "valid title")
@@ -340,8 +340,8 @@ class FrontEndHomePageTest(BaseCase):
         # open home page
         self.open(base_url)
         # output is correct - price is valid and showed on the home page
-        self.assert_element("#product_23")
-        self.assert_text("price: $200", "#product_23")
+        self.assert_element("#product_25")
+        self.assert_text("price: $200", "#product_25")
 
     def test_8_create_listing_input(self, *_):
 
