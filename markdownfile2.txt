@@ -1,0 +1,36 @@
+Sprint-4 Markdown File
+
+1. what is the branch he/she worked on (has to be pushed to the repo)?
+2. what is the progress so far (at least some test cases written, more than 2)?
+3. any difficulties?
+4. what is the plan for the days before the deadline?
+
+
+Amanda (Scrum Master)
+1. branch `sql-register`
+2. Wrote a few tests in registerTesting.py.
+3. Pretty stuck on some of the errors and how to exectue some of the tests/ make them work.
+4. Connect with team and reach out to Prof/TAs if needed.
+
+
+Bilal
+1. Branch `listing-injection`
+2. Some test cases are written for the listing function
+3. Having trouble with the test cases
+4. I will continue to keep problem solving and if that fails, I will consult the TA's and/or professor 
+
+
+Keenan
+1. Branch `listing-injection`
+2. We have created test cases/methods for each parameter in listing that requires user input.
+3. Currently, the tests are not passing because when we pass in the lines of the file as parameters, 
+they do not meet the requirements for the particular input.
+4. Reach out to TA's and/or professor to clarify next steps, and continue to work with my group to 
+resolve any problems that arise.
+
+
+Vanshita
+1. branch `sql-register`
+2. Some test cases are written for the register function
+3. Stuck on how to get the tests to pass
+4. To continue resolving questions and contact the professor/TA for any further inquires
