@@ -9,7 +9,7 @@ user = register(None, 'user0', 'test@test.com', 'Abcdef!')
 
 
 def test_sql_listing_title():
-    ''' Testting the title on the create listing page '''
+    ''' Testing the title on the create listing page '''
     for line in Lines:
         listing(
             None, line, "My house this is a description", 100, user.id, 
@@ -18,7 +18,7 @@ def test_sql_listing_title():
 
      
 def test_sql_listing_description():
-    ''' Testting the description on the create listing page '''
+    ''' Testing the description on the create listing page '''
     for line in Lines:
         listing(
             None, "title", line, 100, user.id, 
@@ -27,7 +27,7 @@ def test_sql_listing_description():
 
 
 def test_sql_listing_price():
-    ''' Testting the price on the create listing page '''
+    ''' Testing the price on the create listing page '''
     for line in Lines:
         listing(
             None, "title", "My house this is a description", line, user.id,
