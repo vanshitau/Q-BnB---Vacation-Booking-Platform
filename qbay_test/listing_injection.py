@@ -12,22 +12,15 @@ def test_sql_listing_title():
         listing1 = listing(None, line, "My house this is a description", 100, user.id,
             datetime(2024, 1, 5).strftime('%Y-%m-%d')
         )
-        #assert listing1 is not None
-        try:
-            print("test")
-        except:
-            print("fail")
         
 def test_sql_listing_description():
     for line in Lines:
         listing2 = listing(None, "title", line, 100, user.id,
             datetime(2024, 1, 5).strftime('%Y-%m-%d')
         )   
-        #assert listing2 is not None
 
 def test_sql_listing_price():
     for line in Lines:
         listing3 = listing(None, "title", "My house this is a description", line, user.id,
             datetime(2024, 1, 5).strftime('%Y-%m-%d')
         )   
-        #assert listing3 is not None
