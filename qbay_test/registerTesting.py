@@ -9,16 +9,16 @@ Lines = sqlfile.readlines()
 # Strips the newline character
 def test_sql_register_id():
     for line in Lines:
-        user = register(line, 'user01', 'testing0@test.com', 'Abcdef!')
-        assert user is not None
+        register(line, 'user0', 'test00@test.com', 'Abcdef!')
 
 def test_sql_register_name():
     for line in Lines:
-        user = register(20, line, 'tester0@test.com', 'Abcdef!')
-        assert user is not None
+        register(21, line, 'test10@test.com', 'Abcdef!')
 
 def test_sql_register_email():
-    pass
+    for line in Lines:
+        register(22, 'user2', line, 'Abcdef!')
 
 def test_sql_register_password():
-    pass
+    for line in Lines:
+        register(23, 'user3', 'test30@test.com', line)
