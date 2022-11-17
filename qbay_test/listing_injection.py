@@ -7,23 +7,30 @@ Lines = file1.readlines()
 
 user = register(None, 'user0', 'test@test.com', 'Abcdef!')
 
+
 def test_sql_listing_title():
+    ''' Testting the title on the create listing page '''
     for line in Lines:
-        listing1 = listing(None, line, "My house this is a description", 100, user.id,
+        listing(
+            None, line, "My house this is a description", 100, user.id, 
             datetime(2024, 1, 5).strftime('%Y-%m-%d')
         )
-        assert listing1 is not None
-        
+
+     
 def test_sql_listing_description():
+    ''' Testting the description on the create listing page '''
     for line in Lines:
-        listing2 = listing(None, "title", line, 100, user.id,
+        listing(
+            None, "title", line, 100, user.id, 
             datetime(2024, 1, 5).strftime('%Y-%m-%d')
-        )   
-        assert listing2 is not None
+        )  
+
 
 def test_sql_listing_price():
+    ''' Testting the price on the create listing page '''
     for line in Lines:
-        listing3 = listing(None, "title", "My house this is a description", line, user.id,
+        listing(
+            None, "title", "My house this is a description", line, user.id,
             datetime(2024, 1, 5).strftime('%Y-%m-%d')
         )   
-        assert listing3 is not None
+       
