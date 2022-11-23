@@ -67,6 +67,16 @@ class Listing(db.Model):
         return '<Listing %r>' % self.id
 
 
+class Booked(db.Model):
+    listing_id = db.Column(db.Integer, nullable=False)
+    owner_id = db.Column(db.Integer, nullable=False)
+    start_date = db.Column(db.String(80), nullable=False)
+    end_date = db.Column(db.String(80), nullable=False)
+
+    def __repr__(self):
+        return '<Booked %r>' % self.owner_id
+
+
 # create all tables
 db.create_all()
 
@@ -547,3 +557,34 @@ def postal_code_helper(postal_code):
             return True
         else:
             return False
+
+
+def booked(listing_id, owner_id, booked_start_date, booked_end_date):
+    booked_listing = Booked.query.filter_by(owner_id_id=owner_id).all()
+    user = User.query.filter_by(id=id).all()
+    listing = Listing.query.filter_by(id=id).all()
+    # checks to see if the listing is the users listing
+    if booked_listing.owner_id == listing.owner_id:
+        return False
+    # check to see if the user can afford to book the listing
+    if user.account_bal < listing.price:
+        return False
+    # check if the start date is available
+    if (
+        booked_listing.start_date <= booked_start_date <= 
+        booked_listing.end_date
+    ):
+        return False
+    # check if the end date is available
+    if (
+        booked_listing.start_date <= booked_end_date <= 
+        booked_listing.end_date
+    ):
+        return False
+    booking = Booked(
+        id=listing_id, owner_id=owner_id, 
+        start_date=booked_start_date, end_date=booked_end_date
+    )
+    db.session.add(booking)
+    db.session.commit()
+    return booking
