@@ -3,7 +3,7 @@ from qbay.models import (
     register, check_price, check_date, title_desc,
     check_owner, login, update_listing, username_helper, 
     postal_code_helper, update_user, email_helper, 
-    password_helper, listing
+    password_helper, listing, booked
 )
 
 
@@ -354,3 +354,17 @@ def test_r3_2_postal_code_helper():
     assert postal_code_helper('ABC ') is False
     assert postal_code_helper('') is False
     assert postal_code_helper('T_45C3!') is False
+
+def test_booking():
+
+    user = register(888, 'user999', 'booking_test@gmail.com', 'Abcdef!')
+    user2 = register(999, 'user876', 'book_test@gmail.com', 'Abcdef!')
+    listing123 = listing(90, "Backend test", "My house is very big you should stay here",100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d'))
+    # booking a listing from jan 5th to jan 10th 
+    listing_booked = booked(listing123.id, user2.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
+    assert listing_booked is not None
+
+
+    
+
+    

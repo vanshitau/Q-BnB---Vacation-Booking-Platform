@@ -68,8 +68,8 @@ class Listing(db.Model):
 
 
 class Booked(db.Model):
+    owner_id = db.Column(db.Integer, nullable=False,primary_key=True)
     listing_id = db.Column(db.Integer, nullable=False)
-    owner_id = db.Column(db.Integer, nullable=False)
     start_date = db.Column(db.String(80), nullable=False)
     end_date = db.Column(db.String(80), nullable=False)
 
@@ -560,8 +560,10 @@ def postal_code_helper(postal_code):
 
 
 def booked(listing_id, owner_id, booked_start_date, booked_end_date):
-    booked_listing = Booked.query.filter_by(owner_id_id=owner_id).all()
+    booked_listing = Booked.query.filter_by(owner_id=owner_id).all()
+    # gets the user id
     user = User.query.filter_by(id=id).all()
+    # gets the listing id
     listing = Listing.query.filter_by(id=id).all()
     # checks to see if the listing is the users listing
     if booked_listing.owner_id == listing.owner_id:
@@ -582,9 +584,11 @@ def booked(listing_id, owner_id, booked_start_date, booked_end_date):
     ):
         return False
     booking = Booked(
-        id=listing_id, owner_id=owner_id, 
+        listing_id=listing_id, owner_id=owner_id, 
         start_date=booked_start_date, end_date=booked_end_date
     )
     db.session.add(booking)
     db.session.commit()
     return booking
+
+
