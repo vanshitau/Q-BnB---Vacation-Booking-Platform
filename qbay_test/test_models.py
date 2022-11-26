@@ -14,7 +14,7 @@ def test_r1_7_user_register():
     user = register(1, 'user0', 'test0@test.com', 'Abcdef!')
     assert user is not None
     assert user.email == 'test0@test.com'
-    user = register(2, 'user0', 'test1@test.com', 'Abcdef!')
+    user = register(2, 'user2', 'test1@test.com', 'Abcdef!')
     assert user is not None
     assert user.email == 'test1@test.com'
     user = register(3, 'user1', 'test0@test.com', 'Abcdef!')
@@ -361,7 +361,7 @@ def test_booking():
     user2 = register(999, 'user876', 'book_test@gmail.com', 'Abcdef!')
     listing123 = listing(90, "Backend test", "My house is very big you should stay here",100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d'))
     # booking a listing from jan 5th to jan 10th 
-    listing_booked = booked(listing123.id, user2.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
+    listing_booked = booked(user.id, listing123.id, user2.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
     assert listing_booked is not None
 
 

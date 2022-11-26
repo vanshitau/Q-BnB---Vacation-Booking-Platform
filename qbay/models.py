@@ -68,7 +68,7 @@ class Listing(db.Model):
 
 
 class Booked(db.Model):
-    owner_id = db.Column(db.Integer, nullable=False,primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False,primary_key=True)
     listing_id = db.Column(db.Integer, nullable=False)
     start_date = db.Column(db.String(80), nullable=False)
     end_date = db.Column(db.String(80), nullable=False)
@@ -559,14 +559,17 @@ def postal_code_helper(postal_code):
             return False
 
 
-def booked(listing_id, owner_id, booked_start_date, booked_end_date):
-    booked_listing = Booked.query.filter_by(owner_id=owner_id).all()
+def booked(username, listing_id, user_id, booked_start_date, booked_end_date):
     # gets the user id
-    user = User.query.filter_by(id=id).all()
+    user = User.query.filter_by(username=username).all()
     # gets the listing id
-    listing = Listing.query.filter_by(id=id).all()
+    listing = Listing.query.filter_by(id=listing_id).all()
+    print("owner id", listing.id)
+    booked_listing = Booked.query.filter_by(listing_id=listing_id).all()
+    print("!!!!", booked_listing)
+    
     # checks to see if the listing is the users listing
-    if booked_listing.owner_id == listing.owner_id:
+    if user_id == listing.owner_id:
         return False
     # check to see if the user can afford to book the listing
     if user.account_bal < listing.price:
@@ -584,7 +587,7 @@ def booked(listing_id, owner_id, booked_start_date, booked_end_date):
     ):
         return False
     booking = Booked(
-        listing_id=listing_id, owner_id=owner_id, 
+        listing_id=listing_id, user_id=user_id, 
         start_date=booked_start_date, end_date=booked_end_date
     )
     db.session.add(booking)
