@@ -559,17 +559,18 @@ def postal_code_helper(postal_code):
             return False
 
 
-def booked(owner_id, listing_id, user_id, booked_start_date, booked_end_date):
+def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
     # gets the user id
     user = User.query.filter_by(id=owner_id).first()
     print("owner id is: ", user.id)
     # gets the listing id
     listing = Listing.query.filter_by(id=listing_id).first()
     print("listing id is: ", listing.id)
+    # get the listing id of the booked listing
     booked_listing = Booked.query.filter_by(listing_id=listing_id).first()
     
     # checks to see if the listing is the users listing
-    if user_id == listing.owner_id:
+    if buyer_id == listing.owner_id:
         return False
     # check to see if the user can afford to book the listing
     if user.account_bal < listing.price:
@@ -587,7 +588,7 @@ def booked(owner_id, listing_id, user_id, booked_start_date, booked_end_date):
     ):
         return False
     booking = Booked(
-        listing_id=listing_id, user_id=user_id, 
+        listing_id=listing_id, user_id=buyer_id, 
         start_date=booked_start_date, end_date=booked_end_date
     )
     db.session.add(booking)
