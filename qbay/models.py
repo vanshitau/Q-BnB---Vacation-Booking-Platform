@@ -559,14 +559,14 @@ def postal_code_helper(postal_code):
             return False
 
 
-def booked(username, listing_id, user_id, booked_start_date, booked_end_date):
+def booked(owner_id, listing_id, user_id, booked_start_date, booked_end_date):
     # gets the user id
-    user = User.query.filter_by(username=username).all()
+    user = User.query.filter_by(id=owner_id).first()
+    print("owner id is: ", user.id)
     # gets the listing id
-    listing = Listing.query.filter_by(id=listing_id).all()
-    print("owner id", listing.id)
-    booked_listing = Booked.query.filter_by(listing_id=listing_id).all()
-    print("!!!!", booked_listing)
+    listing = Listing.query.filter_by(id=listing_id).first()
+    print("listing id is: ", listing.id)
+    booked_listing = Booked.query.filter_by(listing_id=listing_id).first()
     
     # checks to see if the listing is the users listing
     if user_id == listing.owner_id:

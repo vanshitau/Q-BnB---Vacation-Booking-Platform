@@ -362,7 +362,7 @@ def test_booking():
     listing123 = listing(90, "Backend test", "My house is very big you should stay here",100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d'))
     # booking a listing from jan 5th to jan 10th 
     listing_booked = booked(user.id, listing123.id, user2.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
-    assert listing_booked is not None
+    assert listing_booked is True
 
 
     
