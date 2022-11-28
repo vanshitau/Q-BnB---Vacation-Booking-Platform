@@ -68,13 +68,13 @@ class Listing(db.Model):
 
 
 class Booked(db.Model):
-    user_id = db.Column(db.Integer, nullable=False,primary_key=True)
-    listing_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    listing_id = db.Column(db.Integer, nullable=False, primary_key=True)
     start_date = db.Column(db.String(80), nullable=False)
     end_date = db.Column(db.String(80), nullable=False)
 
     def __repr__(self):
-        return '<Booked %r>' % self.owner_id
+        return '<Booked %r>' % self.user_id
 
 
 # create all tables
@@ -572,13 +572,22 @@ def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
     
     if booked_listing is None:
         print("!!")
+        # checks to see if the listing is the users listing
+        if buyer_id == listing.owner_id:
+            return False
+        # check to see if the user can afford to book the listing
+        if user.account_bal < listing.price:
+            print("You are missing $", listing.price - user.account_bal)
+            return False
         booking = Booked(
             user_id=buyer_id, listing_id=listing_id, 
             start_date=booked_start_date, end_date=booked_end_date
         )
-        print("@@@", booking.start_date)
-    booked_listing2 = Booked.query.filter_by(listing_id=listing_id).first()
-    print("booked", booked_listing2.listing_id)
+        db.session.add(booking)
+        db.session.commit()
+        print("commit to db")
+        return True
+
     # checks to see if the listing is the users listing
     if buyer_id == listing.owner_id:
         return False
@@ -598,12 +607,14 @@ def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
         booked_listing.end_date
     ):
         return False
-    booking = Booked(
+    booking2 = Booked(
         listing_id=listing_id, user_id=buyer_id, 
         start_date=booked_start_date, end_date=booked_end_date
     )
-    db.session.add(booking)
+    print("final", booking2.start_date)
+    db.session.add(booking2)
     db.session.commit()
-    return booking
+    print("commit to db again")
+    return booking2
 
 

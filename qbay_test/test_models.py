@@ -357,12 +357,16 @@ def test_r3_2_postal_code_helper():
 
 def test_booking():
 
-    user = register(888, 'user999', 'booking_test@gmail.com', 'Abcdef!')
-    user2 = register(999, 'user876', 'book_test@gmail.com', 'Abcdef!')
+    owner = register(888, 'user999', 'booking_test@gmail.com', 'Abcdef!')
+    buyer = register(999, 'user876', 'book_test@gmail.com', 'Abcdef!')
     listing123 = listing(90, "Backend test", "My house is very big you should stay here", 100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d'))
+    listing1234 = listing(91, "Backend testing", "My house is very big you should stay here please", 100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d'))
     # booking a listing from jan 5th to jan 10th 
-    listing_booked = booked(user.id, listing123.id, user2.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
+    listing_booked = booked(owner.id, listing123.id, buyer.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
     assert listing_booked is True
+
+    listing_booked2 = booked(owner.id, listing1234.id, buyer.id, datetime(2024, 1, 5).strftime('%Y-%m-%d'), datetime(2024, 1, 10).strftime('%Y-%m-%d'))
+    assert listing_booked2 is True
 
 
     
