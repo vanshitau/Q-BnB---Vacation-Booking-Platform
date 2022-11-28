@@ -18,7 +18,7 @@ and help out in the backend and will reach out to the Prof or TAs if need futher
 
 
 Bilal
-1. branch `booking_listing`
+1. branch `backend_booking`
 2. testing the code written for the booking function
 3. The back end code is having some problems, the listing is not getting added to the 
 database correctly 
@@ -26,10 +26,11 @@ database correctly
 
 
 Keenan
-1. branch `booking_listing`
-2. 
-3. 
-4. 
+1. branch `booking_testing`
+2. Most of the code is written for the backend of the booking function.
+3. There are errors when trying to commit the booking to the database.
+4. work on the booking database to solve the problems and reach out to the TA's or professor 
+if we cannot figure it out as a group.
 
 
 Vanshita
