@@ -559,16 +559,17 @@ def postal_code_helper(postal_code):
             return False
 
 
-def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
+def booked(listing_id, buyer_id, booked_start_date, booked_end_date):
+    '''
+    This function creates the bookings of the listings, as long as the 
+    parameters meet the requirements.
+    '''
     # gets the user id
-    user = User.query.filter_by(id=owner_id).first()
-    print("owner id is: ", user.id)
+    user = User.query.filter_by(id=buyer_id).first()
     # gets the listing id
     listing = Listing.query.filter_by(id=listing_id).first()
-    print("listing id is: ", listing.id)
     # get the listing id of the booked listing
     booked_listing = Booked.query.filter_by(listing_id=listing_id).first()
-    print("booked", booked_listing)
     
     if booked_listing is None:
         print("!!")
@@ -585,6 +586,8 @@ def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
         )
         db.session.add(booking)
         db.session.commit()
+        user.account_bal = user.account_bal - listing.price
+        print("aacount bal cfirst", user.account_bal)
         print("commit to db")
         return True
 
@@ -611,9 +614,10 @@ def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
         listing_id=listing_id, user_id=buyer_id, 
         start_date=booked_start_date, end_date=booked_end_date
     )
-    print("final", booking2.start_date)
     db.session.add(booking2)
     db.session.commit()
+    user.account_bal = user.account_bal - listing.price
+    print("aacount bal", user.account_bal)
     print("commit to db again")
     return True
 
