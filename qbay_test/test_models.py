@@ -365,7 +365,7 @@ def test_booking():
     listing_booked = booked(owner.id, listing123.id, buyer.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
     assert listing_booked is True
 
-    listing_booked2 = booked(owner.id, listing1234.id, buyer.id, datetime(2024, 1, 5).strftime('%Y-%m-%d'), datetime(2024, 1, 10).strftime('%Y-%m-%d'))
+    listing_booked2 = booked(owner.id, listing123.id, buyer.id, datetime(2024, 1, 5).strftime('%Y-%m-%d'), datetime(2024, 1, 10).strftime('%Y-%m-%d'))
     assert listing_booked2 is True
 
 

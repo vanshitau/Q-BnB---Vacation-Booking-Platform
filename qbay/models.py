@@ -54,8 +54,8 @@ class Listing(db.Model):
     Initiates the listing class and all of the columns of the listing
     '''
     id = db.Column(
-        db.Integer, nullable=False, 
-        primary_key=True, autoincrement=True
+        db.Integer, nullable=False, primary_key=True,
+        autoincrement=True
     )
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), nullable=False)
@@ -69,8 +69,8 @@ class Listing(db.Model):
 
 class Booked(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
-    listing_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    start_date = db.Column(db.String(80), nullable=False)
+    listing_id = db.Column(db.Integer, nullable=False)
+    start_date = db.Column(db.String(80), nullable=False, primary_key=True)
     end_date = db.Column(db.String(80), nullable=False)
 
     def __repr__(self):
@@ -615,6 +615,5 @@ def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
     db.session.add(booking2)
     db.session.commit()
     print("commit to db again")
-    return booking2
-
+    return True
 
