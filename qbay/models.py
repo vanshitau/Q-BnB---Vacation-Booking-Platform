@@ -568,12 +568,23 @@ def booked(owner_id, listing_id, buyer_id, booked_start_date, booked_end_date):
     print("listing id is: ", listing.id)
     # get the listing id of the booked listing
     booked_listing = Booked.query.filter_by(listing_id=listing_id).first()
+    print("booked", booked_listing)
     
+    if booked_listing is None:
+        print("!!")
+        booking = Booked(
+            user_id=buyer_id, listing_id=listing_id, 
+            start_date=booked_start_date, end_date=booked_end_date
+        )
+        print("@@@", booking.start_date)
+    booked_listing2 = Booked.query.filter_by(listing_id=listing_id).first()
+    print("booked", booked_listing2.listing_id)
     # checks to see if the listing is the users listing
     if buyer_id == listing.owner_id:
         return False
     # check to see if the user can afford to book the listing
     if user.account_bal < listing.price:
+        print("You are missing $", listing.price - user.account_bal)
         return False
     # check if the start date is available
     if (
