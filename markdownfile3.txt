@@ -1,4 +1,4 @@
-Sprint-6 Markdown File #1
+Sprint-6 Markdown File
 
 1. what is the branch he/she worked on (has to be pushed to the repo)?
 2. what is the progress so far (at least some test cases written, more than 2)?
@@ -18,22 +18,24 @@ and help out in the backend and will reach out to the Prof or TAs if need futher
 
 
 Bilal
-1. branch ``
-2. 
-3. 
-4. 
+1. branch `booking_listing`
+2. testing the code written for the booking function
+3. The back end code is having some problems, the listing is not getting added to the 
+database correctly 
+4. Meet with my group and try to problem solve
 
 
 Keenan
-1. branch ``
+1. branch `booking_listing`
 2. 
 3. 
 4. 
 
 
 Vanshita
-1. branch -- no branch yet as working on frontend 
-2. 
-3. 
-4. 
+1. branch -- no branch yet as working on frontend
+2. Amanda and I are helping Bilal and Keenan with their code for backend testing
+3. There is a NoneType error when the code is run - the listing is not being displayed
+4. communicate with the professor, TAs and the group to resolve any diffuculties
+
 
