@@ -1,0 +1,39 @@
+Sprint-6 Markdown File #1
+
+1. what is the branch he/she worked on (has to be pushed to the repo)?
+2. what is the progress so far (at least some test cases written, more than 2)?
+3. any difficulties?
+4. what is the plan for the days before the deadline?
+
+
+Amanda (Scrum Master)
+1. branch -- no branch yet as working on frontend 
+2. So far I have been helping Keenan and Bilal with the backend tickets. Ran into a few
+blockers however we are progressing. After they finish the backend Vanshtia and I will
+begin working on the frontend portion.
+3. Some of the issues are errors we are getting and some issues with printing and displaying
+the booking. 
+4. Plan is to reolve backend issues and move forward to the frontend. Will continue to support
+and help out in the backend and will reach out to the Prof or TAs if need futher assistance. 
+
+
+Bilal
+1. branch ``
+2. 
+3. 
+4. 
+
+
+Keenan
+1. branch ``
+2. 
+3. 
+4. 
+
+
+Vanshita
+1. branch -- no branch yet as working on frontend 
+2. 
+3. 
+4. 
+
