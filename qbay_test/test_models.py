@@ -421,7 +421,7 @@ def test_booking():
         datetime(2023, 1, 10).strftime('%Y-%m-%d')
     )
     assert listing_booked7 is False
-    # booking a listing from jan 20, 2023 to jan , 2023 - should fail as 
+    # booking a listing from jan 1, 2023 to jan 5, 2023 - should fail as 
     # the dates overlap
     listing_booked8 = booked(
         listing123.id, buyer.id, datetime(2023, 1, 1).strftime('%Y-%m-%d'), 
