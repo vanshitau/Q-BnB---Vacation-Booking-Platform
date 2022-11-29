@@ -32,5 +32,4 @@ def test_sql_listing_price():
         listing(
             None, "title", "My house this is a description", line, user.id,
             datetime(2024, 1, 5).strftime('%Y-%m-%d')
-        )   
-       
+        )  

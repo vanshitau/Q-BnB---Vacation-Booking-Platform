@@ -355,20 +355,35 @@ def test_r3_2_postal_code_helper():
     assert postal_code_helper('') is False
     assert postal_code_helper('T_45C3!') is False
 
-def test_booking():
 
-    owner = register(888, 'user999', 'booking_test@gmail.com', 'Abcdef!')
+def test_booking():
+    '''
+    Testing the backend booking function. The user can not book their own
+    listing and they can not book a listing that is more than their account
+    balance.
+    '''
+
+    register(888, 'user999', 'booking_test@gmail.com', 'Abcdef!')
     buyer = register(999, 'user876', 'book_test@gmail.com', 'Abcdef!')
-    listing123 = listing(90, "Backend test", "My house is very big you should stay here", 100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d'))
-    listing1234 = listing(91, "Backend testing", "My house is very big you should stay here please", 100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d'))
+    listing123 = listing(
+        90, "Backend test", "My house is very big you should stay here", 
+        100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d')
+    )
     # booking a listing from jan 5th to jan 10th 
-    listing_booked = booked(owner.id, listing123.id, buyer.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), datetime(2023, 1, 10).strftime('%Y-%m-%d'))
+    listing_booked = booked(
+        listing123.id, buyer.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), 
+        datetime(2023, 1, 10).strftime('%Y-%m-%d')
+    )
     assert listing_booked is True
 
-    listing_booked2 = booked(owner.id, listing123.id, buyer.id, datetime(2024, 1, 5).strftime('%Y-%m-%d'), datetime(2024, 1, 10).strftime('%Y-%m-%d'))
-    assert listing_booked2 is True
+    # listing_booked2 = booked(
+    #   listing123.id, buyer.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), 
+    #   datetime(2023, 1, 10).strftime('%Y-%m-%d')
+    # )
+    # assert listing_booked2 is False
 
-
-    
-
-    
+    listing_booked = booked(
+        listing123.id, buyer.id, datetime(2024, 1, 5).strftime('%Y-%m-%d'), 
+        datetime(2024, 1, 10).strftime('%Y-%m-%d')
+    )
+    assert listing_booked is True
