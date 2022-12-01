@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Create Booking{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h4 id='message'>{{message}}</h4>
+<form method="post">
+  <div class="form-group">
+    <label for="booked_start_date">Start Date</label>
+    <input class="form-control" name="booked_start_date" id="booked_start_date" required>
+    <label for="booked_end_date">End Date</label>
+    <input class="form-control" name="booked_end_date" id="booked_end_date" required>
+    <input class="btn btn-primary" type="submit" value="Create Booking">
+  <a href='/' class="btn btn-primary" id="btn-submit" >Home</a>
+  </div>
+</form>
+<h4 id='message'>{{ user.username }}'s Bookings</h4>
+
+{% endblock %}

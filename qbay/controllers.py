@@ -1,7 +1,7 @@
 from flask import render_template, request, session, redirect
 from qbay.models import (
     login, User, register, listing, 
-    update_listing, update_user, Listing
+    update_listing, update_user, Listing, Booked, booked
 )
 import datetime as dt
 import traceback
@@ -90,7 +90,8 @@ def home(user):
     # the login checking code all the time for other
     # front-end portals
     # the user's listings
-    all_listings = Listing.query.filter_by(owner_id=user.id).all()
+    # all_listings = Listing.query.filter_by(owner_id=user.id).all()
+    all_listings = Listing.query.all()
     if len(all_listings) > 0:
         listings = []
         for listing in all_listings:
@@ -174,6 +175,54 @@ def create_listing_post():
         )
     else:
         return redirect('/')
+
+
+# BEGINNING OF BOOKING
+@app.route('/create_booking', methods=['GET'])
+def create_booking_get():
+    # templates are stored in the templates folder
+    email = session['logged_in']
+    user = User.query.filter_by(email=email).first()
+    return render_template('create_booking.html', message='', user=user)
+
+
+@app.route('/create_booking', methods=['POST'])
+def create_booking_post():
+    booked_start_date = request.form.get('booked_start_date')
+    booked_end_date = request.form.get('booked_end_date')
+    error_message = None
+    email = session['logged_in']
+    user = User.query.filter_by(email=email).first()
+    # listings = Listing.query.filter_by(owner_id=user.id).first()
+    booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
+    # booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
+
+    # check if the start date is available
+    if (
+        booked_listing.start_date >= booked_start_date >= 
+        booked_listing.end_date
+    ):
+        error_message = "Start date is not available"
+    # check if the end date is available
+    elif (
+        booked_listing.start_date >= booked_end_date >= 
+        booked_listing.end_date
+    ):
+        error_message = "End date is not available"
+    else:
+        # use backend api to register the user
+        success = booked(user.id, None, None, booked_start_date, booked_end_date)
+        if not success:
+            error_message = "Booking creation failed."
+    # if there is any error messages when registering new user
+    # at the backend, go back to the register page.
+    if error_message:
+        return render_template(
+            'create_booking.html', message=error_message, user=user
+        )
+    else:
+        return redirect('/')
+# END OF BOOKING
 
 
 @app.route('/update_listing/<int:old_id>', methods=['GET'])
