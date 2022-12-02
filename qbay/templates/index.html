@@ -34,7 +34,7 @@
     </h4>
     {% for booked in bookings %}
     <div>
-        <h4 id="product_{{booked.listing.id}}">
+        <h4 id="product_{{booked.listing_id}}">
             Start Date: {{ booked.booked_start_date }} <br>
             End Date: {{ booked.booked_end_date }} <br>
         </h4>
