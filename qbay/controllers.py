@@ -188,32 +188,19 @@ def create_booking_get():
 
 @app.route('/create_booking', methods=['POST'])
 def create_booking_post():
+    listingID = request.form.get('listing.id')
     booked_start_date = request.form.get('booked_start_date')
     booked_end_date = request.form.get('booked_end_date')
     error_message = None
     email = session['logged_in']
-    user = User.query.filter_by(email=email).first()
-    # listings = Listing.query.filter_by(owner_id=user.id).first()
-    booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
-    # booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
+    user = User.query.filter_by(email=email).all()
+    # listings = Listing.query.filter_by(owner_id=user.id).all()
+    # booked_listing = Booked.query.filter_by(listing_id=listings.id).first()
+    #booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
 
-    # check if the start date is available
-    if (
-        booked_listing.start_date >= booked_start_date >= 
-        booked_listing.end_date
-    ):
-        error_message = "Start date is not available"
-    # check if the end date is available
-    elif (
-        booked_listing.start_date >= booked_end_date >= 
-        booked_listing.end_date
-    ):
-        error_message = "End date is not available"
-    else:
-        # use backend api to register the user
-        success = booked(user.id, None, None, booked_start_date, booked_end_date)
-        if not success:
-            error_message = "Booking creation failed."
+    success = booked(listingID, user.id, booked_start_date, booked_end_date)
+    if not success:
+        error_message = "Booking creation failed."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
