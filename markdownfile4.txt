@@ -1,0 +1,36 @@
+Sprint-6 Markdown File 2
+
+1. what is the branch he/she worked on (has to be pushed to the repo)?
+2. what is the progress so far (at least some test cases written, more than 2)?
+3. any difficulties?
+4. what is the plan for the days before the deadline?
+
+
+Amanda (Scrum Master)
+1. branch `booking-frontend`
+2. 
+3. 
+4. 
+
+
+Bilal
+1. branch `backend_booking`
+2. 
+3. 
+4. 
+
+
+Keenan
+1. branch `booking_testing`
+2. 
+3. 
+4. 
+
+
+Vanshita
+1. branch `booking-frontend`
+2. 
+3. 
+4. 
+
+
