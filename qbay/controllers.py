@@ -188,18 +188,22 @@ def create_booking_get():
 
 @app.route('/create_booking', methods=['POST'])
 def create_booking_post():
-    listingID = request.form.get('listing.id')
+    listing_id = request.form.get('listing_id')
     booked_start_date = request.form.get('booked_start_date')
     booked_end_date = request.form.get('booked_end_date')
     error_message = None
     email = session['logged_in']
-    user = User.query.filter_by(email=email).all()
-    # listings = Listing.query.filter_by(owner_id=user.id).all()
+    user = User.query.filter_by(email=email).first()
+    list = User.query.filter_by(listing_id=user).first()
+    # userlist = User.query.all()
+    # print("userlist ", userlist)
+    # booked_listing = Listing.query.filter_by(owner_id=userlist.id).all()
     # booked_listing = Booked.query.filter_by(listing_id=listings.id).first()
     # booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
+    # check if the start date is available
+    # print("booked_listing", booked_listing)
 
-
-    success = booked(listingID, user.id, booked_start_date, booked_end_date)
+    success = booked(list, user.id, booked_start_date, booked_end_date)
     if not success:
         error_message = "Booking creation failed."
     # if there is any error messages when registering new user
