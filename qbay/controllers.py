@@ -177,7 +177,6 @@ def create_listing_post():
         return redirect('/')
 
 
-# BEGINNING OF BOOKING
 @app.route('/create_booking', methods=['GET'])
 def create_booking_get():
     # templates are stored in the templates folder
@@ -194,27 +193,16 @@ def create_booking_post():
     error_message = None
     email = session['logged_in']
     user = User.query.filter_by(email=email).first()
-    list = User.query.filter_by(listing_id=user).first()
-    # userlist = User.query.all()
-    # print("userlist ", userlist)
-    # booked_listing = Listing.query.filter_by(owner_id=userlist.id).all()
-    # booked_listing = Booked.query.filter_by(listing_id=listings.id).first()
-    # booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
-    # check if the start date is available
-    # print("booked_listing", booked_listing)
 
-    success = booked(list, user.id, booked_start_date, booked_end_date)
+    success = booked(int(listing_id), user.id, booked_start_date, booked_end_date)
     if not success:
         error_message = "Booking creation failed."
-    # if there is any error messages when registering new user
-    # at the backend, go back to the register page.
     if error_message:
         return render_template(
             'create_booking.html', message=error_message, user=user
         )
     else:
         return redirect('/')
-# END OF BOOKING
 
 
 @app.route('/update_listing/<int:old_id>', methods=['GET'])

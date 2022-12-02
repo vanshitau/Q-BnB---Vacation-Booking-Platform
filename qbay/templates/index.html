@@ -32,11 +32,11 @@
     <h4>
         <a href='/create_booking'>Create Booking</a>
     </h4>
-    {% for listing in listings %}
+    {% for booked in bookings %}
     <div>
-        <h4 id="product_{{listing.id}}">
-            Start Date: {{ listing.booked_start_date }} <br>
-            End Date: {{ listing.booked_end_date }} <br>
+        <h4 id="product_{{booked.listing.id}}">
+            Start Date: {{ booked.booked_start_date }} <br>
+            End Date: {{ booked.booked_end_date }} <br>
         </h4>
     </div>
     {% endfor %}
