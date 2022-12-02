@@ -196,7 +196,8 @@ def create_booking_post():
     user = User.query.filter_by(email=email).all()
     # listings = Listing.query.filter_by(owner_id=user.id).all()
     # booked_listing = Booked.query.filter_by(listing_id=listings.id).first()
-    #booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
+    # booked_listing = Booked.query.filter_by(listing_id=Listing.id).first()
+
 
     success = booked(listingID, user.id, booked_start_date, booked_end_date)
     if not success:
