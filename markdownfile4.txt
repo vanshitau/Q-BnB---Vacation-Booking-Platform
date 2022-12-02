@@ -8,29 +8,31 @@ Sprint-6 Markdown File 2
 
 Amanda (Scrum Master)
 1. branch `booking-frontend`
-2. 
-3. 
-4. 
+2. Finished backend but stuck on getting the frontend bookings to print.
+3. The functionality is working however it isn't displaying on the index page.
+4. Will reach out to group and ask for help also from TAs.
 
 
 Bilal
 1. branch `backend_booking`
-2. 
-3. 
-4. 
+2. Finished the backend testing, helping my group members with the front end part
+3. Having difficulty with displaying the user’s booking
+4. Look at online resources and work with my group to find a solution
 
 
 Keenan
 1. branch `booking_testing`
-2. 
-3. 
-4. 
+2. We finished the backend for booking and now helping frontend group
+3. Stuck on displaying booking on home page
+4. Will continue to help out my group
 
 
 Vanshita
-1. branch `booking-frontend`
-2. 
-3. 
-4. 
+1. branch -- no branch yet as testing frontend
+2. code to create the booking has been created and in the process of 
+testing the code
+3. unable to display the booking on the home page
+4. continue testing the code, fix the errors and contact the TAs and 
+professors if required
 
 
