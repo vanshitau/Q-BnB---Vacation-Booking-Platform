@@ -26,24 +26,23 @@
             Price: {{ listing.price }} <br>
             Date last modified: {{ listing.last_modified_date }}<br>
             <a href="/update_listing/{{ listing.id }}">update</a>
-            <h4>
-                <a href='/create_booking'>Create Booking</a>
-            </h4>
-            {% for booked in bookings %}
-            <div>
-                <h4 id="product_{{booked.listing_id}}">
-                    Listing ID: {{ listing.id }} <br>
-                    Start Date: {{ booked.start_date }} <br>
-                    End Date: {{ booked.end_date }} <br>
-                </h4>
-            </div>
-            {% endfor %}  
         </h4>
     </div>
     {% endfor %} 
-   
-</div>
 
+    <h4>
+        <a href='/create_booking'>Create Booking</a>
+    </h4>
+    {% for booked in bookings %}
+    <div>
+        <h4 id="product_{{booked.listing_id}}">
+            Listing ID: {{ booked.listing_id }} <br>
+            Start Date: {{ booked.start_date }} <br>
+            End Date: {{ booked.end_date }} <br>
+        </h4>
+    </div>
+    {% endfor %}
+</div>
 
 <a href='/logout'>logout</a>
 {% endblock %}
