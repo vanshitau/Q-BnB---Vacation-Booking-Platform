@@ -578,7 +578,6 @@ def booked(listing_id, buyer_id, booked_start_date, booked_end_date):
             return False
         # check to see if the user can afford to book the listing
         if user.account_bal < listing.price:
-            print("You are missing $", listing.price - user.account_bal)
             return False
         booking = Booked(
             user_id=buyer_id, listing_id=listing_id, 
