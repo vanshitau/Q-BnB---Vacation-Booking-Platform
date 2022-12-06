@@ -305,6 +305,55 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_7_create_listing_output(self, *_):
 
+        # open register page
+        self.open(base_url + '/register')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        # CORRECT NAME
+        self.type("#name", "Student")
+        # CORRECT PASSWORD
+        self.type("#password", "Student123!") 
+        # CORRECT PASSWORD2
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+        
+        # open create listing page
+        self.open(base_url + '/create_listing')
+
+        # title is fine, description is fine, price is fine - successful 
+        self.type("#title", "Sucessful title")
+        self.type("#description", "this description is valid and it passed")
+        self.type("#price", 100)
+        # click enter button
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
+        
+        # open create listing page
+        self.open(base_url + '/update_listing/1')
+
+        # open register page
+        self.open(base_url + '/register')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        # CORRECT NAME
+        self.type("#name", "Student")
+        # CORRECT PASSWORD
+        self.type("#password", "Student123!") 
+        # CORRECT PASSWORD2
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
         # open login page
         self.open(base_url + '/login')
         # fill email and password
@@ -314,7 +363,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
 
         # open update listing page
-        self.open(base_url + '/update_listing/25')
+        self.open(base_url + '/update_listing/1')
 
         # this is unsucessful listing creation - price is invalid 
         self.type("#title", "Sucessful title")
@@ -340,10 +389,23 @@ class FrontEndHomePageTest(BaseCase):
         # open home page
         self.open(base_url)
         # output is correct - price is valid and showed on the home page
-        self.assert_element("#product_25")
-        self.assert_text("price: $200", "#product_25")
+        self.assert_element("#product_1")
+        self.assert_text("Price: $200", "#product_1")
 
     def test_8_create_listing_input(self, *_):
+
+        # open register page
+        self.open(base_url + '/register')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        # CORRECT NAME
+        self.type("#name", "Student")
+        # CORRECT PASSWORD
+        self.type("#password", "Student123!") 
+        # CORRECT PASSWORD2
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
 
         # open login page
         self.open(base_url + '/login')
@@ -354,7 +416,19 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         
         # open create listing page
-        self.open(base_url + '/update_listing/23')
+        self.open(base_url + '/create_listing')
+
+        # title is fine, description is fine, price is fine - successful 
+        self.type("#title", "Sucessful title")
+        self.type("#description", "this description is valid and it passed")
+        self.type("#price", 100)
+        # click enter button
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
+        
+        # open create listing page
+        self.open(base_url + '/update_listing/1')
 
         # input testing for description 
         # desc is empty
@@ -377,7 +451,7 @@ class FrontEndHomePageTest(BaseCase):
 
         # desc is too long
         desc = "a" * 2001
-        self.type("#title", "title")
+        self.type("#title", "my title")
         self.type("#description", desc)
         self.type("#price", 200)
         self.click('input[type="submit"]')
@@ -817,86 +891,3 @@ class FrontEndHomePageTest(BaseCase):
 
             # click enter button
             self.click('input[type="submit"]')
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #     # confirm output is incorrect
-    #     self.assert_element("#message")
-    #     self.assert_text("Listing update failed.", "#message")
-
-    #     # title is fine, description is fine, price is fine - successful 
-    #     self.type("#title", "valid title")
-    #     self.type(
-    #         "#description", "this description is valid and it passed"
-    #         + "nsfnsfsfusfs"
-    #     )
-    #     self.type("#price", 200)
-    #     # click enter button
-    #     self.click('input[type="submit"]')
-        
-    #     # open home page
-    #     self.open(base_url)
-    #     # output is correct - price is valid and showed on the home page
-    #     self.assert_element("#product_25")
-    #     self.assert_text("price: $200", "#product_25")
-
-    # def test_8_create_listing_input(self, *_):
-
-    #     # open login page
-    #     self.open(base_url + '/login')
-    #     # fill email and password
-    #     self.type("#email", "student@gmail.com")
-    #     self.type("#password", "Student123!")
-    #     # click enter button
-    #     self.click('input[type="submit"]')
-        
-    #     # open create listing page
-    #     self.open(base_url + '/update_listing/23')
-
-    #     # input testing for description 
-    #     # desc is empty
-    #     self.type("#title", "title")
-    #     self.type("#description", "")
-    #     self.type("#price", 100)
-    #     self.click('input[type="submit"]')
-
-    #     # desc is too short
-    #     self.type("#title", "title")
-    #     self.type("#description", "this is short")
-    #     self.type("#price", 100)
-    #     self.click('input[type="submit"]')
-
-    #     # desc is shorter than title
-    #     self.type("#title", "my title")
-    #     self.type("#description", "short")
-    #     self.type("#price", 100)
-    #     self.click('input[type="submit"]')
-
-    #     # desc is too long
-    #     desc = "a" * 2001
-    #     self.type("#title", "title")
-    #     self.type("#description", desc)
-    #     self.type("#price", 200)
-    #     self.click('input[type="submit"]')
-
-    #     # title is fine, description is fine, price is fine - successful 
-    #     self.type("#title", "Sucessful title")
-    #     self.type("#description", "this description is valid and it passed")
-    #     self.type("#price", 100)
-    #     # click enter button
-    #     self.click('input[type="submit"]')
-    
