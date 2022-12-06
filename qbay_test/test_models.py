@@ -358,26 +358,73 @@ def test_r3_2_postal_code_helper():
 
 def test_booking():
     '''
-    Testing the backend booking function. The user can not book their own
-    listing and they can not book a listing that is more than their account
-    balance.
+    Testing the backend booking function. The user can not book their own 
+    listing and they can not book a listing that is more than
+    their account balance.
     '''
-
     register(888, 'user999', 'booking_test@gmail.com', 'Abcdef!')
     buyer = register(999, 'user876', 'book_test@gmail.com', 'Abcdef!')
     listing123 = listing(
-        90, "Backend test", "My house is very big you should stay here", 
-        100, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d')
+        90, "Backend test", "My house is very big you should stay here", 10, 
+        888, datetime(2022, 1, 5).strftime('%Y-%m-%d')
     )
-    # booking a listing from jan 5th to jan 10th 
+    listing1234 = listing(
+        91, "Backend testing", "My house is very big you should stay here", 
+        800, 888, datetime(2022, 1, 5).strftime('%Y-%m-%d')
+    )
+    # booking a listing from jan 5, 2023 to jan 10, 2023
     listing_booked = booked(
         listing123.id, buyer.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), 
         datetime(2023, 1, 10).strftime('%Y-%m-%d')
     )
     assert listing_booked is True
-    
-    listing_booked = booked(
+    # booking a listing from jan 5, 2024 to jan 10, 2024
+    listing_booked2 = booked(
         listing123.id, buyer.id, datetime(2024, 1, 5).strftime('%Y-%m-%d'), 
         datetime(2024, 1, 10).strftime('%Y-%m-%d')
     )
-    assert listing_booked is True
+    assert listing_booked2 is True
+    # booking a listing from jan 5, 2023 to jan 10, 2023
+    #  - should fail as the dates overlap
+    listing_booked3 = booked(
+        listing123.id, buyer.id, datetime(2023, 1, 5).strftime('%Y-%m-%d'), 
+        datetime(2023, 1, 10).strftime('%Y-%m-%d')
+    )
+    assert listing_booked3 is False
+    # booking a listing with insufficient funds - should fail
+    listing_booked4 = booked(
+        listing1234.id, buyer.id, datetime(2023, 4, 20).strftime('%Y-%m-%d'), 
+        datetime(2023, 5, 3).strftime('%Y-%m-%d')
+    )
+    assert listing_booked4 is False
+    # booking you own listing - should fail
+    listing_fail = listing(
+        92, "Backend", "My house is very big you should stay here", 100, 999, 
+        datetime(2022, 1, 5).strftime('%Y-%m-%d')
+    )
+    listing_booked5 = booked(
+        listing_fail.id, buyer.id, datetime(2022, 12, 20).strftime('%Y-%m-%d'), 
+        datetime(2022, 12, 30).strftime('%Y-%m-%d')
+    )
+    assert listing_booked5 is False
+    # booking a listing from jan 8, 2023 to jan 15, 2023 
+    # should fail as the dates overlap
+    listing_booked6 = booked(
+        listing123.id, buyer.id, datetime(2023, 1, 8).strftime('%Y-%m-%d'),
+        datetime(2023, 1, 15).strftime('%Y-%m-%d')
+    )
+    assert listing_booked6 is False
+    # booking a listing from jan 2, 2023 to jan 10, 2023 
+    # should fail as the dates overlap
+    listing_booked7 = booked(
+        listing123.id, buyer.id, datetime(2023, 1, 2).strftime('%Y-%m-%d'), 
+        datetime(2023, 1, 10).strftime('%Y-%m-%d')
+    )
+    assert listing_booked7 is False
+    # booking a listing from jan 1, 2023 to jan 5, 2023 - should fail as 
+    # the dates overlap
+    listing_booked8 = booked(
+        listing123.id, buyer.id, datetime(2023, 1, 1).strftime('%Y-%m-%d'), 
+        datetime(2023, 1, 5).strftime('%Y-%m-%d')
+    )
+    assert listing_booked8 is False

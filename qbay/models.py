@@ -586,8 +586,6 @@ def booked(listing_id, buyer_id, booked_start_date, booked_end_date):
         db.session.add(booking)
         db.session.commit()
         user.account_bal = user.account_bal - listing.price
-        print("aacount bal cfirst", user.account_bal)
-        print("commit to db")
         return True
 
     # checks to see if the listing is the users listing
@@ -616,7 +614,5 @@ def booked(listing_id, buyer_id, booked_start_date, booked_end_date):
     db.session.add(booking2)
     db.session.commit()
     user.account_bal = user.account_bal - listing.price
-    print("aacount bal", user.account_bal)
-    print("commit to db again")
     return True
 
