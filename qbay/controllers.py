@@ -119,7 +119,10 @@ def home(user):
     else:
         bookings = [{"start_date": "", "end_date": ""}]
 
-    return render_template('index.html', user=user, listings=listings, bookings=bookings)
+    return render_template(
+        'index.html', user=user, listings=listings, 
+        bookings=bookings
+    )
 
 
 @app.route('/register', methods=['GET'])
@@ -207,7 +210,9 @@ def create_booking_post():
     email = session['logged_in']
     user = User.query.filter_by(email=email).first()
 
-    success = booked(int(listing_id), user.id, booked_start_date, booked_end_date)
+    success = booked(
+        int(listing_id), user.id, booked_start_date, booked_end_date
+    )
     print("the booking was successful!!!", listing_id)
     if not success:
         error_message = "Booking creation failed."

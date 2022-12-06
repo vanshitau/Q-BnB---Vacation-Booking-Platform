@@ -899,7 +899,6 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
 
-
         # open create booking page
         self.open(base_url + '/create_booking')
 
@@ -965,7 +964,6 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Student1234!")
         # click enter button
         self.click('input[type="submit"]')
-
 
         # open create booking page
         self.open(base_url + '/create_booking')
@@ -1057,11 +1055,5 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#booked_start_date", "2023-05-12")
         self.type("#booked_end_date", "2023-06-12")
         self.click('input[type="submit"]')
-
-
-
-
-
-
 
         self.open(base_url)
