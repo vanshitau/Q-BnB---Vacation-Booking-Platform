@@ -767,4 +767,124 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
 
+    def test_15_booked_listing_output(self, *_):
+            # open register page
+            self.open(base_url + '/register')
+            # registering with valid email
+            self.type("#email", "student@gmail.com")
+            self.type("#name", "Student")
+            self.type("#password", "Student123!") 
+            self.type("#password2", "Student123!")
+            # click enter button
+            self.click('input[type="submit"]')
+
+            # open login page
+            self.open(base_url + '/login')
+            # fill email and password
+            self.type("#email", "student@gmail.com")
+            self.type("#password", "Student123!")
+            # click enter button
+            self.click('input[type="submit"]')
+
+            # open create listing page
+            self.open(base_url + '/create_listing')
+
+            self.type("#title", "Sucessful")
+            self.type("#description", "this description of the booked listing")
+            self.type("#price", 10)
+            # click enter button
+            self.click('input[type="submit"]')
+
+            # open update listing page
+            self.open(base_url + '/create_booking')
+
+            # this is sucessfully booked listing
+            self.type("#listing_id", 1)
+            self.type("#booked_start_date", "2023-05-12")
+            self.type("#booked_end_date", "2023-06-12")
+
+            # click enter button
+            self.click('input[type="submit"]')
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #     # confirm output is incorrect
+    #     self.assert_element("#message")
+    #     self.assert_text("Listing update failed.", "#message")
+
+    #     # title is fine, description is fine, price is fine - successful 
+    #     self.type("#title", "valid title")
+    #     self.type(
+    #         "#description", "this description is valid and it passed"
+    #         + "nsfnsfsfusfs"
+    #     )
+    #     self.type("#price", 200)
+    #     # click enter button
+    #     self.click('input[type="submit"]')
+        
+    #     # open home page
+    #     self.open(base_url)
+    #     # output is correct - price is valid and showed on the home page
+    #     self.assert_element("#product_25")
+    #     self.assert_text("price: $200", "#product_25")
+
+    # def test_8_create_listing_input(self, *_):
+
+    #     # open login page
+    #     self.open(base_url + '/login')
+    #     # fill email and password
+    #     self.type("#email", "student@gmail.com")
+    #     self.type("#password", "Student123!")
+    #     # click enter button
+    #     self.click('input[type="submit"]')
+        
+    #     # open create listing page
+    #     self.open(base_url + '/update_listing/23')
+
+    #     # input testing for description 
+    #     # desc is empty
+    #     self.type("#title", "title")
+    #     self.type("#description", "")
+    #     self.type("#price", 100)
+    #     self.click('input[type="submit"]')
+
+    #     # desc is too short
+    #     self.type("#title", "title")
+    #     self.type("#description", "this is short")
+    #     self.type("#price", 100)
+    #     self.click('input[type="submit"]')
+
+    #     # desc is shorter than title
+    #     self.type("#title", "my title")
+    #     self.type("#description", "short")
+    #     self.type("#price", 100)
+    #     self.click('input[type="submit"]')
+
+    #     # desc is too long
+    #     desc = "a" * 2001
+    #     self.type("#title", "title")
+    #     self.type("#description", desc)
+    #     self.type("#price", 200)
+    #     self.click('input[type="submit"]')
+
+    #     # title is fine, description is fine, price is fine - successful 
+    #     self.type("#title", "Sucessful title")
+    #     self.type("#description", "this description is valid and it passed")
+    #     self.type("#price", 100)
+    #     # click enter button
+    #     self.click('input[type="submit"]')
     
