@@ -572,10 +572,9 @@ def booked(listing_id, buyer_id, booked_start_date, booked_end_date):
     booked_listing = Booked.query.filter_by(listing_id=listing_id).first()
     
     if booked_listing is None:
-        print("!!")
-        # # checks to see if the listing is the users listing
-        # if buyer_id == listing.owner_id:
-        #     return False
+        # checks to see if the listing is the users listing
+        if buyer_id == listing.owner_id:
+            return False
         # check to see if the user can afford to book the listing
         if user.account_bal < listing.price:
             print("You are missing $", listing.price - user.account_bal)
