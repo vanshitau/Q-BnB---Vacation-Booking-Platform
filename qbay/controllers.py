@@ -114,8 +114,8 @@ def home(user):
         bookings = [{"start_date": "", "end_date": ""}]
 
     return render_template(
-        'index.html', user=user, 
-        listings=listings, bookings=bookings
+        'index.html', user=user, listings=listings, 
+        bookings=bookings
     )
 
 
