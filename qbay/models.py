@@ -54,8 +54,8 @@ class Listing(db.Model):
     Initiates the listing class and all of the columns of the listing
     '''
     id = db.Column(
-        db.Integer, nullable=False, 
-        primary_key=True, autoincrement=True
+        db.Integer, nullable=False, primary_key=True,
+        autoincrement=True
     )
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), nullable=False)
@@ -65,6 +65,16 @@ class Listing(db.Model):
 
     def __repr__(self):
         return '<Listing %r>' % self.id
+
+
+class Booked(db.Model):
+    user_id = db.Column(db.Integer, nullable=False)
+    listing_id = db.Column(db.Integer, nullable=False)
+    start_date = db.Column(db.String(80), nullable=False, primary_key=True)
+    end_date = db.Column(db.String(80), nullable=False)
+
+    def __repr__(self):
+        return '<Booked %r>' % self.user_id
 
 
 # create all tables
@@ -547,3 +557,60 @@ def postal_code_helper(postal_code):
             return True
         else:
             return False
+
+
+def booked(listing_id, buyer_id, booked_start_date, booked_end_date):
+    '''
+    This function creates the bookings of the listings, as long as the 
+    parameters meet the requirements.
+    '''
+    # gets the user id
+    user = User.query.filter_by(id=buyer_id).first()
+    # gets the listing id
+    listing = Listing.query.filter_by(id=listing_id).first()
+    # get the listing id of the booked listing
+    booked_listing = Booked.query.filter_by(listing_id=listing_id).first()
+    
+    if booked_listing is None:
+        # checks to see if the listing is the users listing
+        if buyer_id == listing.owner_id:
+            return False
+        # check to see if the user can afford to book the listing
+        if user.account_bal < listing.price:
+            return False
+        booking = Booked(
+            user_id=buyer_id, listing_id=listing_id, 
+            start_date=booked_start_date, end_date=booked_end_date
+        )
+        db.session.add(booking)
+        db.session.commit()
+        user.account_bal = user.account_bal - listing.price
+        return True
+
+    # checks to see if the listing is the users listing
+    if buyer_id == listing.owner_id:
+        return False
+    # check to see if the user can afford to book the listing
+    if user.account_bal < listing.price:
+        return False
+    # check if the start date is available
+    if (
+        booked_listing.start_date <= booked_start_date <= 
+        booked_listing.end_date
+    ):
+        return False
+    # check if the end date is available
+    if (
+        booked_listing.start_date <= booked_end_date <= 
+        booked_listing.end_date
+    ):
+        return False
+    booking2 = Booked(
+        listing_id=listing_id, user_id=buyer_id, 
+        start_date=booked_start_date, end_date=booked_end_date
+    )
+    db.session.add(booking2)
+    db.session.commit()
+    user.account_bal = user.account_bal - listing.price
+    return True
+
