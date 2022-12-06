@@ -304,6 +304,54 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
 
     def test_7_create_listing_output(self, *_):
+        # open register page
+        self.open(base_url + '/register')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        # CORRECT NAME
+        self.type("#name", "Student")
+        # CORRECT PASSWORD
+        self.type("#password", "Student123!") 
+        # CORRECT PASSWORD2
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+        
+        # open create listing page
+        self.open(base_url + '/create_listing')
+
+        # title is fine, description is fine, price is fine - successful 
+        self.type("#title", "Sucessful title")
+        self.type("#description", "this description is valid and it passed")
+        self.type("#price", 100)
+        # click enter button
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
+        
+        # open create listing page
+        self.open(base_url + '/update_listing/1')
+
+        # open register page
+        self.open(base_url + '/register')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        # CORRECT NAME
+        self.type("#name", "Student")
+        # CORRECT PASSWORD
+        self.type("#password", "Student123!") 
+        # CORRECT PASSWORD2
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
 
         # open login page
         self.open(base_url + '/login')
@@ -314,7 +362,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
 
         # open update listing page
-        self.open(base_url + '/update_listing/25')
+        self.open(base_url + '/update_listing/1')
 
         # this is unsucessful listing creation - price is invalid 
         self.type("#title", "Sucessful title")
@@ -340,10 +388,23 @@ class FrontEndHomePageTest(BaseCase):
         # open home page
         self.open(base_url)
         # output is correct - price is valid and showed on the home page
-        self.assert_element("#product_25")
-        self.assert_text("price: $200", "#product_25")
+        self.assert_element("#product_1")
+        self.assert_text("Price: $200", "#product_1")
 
     def test_8_create_listing_input(self, *_):
+
+        # open register page
+        self.open(base_url + '/register')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        # CORRECT NAME
+        self.type("#name", "Student")
+        # CORRECT PASSWORD
+        self.type("#password", "Student123!") 
+        # CORRECT PASSWORD2
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
 
         # open login page
         self.open(base_url + '/login')
@@ -354,7 +415,19 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
         
         # open create listing page
-        self.open(base_url + '/update_listing/23')
+        self.open(base_url + '/create_listing')
+
+        # title is fine, description is fine, price is fine - successful 
+        self.type("#title", "Sucessful title")
+        self.type("#description", "this description is valid and it passed")
+        self.type("#price", 100)
+        # click enter button
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
+        
+        # open create listing page
+        self.open(base_url + '/update_listing/1')
 
         # input testing for description 
         # desc is empty
@@ -377,7 +450,7 @@ class FrontEndHomePageTest(BaseCase):
 
         # desc is too long
         desc = "a" * 2001
-        self.type("#title", "title")
+        self.type("#title", "my title")
         self.type("#description", desc)
         self.type("#price", 200)
         self.click('input[type="submit"]')
@@ -682,6 +755,18 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[type="submit"]')
 
     def test_13_create_listing_output(self, *_):
+        # open register page
+        self.open(base_url + '/register')
+        # fill email and password
+        self.type("#email", "student@student.com")
+        # CORRECT NAME
+        self.type("#name", "Student")
+        # CORRECT PASSWORD
+        self.type("#password", "Student123!") 
+        # CORRECT PASSWORD2
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
 
         # open login page
         self.open(base_url + '/login')
@@ -718,8 +803,8 @@ class FrontEndHomePageTest(BaseCase):
         # open home page
         self.open(base_url)
         # output is correct - price is valid and showed on the home page
-        self.assert_element("#product_24")
-        self.assert_text("price: $100", "#product_24")
+        self.assert_element("#product_1")
+        self.assert_text("Price: $100", "#product_1")
 
     def test_14_create_listing_input(self, *_):
 
@@ -767,4 +852,207 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
 
+    def test_15_booked_listing_input(self, *_):
+        # open register page
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open create listing page
+        self.open(base_url + '/create_listing')
+
+        self.type("#title", "Sucessful")
+        self.type("#description", "this description of the booked listing")
+        self.type("#price", 10)
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open register page to register another user--> student 1
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student1@gmail.com")
+        self.type("#name", "Student1")
+        self.type("#password", "Student1234!") 
+        self.type("#password2", "Student1234!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student1@gmail.com")
+        self.type("#password", "Student1234!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open create booking page
+        self.open(base_url + '/create_booking')
+
+        # start date is after end date
+        # INVALID
+        self.type("#listing_id", 1)
+        self.type("#booked_start_date", "2023-07-12")
+        self.type("#booked_end_date", "2023-06-12")
+
+        # this is sucessfully booked listing
+        # VALID
+        self.type("#listing_id", 1)
+        self.type("#booked_start_date", "2023-05-12")
+        self.type("#booked_end_date", "2023-06-12")
+
+        # click enter button
+        self.click('input[type="submit"]')
+        
+        self.open(base_url)
+
+    def test_16_booked_listing_output(self, *_):
+        # open register page
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open create listing page
+        self.open(base_url + '/create_listing')
+
+        self.type("#title", "Sucessful")
+        self.type("#description", "this description of the booked listing")
+        self.type("#price", 10)
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open register page to register another user--> student 1
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student1@gmail.com")
+        self.type("#name", "Student1")
+        self.type("#password", "Student1234!") 
+        self.type("#password2", "Student1234!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student1@gmail.com")
+        self.type("#password", "Student1234!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open create booking page
+        self.open(base_url + '/create_booking')
+
+        # end date is before start date
+        # INVALID
+        self.type("#listing_id", 1)
+        self.type("#booked_start_date", "2023-05-12")
+        self.type("#booked_end_date", "2023-04-12")
+        self.click('input[type="submit"]')
+
+        # this is sucessfully booked listing
+        # VALID
+        self.type("#listing_id", 1)
+        self.type("#booked_start_date", "2023-05-12")
+        self.type("#booked_end_date", "2023-06-12")
+
+        # click enter button
+        self.click('input[type="submit"]')
+        
+        self.open(base_url)
     
+    def test_17_booked_listing_functionality(self, *_):
+        # open register page
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open create listing page
+        self.open(base_url + '/create_listing')
+
+        self.type("#title", "Sucessful")
+        self.type("#description", "this description of the booked listing")
+        self.type("#price", 10)
+        # click enter button
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
+
+        # open create booking page
+        self.open(base_url + '/create_booking')
+
+        # user trying to book their own lisitng
+        # INVALID
+        self.type("#listing_id", 1)
+        self.type("#booked_start_date", "2023-05-12")
+        self.type("#booked_end_date", "2023-06-12")
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
+        
+        # open register page
+        self.open(base_url + '/register')
+        # registering with valid email
+        self.type("#email", "student@gmail.com")
+        self.type("#name", "Student")
+        self.type("#password", "Student123!") 
+        self.type("#password2", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "student@gmail.com")
+        self.type("#password", "Student123!")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open create booking page
+        self.open(base_url + '/create_booking')
+
+        # user trying to book their own lisitng
+        # VALID
+        self.type("#listing_id", 1)
+        self.type("#booked_start_date", "2023-05-12")
+        self.type("#booked_end_date", "2023-06-12")
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
